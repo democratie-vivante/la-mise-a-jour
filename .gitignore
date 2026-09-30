@@ -1,3 +1,6 @@
 __pycache__/
 *.pyc
 /.idea/*
+node_modules/
+playwright-report/
+test-results/

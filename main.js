@@ -71,7 +71,7 @@
     });
   }
 
-  var CANONICAL_URL = "https://plan-democratie.fr/";
+  var CANONICAL_URL = "https://la-mise-a-jour.fr/";
   var SHARE_TEXT = "Quel est votre plan de citoyenneté ? Découvrez le Plan 6ᵉ République.";
 
   function buildShareUrl(platform, pageUrl) {
