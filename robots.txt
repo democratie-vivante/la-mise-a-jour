@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://la-mise-a-jour.fr/sitemap.xml
