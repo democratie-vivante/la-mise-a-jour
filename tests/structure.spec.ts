@@ -823,8 +823,7 @@ test.describe('CollectionStrip', () => {
 
       const t = bodyText(s);
       for (const planned of PLANNED) {
-        expect(t, planned.name).toContain(planned.name);
-        expect(t, `${planned.name} : ${planned.status}`).toContain(planned.status);
+        expect(t, `badge manquant : ${planned.name}`).toContain(`${planned.name} ${planned.status}`);
       }
       expect(t).toContain('Autres mises à jour disponibles');
       expect(s).not.toContain(`href="../${p.name}/"`);
@@ -832,10 +831,15 @@ test.describe('CollectionStrip', () => {
 
     test(`[${p.name}] strip sits right before the footer`, () => {
       const i = html.indexOf('<nav class="collection"');
+      const navEnd = html.indexOf('</nav>', i);
       const f = html.indexOf('<footer class="site-footer">');
-      expect(i).toBeGreaterThan(-1);
-      expect(f).toBeGreaterThan(i);
-      expect(html.slice(i, f)).not.toContain('<footer');
+      expect(i, 'bandeau absent').toBeGreaterThan(-1);
+      expect(navEnd, '</nav> manquant').toBeGreaterThan(i);
+      expect(f, 'footer absent').toBeGreaterThan(navEnd);
+      expect(
+        html.slice(navEnd + '</nav>'.length, f).trim(),
+        'seul du blanc doit séparer le bandeau du footer'
+      ).toBe('');
     });
   }
 
