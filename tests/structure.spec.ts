@@ -883,3 +883,54 @@ test.describe('CollectionStrip', () => {
     }
   });
 });
+
+// ─── Multi-Page Guardrails ───────────────────────────────────────────────────
+
+test.describe('MultiPage', () => {
+  for (const p of PAGES) {
+    const html = read(p.file);
+
+    test(`[${p.name}] no root-absolute link or asset`, () => {
+      const attrs = [...html.matchAll(/\s(?:href|src)="([^"]+)"/g)].map((m) => m[1]);
+      const absolute = attrs.filter((u) => u.startsWith('/'));
+      expect(absolute, 'chemins racine absolus interdits').toEqual([]);
+    });
+
+    test(`[${p.name}] every page link targets a registry page`, () => {
+      const anchors = [...html.matchAll(/<a\b[^>]*href="([^"]+)"/g)].map((m) => m[1]);
+      for (const raw of anchors) {
+        if (raw.startsWith('#') || /^https?:\/\//.test(raw)) continue;
+        const resolved = new URL(raw, p.url);
+        const target = PAGES.find((x) => x.url === resolved.origin + resolved.pathname);
+        expect(target, `lien hors registre : ${raw}`).toBeTruthy();
+      }
+    });
+
+    test(`[${p.name}] no anchor promotes a planned déclinaison`, () => {
+      const labels = [...html.matchAll(/<a\b[^>]*>[\s\S]*?<\/a>/g)]
+        .map((m) => m[0].replace(/<[^>]+>/g, ''));
+      for (const planned of PLANNED) {
+        for (const label of labels) {
+          expect(label, `${p.name} → ${planned.name}`).not.toContain(planned.name);
+        }
+      }
+    });
+  }
+
+  test('every index.html on disk is in the registry', () => {
+    const found: string[] = [];
+    const skip = new Set(['node_modules', 'test-results', 'playwright-report']);
+    const walk = (dir: string): void => {
+      for (const e of fs.readdirSync(dir, { withFileTypes: true })) {
+        if (e.name.startsWith('.') || skip.has(e.name)) continue;
+        const p = path.join(dir, e.name);
+        if (e.isDirectory()) walk(p);
+        else if (e.name === 'index.html') {
+          found.push(path.relative(ROOT, p).split(path.sep).join('/'));
+        }
+      }
+    };
+    walk(ROOT);
+    expect(found.sort()).toEqual(PAGES.map((p) => p.file).sort());
+  });
+});
