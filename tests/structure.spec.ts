@@ -34,7 +34,9 @@ function section(html: string, id: string): string {
 }
 
 function bodyText(html: string): string {
-  const body = html.split('<body')[1].split('>').slice(1).join('>');
+  // `html.split('<body')[1]` saute la section <head> ; sur un fragment (section
+  // extraite par section()) il n'y a pas de <body> → on prend le fragment tel quel.
+  const body = (html.split('<body')[1] ?? html).split('>').slice(1).join('>');
   return body
     .replace(/<[^>]+>/g, ' ')
     .replace(/&nbsp;/g, ' ')
@@ -548,6 +550,72 @@ test.describe('HubSmoke', () => {
   test('hub loads local assets relatively', () => {
     expect(HUB).toContain('href="styles.css"');
     expect(HUB).toContain('src="main.js"');
+  });
+});
+
+test.describe('HubCollection', () => {
+  const grid = () => section(HUB, 'collection');
+
+  test('hero copy and two ctas', () => {
+    const t = bodyText(HUB);
+    expect(t).toContain("Votre société n'a pas été mise à jour depuis 1958.");
+    expect(t).toContain('Patch 2026.1 · Installation automatique');
+    expect(t).toContain('Ouvrir la mise à jour Démocratie →');
+    expect(t).toContain('Voir toutes les mises à jour');
+    expect(HUB).toContain('href="democratie/"');
+    expect(HUB).toContain('href="#collection"');
+  });
+
+  test('four update cards, one live', () => {
+    expect(grid().match(/class="update-card/g)).toHaveLength(4);
+    expect(grid().match(/class="update-card update-card--live"/g)).toHaveLength(1);
+    expect(grid().match(/class="update-card update-card--soon"/g)).toHaveLength(3);
+  });
+
+  test('only the démocratie card links out', () => {
+    const links = grid().match(/<a [^>]*href="[^"]*"/g) || [];
+    expect(links).toHaveLength(1);
+    expect(links[0]).toContain('href="democratie/"');
+  });
+
+  test('card statuses', () => {
+    const t = bodyText(grid());
+    expect(t).toContain('Disponible');
+    expect(t).toContain('En bêta fermée');
+    expect(t).toContain('Planifié');
+    expect(t).toContain('Rédaction en cours');
+  });
+
+  test('card teasers match the spec copy', () => {
+    const t = bodyText(grid());
+    for (const teaser of [
+      'Plan 5ᵉ vs Plan 6ᵉ : le 49.3 avec bouton d\'annulation, le RIC sorti de bêta fermée.',
+      'Du pesticide au sol vivant : migration de l\'agriculture française, sans redémarrage à froid.',
+      'Croissance, PIB et richesse réelle : le refactoring que tout le monde repousse depuis 1973.',
+      'Production, réseau et sobriété : la seule migration qui ne peut pas être reportée à lundi.',
+    ]) {
+      expect(t, teaser).toContain(teaser);
+    }
+  });
+
+  test('grid responsive', () => {
+    const rules = cssRules('.updates-grid');
+    expect(rules).toMatch(/grid-template-columns:\s*repeat\(4/);
+    const mobile = mediaBlocks().filter(
+      (b) => b.condition.includes('768px') && b.body.includes('.updates-grid')
+    );
+    expect(mobile.length).toBeGreaterThan(0);
+    expect(mobile[0].body).toContain('1fr');
+  });
+
+  test('no raw colour in the new components', () => {
+    const rules = cssRules('.update-card') + cssRules('.update-status') + cssRules('.updates-grid');
+    expect(rules).not.toMatch(/#[0-9a-fA-F]{3,6}/);
+    expect(rules).not.toContain('rgba');
+  });
+
+  test('primary on surface contrast', () => {
+    expect(contrastRatio(token('--color-primary'), token('--color-surface'))).toBeGreaterThanOrEqual(4.5);
   });
 });
 
