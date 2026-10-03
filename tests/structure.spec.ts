@@ -152,6 +152,11 @@ test.describe('Shared', () => {
       expect(m[1]).toBe(expected);
     });
 
+    test(`[${p.name}] twitter:image matches og:image`, () => {
+      const og = html.match(/<meta property="og:image" content="([^"]+)"/)![1];
+      expect(html).toContain(`<meta name="twitter:image" content="${og}">`);
+    });
+
     test(`[${p.name}] no external assets`, () => {
       expect(html).not.toMatch(/<script[^>]+src="https?:\/\//);
       expect(html).not.toMatch(/<link[^>]+rel="stylesheet"[^>]+href="https?:\/\//);
