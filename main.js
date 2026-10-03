@@ -71,16 +71,22 @@
     });
   }
 
-  var CANONICAL_URL = "https://la-mise-a-jour.fr/";
-  var SHARE_TEXT = "Quel est votre plan de citoyenneté ? Découvrez le Plan 6ᵉ République.";
+  function pageUrl() {
+    var link = document.querySelector('link[rel="canonical"]');
+    return (link && link.href) || window.location.href;
+  }
 
-  function buildShareUrl(platform, pageUrl) {
-    var url = pageUrl || CANONICAL_URL;
+  function shareText() {
+    var text = document.body.getAttribute("data-share-text");
+    return text || document.title;
+  }
+
+  function buildShareUrl(platform, url, text) {
     if (platform === "whatsapp") {
-      return "https://wa.me/?text=" + encodeURIComponent(SHARE_TEXT + " " + url);
+      return "https://wa.me/?text=" + encodeURIComponent(text + " " + url);
     }
     if (platform === "x") {
-      return "https://twitter.com/intent/tweet?text=" + encodeURIComponent(SHARE_TEXT) +
+      return "https://twitter.com/intent/tweet?text=" + encodeURIComponent(text) +
         "&url=" + encodeURIComponent(url);
     }
     if (platform === "facebook") {
@@ -130,22 +136,24 @@
   }
 
   function initShare() {
+    var url = pageUrl();
+    var text = shareText();
     document.querySelectorAll("[data-platform]").forEach(function (el) {
       var platform = el.getAttribute("data-platform");
       if (platform === "signal") {
         el.addEventListener("click", function () {
-          var payload = { title: "Citoyen 2.0", text: SHARE_TEXT, url: CANONICAL_URL };
+          var payload = { title: document.title, text: text, url: url };
           if (navigator.share) {
             navigator.share(payload).catch(function () {});
           } else {
-            copyText(SHARE_TEXT + " " + CANONICAL_URL).then(function () {
+            copyText(text + " " + url).then(function () {
               showFeedback("Lien copié — collez-le dans Signal");
             });
           }
         });
         return;
       }
-      var href = buildShareUrl(platform, CANONICAL_URL);
+      var href = buildShareUrl(platform, url, text);
       if (href && el.tagName === "A") el.href = href;
     });
   }
@@ -155,8 +163,8 @@
     if (!btn) return;
     btn.addEventListener("click", function () {
       showFeedback("✓ Lien copié");
-      copyText(CANONICAL_URL).then(function (ok) {
-        if (!ok) showFeedback("Copie impossible : " + CANONICAL_URL);
+      copyText(pageUrl()).then(function (ok) {
+        if (!ok) showFeedback("Copie impossible : " + pageUrl());
       });
     });
   }

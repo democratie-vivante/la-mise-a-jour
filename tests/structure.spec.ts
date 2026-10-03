@@ -249,6 +249,40 @@ test.describe('SiteAssets', () => {
   });
 });
 
+// ─── Per-Page Share Tests ─────────────────────────────────────────────────────
+
+test.describe('ShareByPage', () => {
+  test('js derives the url from the canonical tag', () => {
+    expect(JS).not.toContain('la-mise-a-jour.fr');
+    expect(JS).toContain('link[rel="canonical"]');
+    expect(JS).toContain('data-share-text');
+  });
+
+  for (const p of PAGES) {
+    const html = read(p.file);
+
+    test(`[${p.name}] hardcoded share hrefs encode this page`, () => {
+      const shareText = html.match(/<body data-share-text="([^"]+)">/)![1];
+      const anchors = html.match(/<a class="btn btn-share"[^>]*>/g) || [];
+      expect(anchors).toHaveLength(3);
+      for (const tag of anchors) {
+        const href = tag.match(/href="([^"]+)"/)![1];
+        const decoded = decodeURIComponent(href);
+        expect(decoded, `URL manquante dans ${href}`).toContain(p.url);
+        // Facebook ne transporte que l'URL (`?u=`) ; WhatsApp et X portent aussi le texte.
+        if (/text=/.test(href)) {
+          expect(decoded, `texte manquant dans ${href}`).toContain(shareText);
+        }
+      }
+    });
+
+    test(`[${p.name}] share section is complete`, () => {
+      expect(html).toContain('id="copy-link"');
+      expect(html).toContain('id="copy-feedback"');
+    });
+  }
+});
+
 // ─── Démocratie Page Tests ────────────────────────────────────────────────────
 
 test.describe('Democratie', () => {
@@ -494,20 +528,12 @@ test.describe('Democratie', () => {
       expect(t).toContain('Copier le lien');
     });
 
-    test('js has native share endpoints', () => {
-      expect(JS).toContain('https://wa.me/?text=');
-      expect(JS).toContain('https://twitter.com/intent/tweet');
-      expect(JS).toContain('https://www.facebook.com/sharer/sharer.php?u=');
-      expect(JS).toContain('https://la-mise-a-jour.fr/');
-      expect(JS).not.toContain('localhost');
-    });
-
     test('share links work without js', () => {
       expect(INDEX).not.toContain('href="#"');
       expect(INDEX).toContain('href="https://wa.me/?text=');
       expect(INDEX).toContain('href="https://twitter.com/intent/tweet?');
       expect(INDEX).toContain(
-        'href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fla-mise-a-jour.fr%2F"'
+        'href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fla-mise-a-jour.fr%2Fdemocratie%2F"'
       );
     });
   });
