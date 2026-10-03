@@ -3,7 +3,8 @@ import * as fs from 'fs';
 import * as path from 'path';
 
 const ROOT = path.resolve(__dirname, '..');
-const INDEX = fs.readFileSync(path.join(ROOT, 'index.html'), 'utf-8');
+const INDEX = fs.readFileSync(path.join(ROOT, 'democratie', 'index.html'), 'utf-8');
+const HUB = fs.readFileSync(path.join(ROOT, 'index.html'), 'utf-8');
 const CSS = fs.readFileSync(path.join(ROOT, 'styles.css'), 'utf-8');
 const JS = fs.readFileSync(path.join(ROOT, 'main.js'), 'utf-8');
 
@@ -112,8 +113,8 @@ test.describe('SiteStructure', () => {
   });
 
   test('links local assets', () => {
-    expect(INDEX).toContain('href="styles.css"');
-    expect(INDEX).toContain('src="main.js"');
+    expect(INDEX).toContain('href="../styles.css"');
+    expect(INDEX).toContain('src="../main.js"');
   });
 
   test('design tokens defined', () => {
@@ -475,7 +476,7 @@ test.describe('Integration', () => {
   });
 
   test('deferred script', () => {
-    expect(INDEX).toContain('<script src="main.js" defer></script>');
+    expect(INDEX).toContain('<script src="../main.js" defer></script>');
   });
 
   test('readme exists', () => {
@@ -483,5 +484,24 @@ test.describe('Integration', () => {
     for (const expected of ['python3 -m http.server', 'og.png']) {
       expect(readme).toContain(expected);
     }
+  });
+});
+
+test.describe('HubSmoke', () => {
+  test('hub has canonical root', () => {
+    expect(HUB).toContain('<link rel="canonical" href="https://la-mise-a-jour.fr/">');
+  });
+
+  test('hub links to democratie', () => {
+    expect(HUB).toContain('href="democratie/"');
+  });
+
+  test('hub has single h1', () => {
+    expect(HUB.match(/<h1>/g)).toHaveLength(1);
+  });
+
+  test('hub loads local assets relatively', () => {
+    expect(HUB).toContain('href="styles.css"');
+    expect(HUB).toContain('src="main.js"');
   });
 });
