@@ -28,7 +28,9 @@ const SITEMAP = read('sitemap.xml');
 function section(html: string, id: string): string {
   const start = html.indexOf(`id="${id}"`);
   if (start < 0) throw new Error(`section #${id} introuvable`);
-  return html.slice(start, html.indexOf('</section>', start));
+  const end = html.indexOf('</section>', start);
+  if (end < 0) throw new Error(`section #${id} non terminée (</section> manquant)`);
+  return html.slice(start, end);
 }
 
 function bodyText(html: string): string {
