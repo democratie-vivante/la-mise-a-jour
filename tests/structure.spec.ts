@@ -798,3 +798,53 @@ test.describe('Sitemap', () => {
     expect(read('robots.txt')).toContain('Sitemap: https://la-mise-a-jour.fr/sitemap.xml');
   });
 });
+
+// ─── Collection Strip Tests ──────────────────────────────────────────────────
+
+test.describe('CollectionStrip', () => {
+  test('hub has no strip (it is the collection)', () => {
+    expect(HUB).not.toContain('class="collection"');
+  });
+
+  for (const p of PAGES.filter((x) => x.sub)) {
+    const html = read(p.file);
+
+    test(`[${p.name}] strip lists delivered pages and planned badges`, () => {
+      const strip = html.match(/<nav class="collection"[\s\S]*?<\/nav>/);
+      expect(strip, 'bandeau collection manquant').not.toBeNull();
+      const s = strip![0];
+
+      const others = PAGES.filter((x) => x.sub && x.name !== p.name);
+      const links = (s.match(/href="([^"]+)"/g) || []).map((h) => h.replace(/href="([^"]+)"/, '$1'));
+      expect(links).toHaveLength(others.length);
+      for (const other of others) {
+        expect(links).toContain(`../${other.name}/`);
+      }
+
+      const t = bodyText(s);
+      for (const planned of PLANNED) {
+        expect(t, planned.name).toContain(planned.name);
+        expect(t, `${planned.name} : ${planned.status}`).toContain(planned.status);
+      }
+      expect(t).toContain('Autres mises à jour disponibles');
+      expect(s).not.toContain(`href="../${p.name}/"`);
+    });
+
+    test(`[${p.name}] strip sits right before the footer`, () => {
+      const i = html.indexOf('<nav class="collection"');
+      const f = html.indexOf('<footer class="site-footer">');
+      expect(i).toBeGreaterThan(-1);
+      expect(f).toBeGreaterThan(i);
+      expect(html.slice(i, f)).not.toContain('<footer');
+    });
+  }
+
+  test('strip statuses match the hub cards', () => {
+    const grid = section(HUB, 'collection');
+    for (const planned of PLANNED) {
+      expect(grid, `carte ${planned.name}`).toContain(planned.name);
+      const card = grid.split(planned.name)[0].split('<article').pop()!;
+      expect(card, `statut de ${planned.name}`).toContain(planned.status.charAt(0).toUpperCase() + planned.status.slice(1));
+    }
+  });
+});
