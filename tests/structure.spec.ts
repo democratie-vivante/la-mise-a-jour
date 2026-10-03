@@ -664,6 +664,76 @@ test.describe('HubSections', () => {
   });
 });
 
+// ─── Chrome (header) Tests ───────────────────────────────────────────────────
+
+function structuralSignature(html: string, tag: 'header' | 'footer'): string {
+  const m = html.match(new RegExp(`<${tag}[\\s\\S]*?</${tag}>`));
+  if (!m) throw new Error(`${tag} absent`);
+  return m[0]
+    .replace(/>[^<]*</g, '><')
+    .replace(/\s(?:href|src)="[^"]*"/g, '')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+test.describe('ChromeHeader', () => {
+  for (const p of PAGES) {
+    const html = read(p.file);
+
+    test(`[${p.name}] header exposes the four slots`, () => {
+      const header = html.match(/<header class="site-header">[\s\S]*?<\/header>/);
+      expect(header, 'header manquant').not.toBeNull();
+      expect(header![0]).toContain('class="brand"');
+      expect(header![0]).toContain('<nav class="site-nav" aria-label="Navigation principale">');
+      expect(header![0]).toContain('class="status-badge"');
+      expect(header![0]).toContain('href="#partage"');
+      const navLinks = header![0].match(/<nav[\s\S]*?<\/nav>/)![0].match(/<a /g) || [];
+      expect(navLinks).toHaveLength(3);
+    });
+
+    test(`[${p.name}] exactly one non-empty brand badge`, () => {
+      const badges = html.match(/<span class="brand-badge">[^<]+<\/span>/g) || [];
+      expect(badges).toHaveLength(1);
+    });
+
+    test(`[${p.name}] nav anchors resolve`, () => {
+      const header = html.match(/<header class="site-header">[\s\S]*?<\/header>/)![0];
+      const nav = header.match(/<nav[\s\S]*?<\/nav>/)![0];
+      for (const a of nav.match(/href="#([^"]+)"/g) || []) {
+        const id = a.replace(/href="#([^"]+)"/, '$1');
+        expect(html, `ancre de nav morte : #${id}`).toContain(`id="${id}"`);
+      }
+    });
+  }
+
+  test('header structure is identical across pages', () => {
+    const sigs = PAGES.map((p) => structuralSignature(read(p.file), 'header'));
+    expect(new Set(sigs).size, 'header divergent entre les pages').toBe(1);
+  });
+
+  test('hub header copy', () => {
+    const header = HUB.match(/<header class="site-header">[\s\S]*?<\/header>/)![0];
+    expect(header).toContain('la-mise-a-jour <span class="brand-badge">v2026.1</span>');
+    expect(header).toContain('href="#main"');
+    expect(header).toContain('Statut : 1 / 4 disponible');
+    const nav = header.match(/<nav[\s\S]*?<\/nav>/)![0];
+    expect(nav).toContain('href="#collection"');
+    expect(nav).toContain('href="#principe"');
+    expect(nav).toContain('href="#faq"');
+  });
+
+  test('democratie header copy', () => {
+    const header = INDEX.match(/<header class="site-header">[\s\S]*?<\/header>/)![0];
+    expect(header).toContain('la-mise-a-jour <span class="brand-badge">Citoyen 2.0</span>');
+    expect(header).toContain('href="../"');
+    expect(header).toContain('Statut : 49.3 opérationnel');
+    const nav = header.match(/<nav[\s\S]*?<\/nav>/)![0];
+    expect(nav).toContain('href="#fonctionnalites"');
+    expect(nav).toContain('href="#tarifs"');
+    expect(nav).toContain('href="#faq"');
+  });
+});
+
 // ─── Sitemap Tests ───────────────────────────────────────────────────────────
 
 test.describe('Sitemap', () => {
