@@ -619,6 +619,51 @@ test.describe('HubCollection', () => {
   });
 });
 
+test.describe('HubSections', () => {
+  test('principe has three feature cards with info buttons', () => {
+    const s = section(HUB, 'principe');
+    expect(s.match(/class="feature-card"/g)).toHaveLength(3);
+    const buttons = s.match(/<button type="button" class="info-btn"[^>]*>/g) || [];
+    expect(buttons).toHaveLength(3);
+    for (const tag of buttons) {
+      expect(tag).toContain('aria-expanded="false"');
+      const m = tag.match(/aria-controls="([^"]+)"/);
+      expect(m).not.toBeNull();
+      expect(s).toContain(`id="${m![1]}"`);
+    }
+    const t = bodyText(s);
+    for (const title of ['Diagnostic', 'Comparaison', 'Changelog']) {
+      expect(t).toContain(title);
+    }
+  });
+
+  test('faq has three items with fine print', () => {
+    const s = section(HUB, 'faq');
+    expect(s.match(/class="faq-item"/g)).toHaveLength(3);
+    expect(s.match(/<details/g)).toHaveLength(3);
+    expect(s.match(/class="fine-print"/g)).toHaveLength(3);
+    const t = bodyText(s);
+    for (const q of [
+      "C'est quoi, la-mise-a-jour.fr ?",
+      'Pourquoi comparer la société à un logiciel ?',
+      'Est-ce que je peux contribuer ?',
+    ]) {
+      expect(t).toContain(q);
+    }
+    expect(t).toContain('Les faits sont exacts. Seule l\'emballage est satirique.');
+    expect(t).toContain('Pull requests bienvenues. 49.3 non requis.');
+  });
+
+  test('share section present with four platforms', () => {
+    const s = section(HUB, 'partage');
+    const platforms = s.match(/data-platform="([^"]+)"/g) || [];
+    expect(platforms.map((p) => p.replace(/data-platform="([^"]+)"/, '$1')).sort())
+      .toEqual(['facebook', 'signal', 'whatsapp', 'x']);
+    expect(s).toContain('id="copy-link"');
+    expect(s).toContain('id="copy-feedback"');
+  });
+});
+
 // ─── Sitemap Tests ───────────────────────────────────────────────────────────
 
 test.describe('Sitemap', () => {

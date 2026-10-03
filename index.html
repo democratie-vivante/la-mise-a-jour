@@ -81,6 +81,83 @@
         </div>
       </div>
     </section>
+
+    <section id="principe" class="section features" aria-labelledby="principe-title">
+      <div class="container">
+        <h2 id="principe-title">Comment ça marche</h2>
+        <div class="features-grid">
+          <article class="feature-card">
+            <p class="feature-icon" aria-hidden="true">🔍</p>
+            <h3>Diagnostic</h3>
+            <p class="feature-pitch">La liste des bugs de la version actuelle. Références à l'appui, sans détour.</p>
+            <span class="tip-wrap">
+              <button type="button" class="info-btn" aria-expanded="false" aria-controls="tip-h1" aria-label="En savoir plus sur le diagnostic">ⓘ</button>
+              <span class="tooltip" id="tip-h1" role="tooltip" hidden>Chaque mise à jour commence par ce qui ne marche pas : articles, dates, chiffres. Pas d'avis, des références.</span>
+            </span>
+          </article>
+
+          <article class="feature-card">
+            <p class="feature-icon" aria-hidden="true">📋</p>
+            <h3>Comparaison</h3>
+            <p class="feature-pitch">Deux plans côte à côte : ce que vous avez déjà, et ce que la mise à jour ajoute.</p>
+            <span class="tip-wrap">
+              <button type="button" class="info-btn" aria-expanded="false" aria-controls="tip-h2" aria-label="En savoir plus sur la comparaison">ⓘ</button>
+              <span class="tooltip" id="tip-h2" role="tooltip" hidden>Même grille que votre offre télécom : la colonne de gauche vous est déjà facturée.</span>
+            </span>
+          </article>
+
+          <article class="feature-card">
+            <p class="feature-icon" aria-hidden="true">📦</p>
+            <h3>Changelog</h3>
+            <p class="feature-pitch">Ce qui change, en clair. Et ce qui ne change pas parce que personne ne l'a demandé.</p>
+            <span class="tip-wrap">
+              <button type="button" class="info-btn" aria-expanded="false" aria-controls="tip-h3" aria-label="En savoir plus sur le changelog">ⓘ</button>
+              <span class="tooltip" id="tip-h3" role="tooltip" hidden>« Corrections de bugs connus depuis 1958. Fonctionnalité « révocation » enfin documentée. »</span>
+            </span>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="faq" class="section faq" aria-labelledby="faq-title">
+      <div class="container container--narrow">
+        <h2 id="faq-title">Questions fréquemment posées</h2>
+        <div class="faq-list">
+          <details class="faq-item">
+            <summary>C'est quoi, la-mise-a-jour.fr&nbsp;?</summary>
+            <p class="faq-answer">Une plateforme d'éducation populaire emballée en produit logiciel.</p>
+            <p class="fine-print">Les faits sont exacts. Seule l'emballage est satirique.</p>
+          </details>
+
+          <details class="faq-item">
+            <summary>Pourquoi comparer la société à un logiciel&nbsp;?</summary>
+            <p class="faq-answer">Parce qu'un logiciel non patché depuis 1958 aurait été déprécié depuis longtemps.</p>
+            <p class="fine-print">Aucune version prise en charge. Pas de correctif de sécurité depuis 1962.</p>
+          </details>
+
+          <details class="faq-item">
+            <summary>Est-ce que je peux contribuer&nbsp;?</summary>
+            <p class="faq-answer">Oui. Le code source est public, contrairement à celui de vos lois.</p>
+            <p class="fine-print">Pull requests bienvenues. 49.3 non requis.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <section id="partage" class="section share" aria-labelledby="share-title">
+      <div class="container container--narrow share-inner">
+        <h2 id="share-title">Cette plateforme se partage mieux que vos diagnoses</h2>
+        <div class="share-buttons">
+          <a class="btn btn-share" data-platform="whatsapp" href="https://wa.me/?text=Votre%20soci%C3%A9t%C3%A9%20n%27a%20pas%20%C3%A9t%C3%A9%20mise%20%C3%A0%20jour%20depuis%201958.%20https%3A%2F%2Fla-mise-a-jour.fr%2F" target="_blank" rel="noopener">WhatsApp</a>
+          <button class="btn btn-share" data-platform="signal" type="button">Signal</button>
+          <a class="btn btn-share" data-platform="x" href="https://twitter.com/intent/tweet?text=Votre%20soci%C3%A9t%C3%A9%20n%27a%20pas%20%C3%A9t%C3%A9%20mise%20%C3%A0%20jour%20depuis%201958.&url=https%3A%2F%2Fla-mise-a-jour.fr%2F" target="_blank" rel="noopener">X</a>
+          <a class="btn btn-share" data-platform="facebook" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fla-mise-a-jour.fr%2F" target="_blank" rel="noopener">Facebook</a>
+          <button class="btn btn-primary" id="copy-link" type="button">Copier le lien</button>
+        </div>
+        <p class="share-feedback" id="copy-feedback" role="status" aria-live="polite" hidden></p>
+        <p class="share-url">la-mise-a-jour.fr</p>
+      </div>
+    </section>
   </main>
 </body>
 </html>
