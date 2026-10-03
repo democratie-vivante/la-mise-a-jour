@@ -256,6 +256,10 @@ test.describe('ShareByPage', () => {
     expect(JS).not.toContain('la-mise-a-jour.fr');
     expect(JS).toContain('link[rel="canonical"]');
     expect(JS).toContain('data-share-text');
+    expect(JS).toContain('https://wa.me/?text=');
+    expect(JS).toContain('https://twitter.com/intent/tweet');
+    expect(JS).toContain('https://www.facebook.com/sharer/sharer.php?u=');
+    expect(JS).not.toContain('localhost');
   });
 
   for (const p of PAGES) {
@@ -266,11 +270,12 @@ test.describe('ShareByPage', () => {
       const anchors = html.match(/<a class="btn btn-share"[^>]*>/g) || [];
       expect(anchors).toHaveLength(3);
       for (const tag of anchors) {
+        const platform = tag.match(/data-platform="([^"]+)"/)![1];
         const href = tag.match(/href="([^"]+)"/)![1];
         const decoded = decodeURIComponent(href);
         expect(decoded, `URL manquante dans ${href}`).toContain(p.url);
         // Facebook ne transporte que l'URL (`?u=`) ; WhatsApp et X portent aussi le texte.
-        if (/text=/.test(href)) {
+        if (platform !== 'facebook') {
           expect(decoded, `texte manquant dans ${href}`).toContain(shareText);
         }
       }
