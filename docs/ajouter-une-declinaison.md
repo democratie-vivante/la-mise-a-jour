@@ -1,12 +1,13 @@
 # Ajouter une mise à jour système
 
 Recette complète pour une nouvelle déclinaison (exemple : `agronomie`).
-Le test `MultiPage` échoue tant qu'une seule de ces étapes est oubliée.
+La suite échoue tant qu'une seule de ces étapes est oubliée.
 
 ## 1. Créer la page
 
 Copier la page modèle, puis adapter :
 
+    mkdir -p agronomie
     cp democratie/index.html agronomie/index.html
 
 Dans `agronomie/index.html` :
@@ -50,7 +51,15 @@ suffit à le faire échouer.
 
 ## 5. Générer l'image de partage
 
-    mise exec -- pnpm exec vite --port 8765 &
+Ajouter la capture de la nouvelle page dans le tableau `SHOTS` de
+`scripts/capture-og.mjs` :
+
+    { url: 'http://localhost:8765/agronomie/', selector: '#tarifs', out: 'agronomie/og.png' }
+
+Puis :
+
+    mise exec -- pnpm exec vite --port 8765 --strictPort &
+    sleep 3
     mise exec -- pnpm node scripts/capture-og.mjs
 
 Puis `pnpm test` au vert, commit, push.

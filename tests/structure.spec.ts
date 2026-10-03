@@ -146,6 +146,12 @@ test.describe('Shared', () => {
       expect(fs.existsSync(path.join(ROOT, m![1])), `fichier manquant : ${m![1]}`).toBe(true);
     });
 
+    test(`[${p.name}] og:image lives next to the page`, () => {
+      const m = html.match(/<meta property="og:image" content="https:\/\/la-mise-a-jour\.fr\/([^"]+)"/)!;
+      const expected = p.sub ? `${path.dirname(p.file)}/og.png` : 'og.png';
+      expect(m[1]).toBe(expected);
+    });
+
     test(`[${p.name}] no external assets`, () => {
       expect(html).not.toMatch(/<script[^>]+src="https?:\/\//);
       expect(html).not.toMatch(/<link[^>]+rel="stylesheet"[^>]+href="https?:\/\//);
