@@ -242,10 +242,10 @@ test.describe('SiteAssets', () => {
   });
 
   test('readme exists', () => {
+    // L'attente `og.png` (section « À faire avant la mise en ligne » de l'ancien
+    // README) est obsolète : T11 réécrit le README et l'asset existe déjà.
     const readme = read('README.md');
-    for (const expected of ['python3 -m http.server', 'og.png']) {
-      expect(readme).toContain(expected);
-    }
+    expect(readme).toContain('python3 -m http.server');
   });
 });
 
@@ -932,5 +932,28 @@ test.describe('MultiPage', () => {
     };
     walk(ROOT);
     expect(found.sort()).toEqual(PAGES.map((p) => p.file).sort());
+  });
+});
+
+// ─── Documentation ──────────────────────────────────────────────────────────
+
+test.describe('Docs', () => {
+  test('readme documents the multi-page workflow', () => {
+    const readme = read('README.md');
+    expect(readme).toContain('pnpm test');
+    expect(readme).not.toContain('python3 -m unittest');
+    expect(readme).toContain('/democratie/');
+  });
+
+  test('déclinaison recipe exists and lists every step', () => {
+    const doc = read('docs/ajouter-une-declinaison.md');
+    for (const step of ['democratie/index.html', 'sitemap.xml', 'PAGES', 'collection', 'og.png']) {
+      expect(doc, step).toContain(step);
+    }
+  });
+
+  test('python test suite is gone', () => {
+    expect(fs.existsSync(path.join(ROOT, 'tests', 'test_structure.py'))).toBe(false);
+    expect(fs.existsSync(path.join(ROOT, 'tests', '__init__.py'))).toBe(false);
   });
 });

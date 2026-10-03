@@ -1,36 +1,36 @@
-# Citoyen 2.0 — la-mise-a-jour.fr
+# La Mise à Jour — la-mise-a-jour.fr
 
-Page unique satirique : la « source officielle » de la diffusion. Zéro dépendance,
-zéro build.
+Plateforme satirique « zéro build » : un hub à la racine et une page par mise à
+jour système. Zéro dépendance, zéro build, servi tel quel.
+
+- `/` — hub « console de versions » (les mises à jour disponibles et à venir)
+- `/democratie/` — Citoyen 2.0 : Plan 5ᵉ vs Plan 6ᵉ République
 
 ## Prévisualiser
 
 ```bash
-python3 -m http.server 8765
+pnpm exec vite --port 8765
 # puis ouvrir http://localhost:8765/
 ```
 
-`index.html` s'ouvre aussi directement en double-cliquant, mais le serveur HTTP
-est nécessaire pour vérifier le partage et le presse-papiers dans de bonnes conditions.
+`index.html` s'ouvre aussi en double-clic (`file://`) : tous les liens et assets
+sont relatifs. Le serveur HTTP reste nécessaire pour vérifier le partage et le
+presse-papiers. `python3 -m http.server 8765` convient aussi.
 
 ## Tests
 
 ```bash
-python3 -m unittest discover -s tests -v
+pnpm test
 ```
 
-Tests statiques (structure, copy, contraintes CSS, contrastes AA) + vérifications
-navigateur décrites dans `docs/superpowers/plans/2026-09-24-citoyen-2-0.md`.
+Suite Playwright unique : `tests/structure.spec.ts` (statique, multi-pages) et
+`tests/navigation.spec.ts` (vrai navigateur). `pnpm` est fourni par `mise` si
+vous n'avez pas l'outil d'installé : `mise exec -- pnpm test`.
+
+## Ajouter une mise à jour
+
+Voir `docs/ajouter-une-declinaison.md` : la recette complète, test par test.
 
 ## Déploiement
 
-Aucun build : pousser le dossier tel quel sur GitHub Pages, Netlify ou Vercel.
-
-## À faire avant la mise en ligne
-
-- Créer `og.png` (la capture HD de la pricing table, phase visuelle) et le
-  déposer à la racine : les meta `og:image` / `twitter:image` pointent déjà vers
-  `https://la-mise-a-jour.fr/og.png`.
-- Remplacer l'URL canonique si le domaine final diffère de plan-democratie.fr
-  (recherche : `plan-democratie.fr` dans `index.html` et `main.js`).
-# democracy-plan
+Aucun build : pousser le dossier tel quel sur GitHub Pages.
