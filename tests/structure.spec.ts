@@ -518,7 +518,7 @@ test.describe('Democratie', () => {
     test('footer structure', () => {
       expect(INDEX).toContain('<footer class="site-footer">');
       const t = getText();
-      expect(t).toContain('© 2026 Citoyen 2.0');
+      expect(t).toContain('© 2026 La Mise à Jour');
       expect(t).toContain('Tous les systèmes sont dégradés');
       expect(t).toContain('49.3 : opérationnel');
       expect(t).toContain('Aucune donnée collectée, contrairement à vous');
@@ -731,6 +731,58 @@ test.describe('ChromeHeader', () => {
     expect(nav).toContain('href="#fonctionnalites"');
     expect(nav).toContain('href="#tarifs"');
     expect(nav).toContain('href="#faq"');
+  });
+});
+
+// ─── Chrome (footer) Tests ───────────────────────────────────────────────────
+
+function footerHrefs(html: string, pageUrl: string): string[] {
+  const footer = html.match(/<footer class="site-footer">[\s\S]*?<\/footer>/);
+  if (!footer) throw new Error('footer absent');
+  const hrefs = footer[0].match(/href="([^"]+)"/g) || [];
+  return hrefs.map((h) => {
+    const raw = h.replace(/href="([^"]+)"/, '$1');
+    return new URL(raw, pageUrl).toString();
+  }).sort();
+}
+
+test.describe('ChromeFooter', () => {
+  for (const p of PAGES) {
+    const html = read(p.file);
+
+    test(`[${p.name}] footer copy is platform level`, () => {
+      const t = bodyText(html.match(/<footer class="site-footer">[\s\S]*?<\/footer>/)![0]);
+      expect(t).toContain('Toutes les mises à jour');
+      expect(t).toContain('Comment ça marche');
+      expect(t).toContain('Aucune donnée collectée, contrairement à vous');
+      expect(t).toContain('Tous les systèmes sont dégradés');
+      expect(t).toContain('49.3 : opérationnel');
+      expect(t).toContain('© 2026 La Mise à Jour');
+    });
+
+    test(`[${p.name}] footer links reach an existing target`, () => {
+      const footer = html.match(/<footer class="site-footer">[\s\S]*?<\/footer>/)![0];
+      for (const raw of (footer.match(/href="([^"]+)"/g) || []).map((h) => h.replace(/href="([^"]+)"/, '$1'))) {
+        const resolved = new URL(raw, p.url);
+        const target = PAGES.find((x) => x.url === resolved.origin + resolved.pathname);
+        expect(target, `cible inconnue : ${raw}`).toBeTruthy();
+        if (resolved.hash) {
+          expect(read(target!.file), `ancre morte ${raw}`).toContain(`id="${resolved.hash.slice(1)}"`);
+        }
+      }
+    });
+  }
+
+  test('footer structure is identical across pages', () => {
+    const sigs = PAGES.map((p) => structuralSignature(read(p.file), 'footer'));
+    expect(new Set(sigs).size, 'footer divergent entre les pages').toBe(1);
+  });
+
+  test('footer resolves to the same urls everywhere', () => {
+    const sets = PAGES.map((p) => footerHrefs(read(p.file), p.url));
+    for (let i = 1; i < sets.length; i++) {
+      expect(sets[i], `footer de ${PAGES[i].name} divergent`).toEqual(sets[0]);
+    }
   });
 });
 
