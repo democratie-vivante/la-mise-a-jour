@@ -3,13 +3,36 @@ import * as fs from 'fs';
 import * as path from 'path';
 
 const ROOT = path.resolve(__dirname, '..');
-const INDEX = fs.readFileSync(path.join(ROOT, 'democratie', 'index.html'), 'utf-8');
-const HUB = fs.readFileSync(path.join(ROOT, 'index.html'), 'utf-8');
-const CSS = fs.readFileSync(path.join(ROOT, 'styles.css'), 'utf-8');
-const JS = fs.readFileSync(path.join(ROOT, 'main.js'), 'utf-8');
+const SITE = 'https://la-mise-a-jour.fr';
 
-function getText(): string {
-  const body = INDEX.split('<body')[1].split('>').slice(1).join('>');
+type SitePage = { name: string; file: string; url: string; sub: boolean };
+
+const PAGES: SitePage[] = [
+  { name: 'hub', file: 'index.html', url: `${SITE}/`, sub: false },
+  { name: 'democratie', file: 'democratie/index.html', url: `${SITE}/democratie/`, sub: true },
+];
+
+const PLANNED = [
+  { name: 'Agronomie', status: 'en bêta fermée' },
+  { name: 'Économie', status: 'planifié' },
+  { name: 'Énergie', status: 'planifié' },
+];
+
+const read = (rel: string): string => fs.readFileSync(path.join(ROOT, rel), 'utf-8');
+const INDEX = read('democratie/index.html');
+const HUB = read('index.html');
+const CSS = read('styles.css');
+const JS = read('main.js');
+const SITEMAP = read('sitemap.xml');
+
+function section(html: string, id: string): string {
+  const start = html.indexOf(`id="${id}"`);
+  if (start < 0) throw new Error(`section #${id} introuvable`);
+  return html.slice(start, html.indexOf('</section>', start));
+}
+
+function bodyText(html: string): string {
+  const body = html.split('<body')[1].split('>').slice(1).join('>');
   return body
     .replace(/<[^>]+>/g, ' ')
     .replace(/&nbsp;/g, ' ')
@@ -21,6 +44,8 @@ function getText(): string {
     .replace(/\s+/g, ' ')
     .trim();
 }
+
+const getText = () => bodyText(INDEX);
 
 function cssRules(selectorPrefix: string): string {
   const pattern = new RegExp(
@@ -88,350 +113,84 @@ function token(name: string): string {
   return m[1];
 }
 
-// ─── Site Structure Tests ────────────────────────────────────────────────────
+// ─── Shared Per-Page Invariants ──────────────────────────────────────────────
 
-test.describe('SiteStructure', () => {
-  test('lang is french', () => {
-    expect(INDEX).toContain('<html lang="fr">');
-  });
+test.describe('Shared', () => {
+  for (const p of PAGES) {
+    const html = read(p.file);
+    const prefix = p.sub ? '../' : '';
 
-  test('share meta are absolute https', () => {
-    for (const prop of ['og:url', 'og:image']) {
-      const m = INDEX.match(new RegExp(`<meta property="${prop}" content="([^"]+)"`));
-      expect(m, `meta ${prop} manquante`).not.toBeNull();
-      expect(m![1].startsWith('https://la-mise-a-jour.fr/')).toBe(true);
-    }
-  });
+    test(`[${p.name}] lang is french`, () => {
+      expect(html).toContain('<html lang="fr">');
+    });
 
-  test('twitter card present', () => {
-    expect(INDEX).toContain('<meta name="twitter:card" content="summary_large_image">');
-  });
+    test(`[${p.name}] canonical matches page url`, () => {
+      expect(html).toContain(`<link rel="canonical" href="${p.url}">`);
+    });
 
-  test('no external assets', () => {
-    expect(INDEX).not.toMatch(/<script[^>]+src="https?:\/\//);
-    expect(INDEX).not.toMatch(/<link[^>]+rel="stylesheet"[^>]+href="https?:\/\//);
-  });
+    test(`[${p.name}] og:url matches page url`, () => {
+      expect(html).toContain(`<meta property="og:url" content="${p.url}">`);
+    });
 
-  test('links local assets', () => {
-    expect(INDEX).toContain('href="../styles.css"');
-    expect(INDEX).toContain('src="../main.js"');
-  });
+    test(`[${p.name}] twitter card present`, () => {
+      expect(html).toContain('<meta name="twitter:card" content="summary_large_image">');
+    });
 
+    test(`[${p.name}] og:image points to an existing file`, () => {
+      const m = html.match(/<meta property="og:image" content="https:\/\/la-mise-a-jour\.fr\/([^"]+)"/);
+      expect(m, 'og:image absente').not.toBeNull();
+      expect(fs.existsSync(path.join(ROOT, m![1])), `fichier manquant : ${m![1]}`).toBe(true);
+    });
+
+    test(`[${p.name}] no external assets`, () => {
+      expect(html).not.toMatch(/<script[^>]+src="https?:\/\//);
+      expect(html).not.toMatch(/<link[^>]+rel="stylesheet"[^>]+href="https?:\/\//);
+    });
+
+    test(`[${p.name}] links local assets relatively`, () => {
+      expect(html).toContain(`href="${prefix}styles.css"`);
+      expect(html).toContain(`src="${prefix}main.js"`);
+    });
+
+    test(`[${p.name}] skip link present`, () => {
+      expect(html).toContain('<a class="skip-link" href="#main">');
+    });
+
+    test(`[${p.name}] single h1`, () => {
+      expect(html.match(/<h1>/g)).toHaveLength(1);
+    });
+
+    test(`[${p.name}] no dead anchors`, () => {
+      const anchors = html.match(/href="#([^"]+)"/g) || [];
+      for (const a of anchors) {
+        const id = a.replace(/href="#([^"]+)"/, '$1');
+        expect(html, `ancre morte : #${id}`).toContain(`id="${id}"`);
+      }
+    });
+
+    test(`[${p.name}] deferred script`, () => {
+      expect(html).toContain(`<script src="${prefix}main.js" defer></script>`);
+    });
+
+    test(`[${p.name}] share text declared on body`, () => {
+      expect(html).toMatch(/<body data-share-text="[^"]+">/);
+    });
+
+    test(`[${p.name}] no calculator mention`, () => {
+      expect(html.toLowerCase()).not.toContain('calculateur');
+    });
+  }
+});
+
+// ─── Global Assets Tests ─────────────────────────────────────────────────────
+
+test.describe('SiteAssets', () => {
   test('design tokens defined', () => {
     for (const t of [
-      '--color-bg',
-      '--color-surface',
-      '--color-text',
-      '--color-text-muted',
-      '--color-primary',
-      '--color-danger',
-      '--color-success',
+      '--color-bg', '--color-surface', '--color-text', '--color-text-muted',
+      '--color-primary', '--color-danger', '--color-success',
     ]) {
       expect(CSS).toMatch(new RegExp(`${t}:\\s*#[0-9a-fA-F]{6}`));
-    }
-  });
-
-  test('skip link present', () => {
-    expect(INDEX).toContain('<a class="skip-link" href="#main">');
-  });
-
-  test('no calculator mention', () => {
-    for (const [name, content] of [
-      ['index.html', INDEX],
-      ['styles.css', CSS],
-      ['main.js', JS],
-    ] as const) {
-      expect(content.toLowerCase(), name).not.toContain('calculateur');
-    }
-  });
-});
-
-// ─── Header & Hero Tests ─────────────────────────────────────────────────────
-
-test.describe('HeaderHero', () => {
-  test('status badge text', () => {
-    expect(getText()).toContain('Statut : 49.3 opérationnel');
-  });
-
-  test('nav is internal only', () => {
-    const hrefs = INDEX.match(/<a href="(#[^"]+)"/g) || [];
-    for (const href of hrefs) {
-      expect(href).toMatch(/^<a href="#/);
-    }
-    expect(INDEX).toContain('href="#fonctionnalites"');
-    expect(INDEX).toContain('href="#tarifs"');
-    expect(INDEX).toContain('href="#faq"');
-    expect(INDEX).toContain('href="#partage"');
-  });
-
-  test('hero headline', () => {
-    expect(getText()).toContain('Découvrez Citoyen 2.0 : La démocratie sans les bugs de 1958');
-  });
-
-  test('hero has two ctas', () => {
-    const ctas = INDEX.match(/class="btn btn-[a-z]+"[^>]*>([^<]+)</g) || [];
-    const texts = ctas.map((c) => c.replace(/.*>([^<]+)</, '$1'));
-    expect(texts).toContain('Voir les plans');
-    expect(texts).toContain('Comparer les plans');
-  });
-
-  test('logo band has four partners', () => {
-    expect(INDEX.match(/class="logo-item"/g)).toHaveLength(4);
-    const t = getText();
-    for (const name of [
-      'Assemblée nationale',
-      'Sénat',
-      'Conseil constitutionnel',
-      'Partenaires indéterminés',
-    ]) {
-      expect(t).toContain(name);
-    }
-  });
-});
-
-// ─── Social Proof Tests ──────────────────────────────────────────────────────
-
-test.describe('SocialProof', () => {
-  test('proof numbers', () => {
-    const t = getText();
-    expect(t).toContain("+68 M de citoyens n'ont rien demandé");
-    expect(t).toContain('4,3 / 5');
-    expect(t).toContain('avis vérifiés sur les lois que vous n\'avez pas lues');
-  });
-});
-
-// ─── Pricing Tests ───────────────────────────────────────────────────────────
-
-test.describe('Pricing', () => {
-  test('section and cards', () => {
-    expect(INDEX).toMatch(/<section id="tarifs" class="section pricing"[^>]*>/);
-    expect(INDEX.match(/class="plan plan--legacy"/g)).toHaveLength(1);
-    expect(INDEX.match(/class="plan plan--popular"/g)).toHaveLength(1);
-    expect(getText()).toContain('POPULAIRE');
-  });
-
-  test('eight rows per card sixteen total', () => {
-    expect(INDEX.match(/class="plan-row"/g)).toHaveLength(16);
-    const legacy = INDEX.split('plan plan--legacy')[1].split('plan plan--popular')[0];
-    const popular = INDEX.split('plan plan--popular')[1];
-    expect(legacy.match(/class="plan-row"/g)).toHaveLength(8);
-    expect(popular.match(/class="plan-row"/g)).toHaveLength(8);
-  });
-
-  test('plan copy', () => {
-    const t = getText();
-    for (const expected of [
-      'Hérité · depuis 1958',
-      'déjà payé par vos aînés',
-      'Sans engagement — résiliable par révolution',
-      'Nouveau',
-      'inclus dans votre citoyenneté',
-      'Engagé — révocable à tout moment',
-    ]) {
-      expect(t).toContain(expected);
-    }
-  });
-
-  test('row labels present', () => {
-    const t = getText();
-    for (const label of [
-      'Gouvernement nommé sans vote de l\'Assemblée',
-      'Décret-loi 49.3',
-      'Référendum d\'initiative citoyenne',
-      'Révocation de votre élu',
-      'Dissolution de l\'Assemblée',
-      'Mandats renouvelables',
-      'Amendement citoyen en ligne',
-      'Support',
-      'sans bouton d\'annulation',
-      'avec bouton d\'annulation',
-    ]) {
-      expect(t).toContain(label);
-    }
-  });
-
-  test('pricing has no animation', () => {
-    const rules = cssRules('.pricing') + cssRules('.plan');
-    expect(rules).not.toContain('animation');
-    expect(rules).not.toContain('transition');
-  });
-
-  test('pricing capture ready', () => {
-    const rules = cssRules('.pricing');
-    expect(rules).toContain('background');
-    expect(rules).toContain('#ffffff');
-    expect(rules).toMatch(/max-width:\s*1080px/);
-  });
-
-  test('mobile orders popular first', () => {
-    const matches = mediaBlocks()
-      .filter((b) => b.condition.includes('768px') && b.body.includes('.plan--popular') && b.body.includes('order'));
-    expect(matches.length).toBeGreaterThan(0);
-    expect(matches[0].body).toContain('order: -1');
-  });
-});
-
-// ─── Feature Grid Tests ──────────────────────────────────────────────────────
-
-test.describe('FeatureGrid', () => {
-  test('section and six cards', () => {
-    expect(INDEX).toContain('<section id="fonctionnalites"');
-    expect(INDEX.match(/class="feature-card"/g)).toHaveLength(6);
-  });
-
-  test('every card has accessible info button', () => {
-    const buttons = INDEX.match(/<button type="button" class="info-btn"[^>]*>/g) || [];
-    expect(buttons.length).toBeGreaterThanOrEqual(6);
-    for (const tag of buttons) {
-      expect(tag).toContain('aria-expanded="false"');
-      const m = tag.match(/aria-controls="([^"]+)"/);
-      expect(m, 'aria-controls manquant').not.toBeNull();
-      expect(INDEX).toContain(`id="${m![1]}"`);
-    }
-  });
-
-  test('card titles', () => {
-    const t = getText();
-    for (const title of [
-      'Article 49 al. 3',
-      'Référendum d\'initiative citoyenne',
-      'Révocation à tout moment',
-      'Mandats non renouvelables',
-      'Amendement citoyen en ligne',
-      'Suivi de vos lois en direct',
-    ]) {
-      expect(t).toContain(title);
-    }
-  });
-
-  test('grid three columns on desktop', () => {
-    const rules = cssRules('.features-grid');
-    expect(rules).toMatch(/grid-template-columns:\s*repeat\(3/);
-  });
-});
-
-// ─── Tooltip Static Tests ────────────────────────────────────────────────────
-
-test.describe('TooltipStatic', () => {
-  test('js handles escape and outside click', () => {
-    expect(JS).toContain('key === "Escape"');
-    expect(JS).toContain('closest(".tip-wrap")');
-  });
-
-  test('js flips tooltip near viewport top', () => {
-    expect(JS).toContain('getBoundingClientRect');
-    expect(JS).toContain('tooltip--below');
-    expect(CSS).toContain('tooltip--below');
-  });
-
-  test('js flips tooltip horizontally', () => {
-    expect(JS).toContain('flipTooltipX');
-  });
-});
-
-// ─── FAQ Tests ───────────────────────────────────────────────────────────────
-
-test.describe('FAQ', () => {
-  test('section and six items', () => {
-    expect(INDEX).toContain('<section id="faq"');
-    expect(INDEX.match(/class="faq-item"/g)).toHaveLength(6);
-    expect(INDEX.match(/<details/g)).toHaveLength(6);
-    expect(INDEX.match(/<summary>/g)).toHaveLength(6);
-  });
-
-  test('each answer has fine print', () => {
-    expect(INDEX.match(/class="fine-print"/g)).toHaveLength(6);
-  });
-
-  test('faq questions', () => {
-    const t = getText();
-    for (const q of [
-      'Puis-je résilier mon Plan 5ᵉ République ?',
-      'Le Plan 6ᵉ est-il vraiment gratuit ?',
-      'Que se passe-t-il si je ne vote pas ?',
-      'Quelles méthodes de paiement acceptez-vous ?',
-      'Le 49.3 peut-il être annulé ?',
-      'Proposez-vous un essai gratuit ?',
-    ]) {
-      expect(t).toContain(q);
-    }
-  });
-
-  test('fine print copy', () => {
-    const t = getText();
-    for (const line of [
-      'L\'offre est reconduite tacitement depuis 1958, sans préavis.',
-      '0 €/mois, engagement de 5 ans non renouvelable… pour vous.',
-      'Aucun changement : votre Plan est mis à jour automatiquement.',
-      'Impôts, CSG, TVA. Apple Pay n\'est pas encore disponible.',
-      'Oui, désormais. L\'ancien modèle n\'avait pas de bouton.',
-      'Vous êtes né dedans. C\'est l\'essai.',
-    ]) {
-      expect(t).toContain(line);
-    }
-  });
-
-  test('js single open enforced', () => {
-    expect(JS).toContain('preventDefault');
-    expect(JS).toContain('.faq-item');
-  });
-});
-
-// ─── Share Tests ─────────────────────────────────────────────────────────────
-
-test.describe('Share', () => {
-  test('section and buttons', () => {
-    expect(INDEX).toContain('<section id="partage"');
-    const platforms = INDEX.match(/data-platform="([^"]+)"/g) || [];
-    const names = platforms.map((p) => p.replace(/data-platform="([^"]+)"/, '$1')).sort();
-    expect(names).toEqual(['facebook', 'signal', 'whatsapp', 'x']);
-  });
-
-  test('copy button and feedback', () => {
-    expect(INDEX).toContain('id="copy-link"');
-    expect(INDEX).toContain('id="copy-feedback"');
-    expect(INDEX).toContain('aria-live="polite"');
-  });
-
-  test('share copy', () => {
-    const t = getText();
-    expect(t).toContain('Ce plan se partage mieux que vos opinions');
-    expect(t).toContain('Copier le lien');
-  });
-
-  test('js has native share endpoints', () => {
-    expect(JS).toContain('https://wa.me/?text=');
-    expect(JS).toContain('https://twitter.com/intent/tweet');
-    expect(JS).toContain('https://www.facebook.com/sharer/sharer.php?u=');
-    expect(JS).toContain('https://la-mise-a-jour.fr/');
-    expect(JS).not.toContain('localhost');
-  });
-
-  test('share links work without js', () => {
-    expect(INDEX).not.toContain('href="#"');
-    expect(INDEX).toContain('href="https://wa.me/?text=');
-    expect(INDEX).toContain('href="https://twitter.com/intent/tweet?');
-    expect(INDEX).toContain(
-      'href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fla-mise-a-jour.fr%2F"'
-    );
-  });
-});
-
-// ─── Footer & A11y Tests ─────────────────────────────────────────────────────
-
-test.describe('FooterA11y', () => {
-  test('footer structure', () => {
-    expect(INDEX).toContain('<footer class="site-footer">');
-    const t = getText();
-    expect(t).toContain('© 2026 Citoyen 2.0');
-    expect(t).toContain('Tous les systèmes sont dégradés');
-    expect(t).toContain('49.3 : opérationnel');
-    expect(t).toContain('Aucune donnée collectée, contrairement à vous');
-  });
-
-  test('footer links resolve', () => {
-    for (const href of ['#fonctionnalites', '#tarifs', '#faq']) {
-      expect(INDEX).toContain(`href="${href}"`);
     }
   });
 
@@ -458,34 +217,318 @@ test.describe('FooterA11y', () => {
       expect(ratio, `${fg} sur ${bg} est sous 4,5:1`).toBeGreaterThanOrEqual(4.5);
     }
   });
-});
 
-// ─── Integration Tests ───────────────────────────────────────────────────────
-
-test.describe('Integration', () => {
-  test('all internal links resolve', () => {
-    const hrefs = INDEX.match(/href="#([^"]+)"/g) || [];
-    for (const href of hrefs) {
-      const id = href.replace(/href="#([^"]+)"/, '$1');
-      expect(INDEX, `ancre morte : #${id}`).toContain(`id="${id}"`);
-    }
+  test('tooltip js behaviour', () => {
+    expect(JS).toContain('key === "Escape"');
+    expect(JS).toContain('closest(".tip-wrap")');
+    expect(JS).toContain('getBoundingClientRect');
+    expect(JS).toContain('tooltip--below');
+    expect(JS).toContain('flipTooltipX');
+    expect(CSS).toContain('tooltip--below');
   });
 
-  test('single h1', () => {
-    expect(INDEX.match(/<h1>/g)).toHaveLength(1);
+  test('faq js single open', () => {
+    expect(JS).toContain('preventDefault');
+    expect(JS).toContain('.faq-item');
   });
 
-  test('deferred script', () => {
-    expect(INDEX).toContain('<script src="../main.js" defer></script>');
+  test('no calculator in css and js', () => {
+    expect(CSS.toLowerCase()).not.toContain('calculateur');
+    expect(JS.toLowerCase()).not.toContain('calculateur');
   });
 
   test('readme exists', () => {
-    const readme = fs.readFileSync(path.join(ROOT, 'README.md'), 'utf-8');
+    const readme = read('README.md');
     for (const expected of ['python3 -m http.server', 'og.png']) {
       expect(readme).toContain(expected);
     }
   });
 });
+
+// ─── Démocratie Page Tests ────────────────────────────────────────────────────
+
+test.describe('Democratie', () => {
+  // ─── Header & Hero Tests ─────────────────────────────────────────────────
+
+  test.describe('HeaderHero', () => {
+    test('status badge text', () => {
+      expect(getText()).toContain('Statut : 49.3 opérationnel');
+    });
+
+    test('hero headline', () => {
+      expect(getText()).toContain('Découvrez Citoyen 2.0 : La démocratie sans les bugs de 1958');
+    });
+
+    test('hero has two ctas', () => {
+      const ctas = INDEX.match(/class="btn btn-[a-z]+"[^>]*>([^<]+)</g) || [];
+      const texts = ctas.map((c) => c.replace(/.*>([^<]+)</, '$1'));
+      expect(texts).toContain('Voir les plans');
+      expect(texts).toContain('Comparer les plans');
+    });
+
+    test('logo band has four partners', () => {
+      expect(INDEX.match(/class="logo-item"/g)).toHaveLength(4);
+      const t = getText();
+      for (const name of [
+        'Assemblée nationale',
+        'Sénat',
+        'Conseil constitutionnel',
+        'Partenaires indéterminés',
+      ]) {
+        expect(t).toContain(name);
+      }
+    });
+  });
+
+  // ─── Social Proof Tests ──────────────────────────────────────────────────
+
+  test.describe('SocialProof', () => {
+    test('proof numbers', () => {
+      const t = getText();
+      expect(t).toContain("+68 M de citoyens n'ont rien demandé");
+      expect(t).toContain('4,3 / 5');
+      expect(t).toContain('avis vérifiés sur les lois que vous n\'avez pas lues');
+    });
+  });
+
+  // ─── Pricing Tests ───────────────────────────────────────────────────────
+
+  test.describe('Pricing', () => {
+    test('section and cards', () => {
+      expect(INDEX).toMatch(/<section id="tarifs" class="section pricing"[^>]*>/);
+      expect(INDEX.match(/class="plan plan--legacy"/g)).toHaveLength(1);
+      expect(INDEX.match(/class="plan plan--popular"/g)).toHaveLength(1);
+      expect(getText()).toContain('POPULAIRE');
+    });
+
+    test('eight rows per card sixteen total', () => {
+      expect(INDEX.match(/class="plan-row"/g)).toHaveLength(16);
+      const legacy = INDEX.split('plan plan--legacy')[1].split('plan plan--popular')[0];
+      const popular = INDEX.split('plan plan--popular')[1];
+      expect(legacy.match(/class="plan-row"/g)).toHaveLength(8);
+      expect(popular.match(/class="plan-row"/g)).toHaveLength(8);
+    });
+
+    test('plan copy', () => {
+      const t = getText();
+      for (const expected of [
+        'Hérité · depuis 1958',
+        'déjà payé par vos aînés',
+        'Sans engagement — résiliable par révolution',
+        'Nouveau',
+        'inclus dans votre citoyenneté',
+        'Engagé — révocable à tout moment',
+      ]) {
+        expect(t).toContain(expected);
+      }
+    });
+
+    test('row labels present', () => {
+      const t = getText();
+      for (const label of [
+        'Gouvernement nommé sans vote de l\'Assemblée',
+        'Décret-loi 49.3',
+        'Référendum d\'initiative citoyenne',
+        'Révocation de votre élu',
+        'Dissolution de l\'Assemblée',
+        'Mandats renouvelables',
+        'Amendement citoyen en ligne',
+        'Support',
+        'sans bouton d\'annulation',
+        'avec bouton d\'annulation',
+      ]) {
+        expect(t).toContain(label);
+      }
+    });
+
+    test('pricing has no animation', () => {
+      const rules = cssRules('.pricing') + cssRules('.plan');
+      expect(rules).not.toContain('animation');
+      expect(rules).not.toContain('transition');
+    });
+
+    test('pricing capture ready', () => {
+      const rules = cssRules('.pricing');
+      expect(rules).toContain('background');
+      expect(rules).toContain('#ffffff');
+      expect(rules).toMatch(/max-width:\s*1080px/);
+    });
+
+    test('mobile orders popular first', () => {
+      const matches = mediaBlocks()
+        .filter((b) => b.condition.includes('768px') && b.body.includes('.plan--popular') && b.body.includes('order'));
+      expect(matches.length).toBeGreaterThan(0);
+      expect(matches[0].body).toContain('order: -1');
+    });
+  });
+
+  // ─── Feature Grid Tests ──────────────────────────────────────────────────
+
+  test.describe('FeatureGrid', () => {
+    test('section and six cards', () => {
+      expect(INDEX).toContain('<section id="fonctionnalites"');
+      expect(INDEX.match(/class="feature-card"/g)).toHaveLength(6);
+    });
+
+    test('every card has accessible info button', () => {
+      const buttons = INDEX.match(/<button type="button" class="info-btn"[^>]*>/g) || [];
+      expect(buttons.length).toBeGreaterThanOrEqual(6);
+      for (const tag of buttons) {
+        expect(tag).toContain('aria-expanded="false"');
+        const m = tag.match(/aria-controls="([^"]+)"/);
+        expect(m, 'aria-controls manquant').not.toBeNull();
+        expect(INDEX).toContain(`id="${m![1]}"`);
+      }
+    });
+
+    test('card titles', () => {
+      const t = getText();
+      for (const title of [
+        'Article 49 al. 3',
+        'Référendum d\'initiative citoyenne',
+        'Révocation à tout moment',
+        'Mandats non renouvelables',
+        'Amendement citoyen en ligne',
+        'Suivi de vos lois en direct',
+      ]) {
+        expect(t).toContain(title);
+      }
+    });
+
+    test('grid three columns on desktop', () => {
+      const rules = cssRules('.features-grid');
+      expect(rules).toMatch(/grid-template-columns:\s*repeat\(3/);
+    });
+  });
+
+  // ─── Tooltip Static Tests ────────────────────────────────────────────────
+
+  test.describe('TooltipStatic', () => {
+    test('js handles escape and outside click', () => {
+      expect(JS).toContain('key === "Escape"');
+      expect(JS).toContain('closest(".tip-wrap")');
+    });
+
+    test('js flips tooltip near viewport top', () => {
+      expect(JS).toContain('getBoundingClientRect');
+      expect(JS).toContain('tooltip--below');
+      expect(CSS).toContain('tooltip--below');
+    });
+
+    test('js flips tooltip horizontally', () => {
+      expect(JS).toContain('flipTooltipX');
+    });
+  });
+
+  // ─── FAQ Tests ───────────────────────────────────────────────────────────
+
+  test.describe('FAQ', () => {
+    test('section and six items', () => {
+      expect(INDEX).toContain('<section id="faq"');
+      expect(INDEX.match(/class="faq-item"/g)).toHaveLength(6);
+      expect(INDEX.match(/<details/g)).toHaveLength(6);
+      expect(INDEX.match(/<summary>/g)).toHaveLength(6);
+    });
+
+    test('each answer has fine print', () => {
+      expect(INDEX.match(/class="fine-print"/g)).toHaveLength(6);
+    });
+
+    test('faq questions', () => {
+      const t = getText();
+      for (const q of [
+        'Puis-je résilier mon Plan 5ᵉ République ?',
+        'Le Plan 6ᵉ est-il vraiment gratuit ?',
+        'Que se passe-t-il si je ne vote pas ?',
+        'Quelles méthodes de paiement acceptez-vous ?',
+        'Le 49.3 peut-il être annulé ?',
+        'Proposez-vous un essai gratuit ?',
+      ]) {
+        expect(t).toContain(q);
+      }
+    });
+
+    test('fine print copy', () => {
+      const t = getText();
+      for (const line of [
+        'L\'offre est reconduite tacitement depuis 1958, sans préavis.',
+        '0 €/mois, engagement de 5 ans non renouvelable… pour vous.',
+        'Aucun changement : votre Plan est mis à jour automatiquement.',
+        'Impôts, CSG, TVA. Apple Pay n\'est pas encore disponible.',
+        'Oui, désormais. L\'ancien modèle n\'avait pas de bouton.',
+        'Vous êtes né dedans. C\'est l\'essai.',
+      ]) {
+        expect(t).toContain(line);
+      }
+    });
+
+    test('js single open enforced', () => {
+      expect(JS).toContain('preventDefault');
+      expect(JS).toContain('.faq-item');
+    });
+  });
+
+  // ─── Share Tests ─────────────────────────────────────────────────────────
+
+  test.describe('Share', () => {
+    test('section and buttons', () => {
+      expect(INDEX).toContain('<section id="partage"');
+      const platforms = INDEX.match(/data-platform="([^"]+)"/g) || [];
+      const names = platforms.map((p) => p.replace(/data-platform="([^"]+)"/, '$1')).sort();
+      expect(names).toEqual(['facebook', 'signal', 'whatsapp', 'x']);
+    });
+
+    test('copy button and feedback', () => {
+      expect(INDEX).toContain('id="copy-link"');
+      expect(INDEX).toContain('id="copy-feedback"');
+      expect(INDEX).toContain('aria-live="polite"');
+    });
+
+    test('share copy', () => {
+      const t = getText();
+      expect(t).toContain('Ce plan se partage mieux que vos opinions');
+      expect(t).toContain('Copier le lien');
+    });
+
+    test('js has native share endpoints', () => {
+      expect(JS).toContain('https://wa.me/?text=');
+      expect(JS).toContain('https://twitter.com/intent/tweet');
+      expect(JS).toContain('https://www.facebook.com/sharer/sharer.php?u=');
+      expect(JS).toContain('https://la-mise-a-jour.fr/');
+      expect(JS).not.toContain('localhost');
+    });
+
+    test('share links work without js', () => {
+      expect(INDEX).not.toContain('href="#"');
+      expect(INDEX).toContain('href="https://wa.me/?text=');
+      expect(INDEX).toContain('href="https://twitter.com/intent/tweet?');
+      expect(INDEX).toContain(
+        'href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fla-mise-a-jour.fr%2F"'
+      );
+    });
+  });
+
+  // ─── Footer & A11y Tests ─────────────────────────────────────────────────
+
+  test.describe('FooterA11y', () => {
+    test('footer structure', () => {
+      expect(INDEX).toContain('<footer class="site-footer">');
+      const t = getText();
+      expect(t).toContain('© 2026 Citoyen 2.0');
+      expect(t).toContain('Tous les systèmes sont dégradés');
+      expect(t).toContain('49.3 : opérationnel');
+      expect(t).toContain('Aucune donnée collectée, contrairement à vous');
+    });
+
+    test('footer links resolve', () => {
+      for (const href of ['#fonctionnalites', '#tarifs', '#faq']) {
+        expect(INDEX).toContain(`href="${href}"`);
+      }
+    });
+  });
+});
+
+// ─── Hub Tests ───────────────────────────────────────────────────────────────
 
 test.describe('HubSmoke', () => {
   test('hub has canonical root', () => {
@@ -503,5 +546,18 @@ test.describe('HubSmoke', () => {
   test('hub loads local assets relatively', () => {
     expect(HUB).toContain('href="styles.css"');
     expect(HUB).toContain('src="main.js"');
+  });
+});
+
+// ─── Sitemap Tests ───────────────────────────────────────────────────────────
+
+test.describe('Sitemap', () => {
+  test('sitemap lists exactly the registry pages', () => {
+    const locs = [...SITEMAP.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1]).sort();
+    expect(locs).toEqual(PAGES.map((p) => p.url).sort());
+  });
+
+  test('robots points to sitemap', () => {
+    expect(read('robots.txt')).toContain('Sitemap: https://la-mise-a-jour.fr/sitemap.xml');
   });
 });
