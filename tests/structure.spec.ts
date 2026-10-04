@@ -134,6 +134,10 @@ test.describe('Shared', () => {
       expect(html).toContain(`<meta property="og:url" content="${p.url}">`);
     });
 
+    test(`[${p.name}] og:site_name is the platform name`, () => {
+      expect(html).toContain('<meta property="og:site_name" content="La Mise à Jour">');
+    });
+
     test(`[${p.name}] twitter card present`, () => {
       expect(html).toContain('<meta name="twitter:card" content="summary_large_image">');
     });
@@ -965,5 +969,11 @@ test.describe('Docs', () => {
   test('python test suite is gone', () => {
     expect(fs.existsSync(path.join(ROOT, 'tests', 'test_structure.py'))).toBe(false);
     expect(fs.existsSync(path.join(ROOT, 'tests', '__init__.py'))).toBe(false);
+  });
+
+  test('capture og script is cwd independent', () => {
+    const script = read('scripts/capture-og.mjs');
+    expect(script).not.toContain('addStyleTag');
+    expect(script).toContain('import.meta.url');
   });
 });
