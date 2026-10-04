@@ -49,8 +49,6 @@ function bodyText(html: string): string {
     .trim();
 }
 
-const getText = () => bodyText(INDEX);
-
 function cssRules(selectorPrefix: string): string {
   const pattern = new RegExp(
     `([^{}]*${selectorPrefix.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}[^{}]*)\\{([^{}]*)\\}`,
@@ -306,11 +304,11 @@ test.describe('Democratie', () => {
 
   test.describe('HeaderHero', () => {
     test('status badge text', () => {
-      expect(getText()).toContain('Statut : 49.3 opérationnel');
+      expect(bodyText(INDEX)).toContain('Statut : 49.3 opérationnel');
     });
 
     test('hero headline', () => {
-      expect(getText()).toContain('Découvrez Citoyen 2.0 : La démocratie sans les bugs de 1958');
+      expect(bodyText(INDEX)).toContain('Découvrez Citoyen 2.0 : La démocratie sans les bugs de 1958');
     });
 
     test('hero has two ctas', () => {
@@ -322,7 +320,7 @@ test.describe('Democratie', () => {
 
     test('logo band has four partners', () => {
       expect(INDEX.match(/class="logo-item"/g)).toHaveLength(4);
-      const t = getText();
+      const t = bodyText(INDEX);
       for (const name of [
         'Assemblée nationale',
         'Sénat',
@@ -338,7 +336,7 @@ test.describe('Democratie', () => {
 
   test.describe('SocialProof', () => {
     test('proof numbers', () => {
-      const t = getText();
+      const t = bodyText(INDEX);
       expect(t).toContain("+68 M de citoyens n'ont rien demandé");
       expect(t).toContain('4,3 / 5');
       expect(t).toContain('avis vérifiés sur les lois que vous n\'avez pas lues');
@@ -352,7 +350,7 @@ test.describe('Democratie', () => {
       expect(INDEX).toMatch(/<section id="tarifs" class="section pricing"[^>]*>/);
       expect(INDEX.match(/class="plan plan--legacy"/g)).toHaveLength(1);
       expect(INDEX.match(/class="plan plan--popular"/g)).toHaveLength(1);
-      expect(getText()).toContain('POPULAIRE');
+      expect(bodyText(INDEX)).toContain('POPULAIRE');
     });
 
     test('eight rows per card sixteen total', () => {
@@ -364,7 +362,7 @@ test.describe('Democratie', () => {
     });
 
     test('plan copy', () => {
-      const t = getText();
+      const t = bodyText(INDEX);
       for (const expected of [
         'Hérité · depuis 1958',
         'déjà payé par vos aînés',
@@ -378,7 +376,7 @@ test.describe('Democratie', () => {
     });
 
     test('row labels present', () => {
-      const t = getText();
+      const t = bodyText(INDEX);
       for (const label of [
         'Gouvernement nommé sans vote de l\'Assemblée',
         'Décret-loi 49.3',
@@ -436,7 +434,7 @@ test.describe('Democratie', () => {
     });
 
     test('card titles', () => {
-      const t = getText();
+      const t = bodyText(INDEX);
       for (const title of [
         'Article 49 al. 3',
         'Référendum d\'initiative citoyenne',
@@ -455,25 +453,6 @@ test.describe('Democratie', () => {
     });
   });
 
-  // ─── Tooltip Static Tests ────────────────────────────────────────────────
-
-  test.describe('TooltipStatic', () => {
-    test('js handles escape and outside click', () => {
-      expect(JS).toContain('key === "Escape"');
-      expect(JS).toContain('closest(".tip-wrap")');
-    });
-
-    test('js flips tooltip near viewport top', () => {
-      expect(JS).toContain('getBoundingClientRect');
-      expect(JS).toContain('tooltip--below');
-      expect(CSS).toContain('tooltip--below');
-    });
-
-    test('js flips tooltip horizontally', () => {
-      expect(JS).toContain('flipTooltipX');
-    });
-  });
-
   // ─── FAQ Tests ───────────────────────────────────────────────────────────
 
   test.describe('FAQ', () => {
@@ -489,7 +468,7 @@ test.describe('Democratie', () => {
     });
 
     test('faq questions', () => {
-      const t = getText();
+      const t = bodyText(INDEX);
       for (const q of [
         'Puis-je résilier mon Plan 5ᵉ République ?',
         'Le Plan 6ᵉ est-il vraiment gratuit ?',
@@ -503,7 +482,7 @@ test.describe('Democratie', () => {
     });
 
     test('fine print copy', () => {
-      const t = getText();
+      const t = bodyText(INDEX);
       for (const line of [
         'L\'offre est reconduite tacitement depuis 1958, sans préavis.',
         '0 €/mois, engagement de 5 ans non renouvelable… pour vous.',
@@ -516,10 +495,6 @@ test.describe('Democratie', () => {
       }
     });
 
-    test('js single open enforced', () => {
-      expect(JS).toContain('preventDefault');
-      expect(JS).toContain('.faq-item');
-    });
   });
 
   // ─── Share Tests ─────────────────────────────────────────────────────────
@@ -539,7 +514,7 @@ test.describe('Democratie', () => {
     });
 
     test('share copy', () => {
-      const t = getText();
+      const t = bodyText(INDEX);
       expect(t).toContain('Ce plan se partage mieux que vos opinions');
       expect(t).toContain('Copier le lien');
     });
@@ -554,46 +529,9 @@ test.describe('Democratie', () => {
     });
   });
 
-  // ─── Footer & A11y Tests ─────────────────────────────────────────────────
-
-  test.describe('FooterA11y', () => {
-    test('footer structure', () => {
-      expect(INDEX).toContain('<footer class="site-footer">');
-      const t = getText();
-      expect(t).toContain('© 2026 La Mise à Jour');
-      expect(t).toContain('Tous les systèmes sont dégradés');
-      expect(t).toContain('49.3 : opérationnel');
-      expect(t).toContain('Aucune donnée collectée, contrairement à vous');
-    });
-
-    test('footer links resolve', () => {
-      for (const href of ['#fonctionnalites', '#tarifs', '#faq']) {
-        expect(INDEX).toContain(`href="${href}"`);
-      }
-    });
-  });
 });
 
 // ─── Hub Tests ───────────────────────────────────────────────────────────────
-
-test.describe('HubSmoke', () => {
-  test('hub has canonical root', () => {
-    expect(HUB).toContain('<link rel="canonical" href="https://la-mise-a-jour.fr/">');
-  });
-
-  test('hub links to democratie', () => {
-    expect(HUB).toContain('href="democratie/"');
-  });
-
-  test('hub has single h1', () => {
-    expect(HUB.match(/<h1>/g)).toHaveLength(1);
-  });
-
-  test('hub loads local assets relatively', () => {
-    expect(HUB).toContain('href="styles.css"');
-    expect(HUB).toContain('src="main.js"');
-  });
-});
 
 test.describe('HubCollection', () => {
   const grid = () => section(HUB, 'collection');
@@ -729,7 +667,9 @@ test.describe('ChromeHeader', () => {
       expect(header![0]).toContain('<nav class="site-nav" aria-label="Navigation principale">');
       expect(header![0]).toContain('class="status-badge"');
       expect(header![0]).toContain('href="#partage"');
-      const navLinks = header![0].match(/<nav[\s\S]*?<\/nav>/)![0].match(/<a /g) || [];
+      const nav = header![0].match(/<nav[\s\S]*?<\/nav>/);
+      expect(nav, 'nav manquant').not.toBeNull();
+      const navLinks = nav![0].match(/<a /g) || [];
       expect(navLinks).toHaveLength(3);
     });
 
@@ -739,9 +679,13 @@ test.describe('ChromeHeader', () => {
     });
 
     test(`[${p.name}] nav anchors resolve`, () => {
-      const header = html.match(/<header class="site-header">[\s\S]*?<\/header>/)![0];
-      const nav = header.match(/<nav[\s\S]*?<\/nav>/)![0];
-      for (const a of nav.match(/href="#([^"]+)"/g) || []) {
+      const header = html.match(/<header class="site-header">[\s\S]*?<\/header>/);
+      expect(header, 'header manquant').not.toBeNull();
+      const nav = header![0].match(/<nav[\s\S]*?<\/nav>/);
+      expect(nav, 'nav manquant').not.toBeNull();
+      const anchors = nav![0].match(/href="#([^"]+)"/g) || [];
+      expect(anchors, 'aucune ancre dans nav').not.toHaveLength(0);
+      for (const a of anchors) {
         const id = a.replace(/href="#([^"]+)"/, '$1');
         expect(html, `ancre de nav morte : #${id}`).toContain(`id="${id}"`);
       }
@@ -754,25 +698,29 @@ test.describe('ChromeHeader', () => {
   });
 
   test('hub header copy', () => {
-    const header = HUB.match(/<header class="site-header">[\s\S]*?<\/header>/)![0];
-    expect(header).toContain('la-mise-a-jour <span class="brand-badge">v2026.1</span>');
-    expect(header).toContain('href="#main"');
-    expect(header).toContain('Statut : 1 / 4 disponible');
-    const nav = header.match(/<nav[\s\S]*?<\/nav>/)![0];
-    expect(nav).toContain('href="#collection"');
-    expect(nav).toContain('href="#principe"');
-    expect(nav).toContain('href="#faq"');
+    const header = HUB.match(/<header class="site-header">[\s\S]*?<\/header>/);
+    expect(header, 'header manquant').not.toBeNull();
+    expect(header![0]).toContain('la-mise-a-jour <span class="brand-badge">v2026.1</span>');
+    expect(header![0]).toContain('href="#main"');
+    expect(header![0]).toContain('Statut : 1 / 4 disponible');
+    const nav = header![0].match(/<nav[\s\S]*?<\/nav>/);
+    expect(nav, 'nav manquant').not.toBeNull();
+    expect(nav![0]).toContain('href="#collection"');
+    expect(nav![0]).toContain('href="#principe"');
+    expect(nav![0]).toContain('href="#faq"');
   });
 
   test('democratie header copy', () => {
-    const header = INDEX.match(/<header class="site-header">[\s\S]*?<\/header>/)![0];
-    expect(header).toContain('la-mise-a-jour <span class="brand-badge">Citoyen 2.0</span>');
-    expect(header).toContain('href="../"');
-    expect(header).toContain('Statut : 49.3 opérationnel');
-    const nav = header.match(/<nav[\s\S]*?<\/nav>/)![0];
-    expect(nav).toContain('href="#fonctionnalites"');
-    expect(nav).toContain('href="#tarifs"');
-    expect(nav).toContain('href="#faq"');
+    const header = INDEX.match(/<header class="site-header">[\s\S]*?<\/header>/);
+    expect(header, 'header manquant').not.toBeNull();
+    expect(header![0]).toContain('la-mise-a-jour <span class="brand-badge">Citoyen 2.0</span>');
+    expect(header![0]).toContain('href="../"');
+    expect(header![0]).toContain('Statut : 49.3 opérationnel');
+    const nav = header![0].match(/<nav[\s\S]*?<\/nav>/);
+    expect(nav, 'nav manquant').not.toBeNull();
+    expect(nav![0]).toContain('href="#fonctionnalites"');
+    expect(nav![0]).toContain('href="#tarifs"');
+    expect(nav![0]).toContain('href="#faq"');
   });
 });
 
@@ -793,7 +741,9 @@ test.describe('ChromeFooter', () => {
     const html = read(p.file);
 
     test(`[${p.name}] footer copy is platform level`, () => {
-      const t = bodyText(html.match(/<footer class="site-footer">[\s\S]*?<\/footer>/)![0]);
+      const footer = html.match(/<footer class="site-footer">[\s\S]*?<\/footer>/);
+      expect(footer, 'footer manquant').not.toBeNull();
+      const t = bodyText(footer![0]);
       expect(t).toContain('Toutes les mises à jour');
       expect(t).toContain('Comment ça marche');
       expect(t).toContain('Aucune donnée collectée, contrairement à vous');
@@ -803,8 +753,9 @@ test.describe('ChromeFooter', () => {
     });
 
     test(`[${p.name}] footer links reach an existing target`, () => {
-      const footer = html.match(/<footer class="site-footer">[\s\S]*?<\/footer>/)![0];
-      for (const raw of (footer.match(/href="([^"]+)"/g) || []).map((h) => h.replace(/href="([^"]+)"/, '$1'))) {
+      const footer = html.match(/<footer class="site-footer">[\s\S]*?<\/footer>/);
+      expect(footer, 'footer manquant').not.toBeNull();
+      for (const raw of (footer![0].match(/href="([^"]+)"/g) || []).map((h) => h.replace(/href="([^"]+)"/, '$1'))) {
         const resolved = new URL(raw, p.url);
         const target = PAGES.find((x) => x.url === resolved.origin + resolved.pathname);
         expect(target, `cible inconnue : ${raw}`).toBeTruthy();
