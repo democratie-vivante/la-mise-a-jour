@@ -41,10 +41,11 @@ Dans `index.html`, section `#collection` :
   `{ name: 'agronomie', file: 'agronomie/index.html', url: 'https://la-mise-a-jour.fr/agronomie/', sub: true }`
   au registre `PAGES`.
 - `tests/structure.spec.ts` : mettre à jour les littéraux du hub —
-  `HubCollection › four update cards, one live` (décompte),
-  `only the démocratie card links out` (nombre de liens et cible),
-  `card statuses`, `card teasers match the spec copy`, et
-  `ChromeHeader › hub header copy` (`Statut : 1 / 4 disponible`).
+  `card statuses`, `card teasers match the spec copy`.
+  Les décomptes (`HubCollection › update cards match the registry`,
+  `only delivered cards link out`, `grid responsive`,
+  `ChromeHeader › hub header copy`) dérivent de `PAGES`/`PLANNED` :
+  aucun littéral à y toucher.
   Si le nombre de cartes change, ajuster `grid-template-columns` de
   `.updates-grid` dans `styles.css` (colonnes fixes).
 - Retirer la déclinaison de `PLANNED` et de ses cartes/badges « bientôt ».

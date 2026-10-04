@@ -221,9 +221,11 @@ test.describe('SiteAssets', () => {
     const pairs: Array<[string, string]> = [
       [token('--color-text'), token('--color-bg')],
       [token('--color-text-muted'), token('--color-surface')],
+      [token('--color-text-muted'), token('--color-bg')],
       ['#ffffff', token('--color-primary')],
       [token('--color-danger'), token('--color-surface')],
       [token('--color-success'), token('--color-surface')],
+      [token('--color-success'), token('--color-bg')],
     ];
     for (const [fg, bg] of pairs) {
       const ratio = contrastRatio(fg, bg);
@@ -282,7 +284,8 @@ test.describe('ShareByPage', () => {
         const platform = tag.match(/data-platform="([^"]+)"/)![1];
         const href = tag.match(/href="([^"]+)"/)![1];
         const decoded = decodeURIComponent(href);
-        expect(decoded, `URL manquante dans ${href}`).toContain(p.url);
+        const escaped = p.url.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        expect(decoded, `URL incomplète ou prolongée dans ${href}`).toMatch(new RegExp(`${escaped}(?:$|[^a-zA-Z0-9/._~%-])`));
         // Facebook ne transporte que l'URL (`?u=`) ; WhatsApp et X portent aussi le texte.
         if (platform !== 'facebook') {
           expect(decoded, `texte manquant dans ${href}`).toContain(shareText);
@@ -546,16 +549,21 @@ test.describe('HubCollection', () => {
     expect(HUB).toContain('href="#collection"');
   });
 
-  test('four update cards, one live', () => {
-    expect(grid().match(/class="update-card/g)).toHaveLength(4);
-    expect(grid().match(/class="update-card update-card--live"/g)).toHaveLength(1);
-    expect(grid().match(/class="update-card update-card--soon"/g)).toHaveLength(3);
+  test('update cards match the registry', () => {
+    const live = PAGES.filter((p) => p.sub).length;
+    const soon = PLANNED.length;
+    expect(grid().match(/class="update-card/g)).toHaveLength(live + soon);
+    expect(grid().match(/class="update-card update-card--live"/g)).toHaveLength(live);
+    expect(grid().match(/class="update-card update-card--soon"/g)).toHaveLength(soon);
   });
 
-  test('only the démocratie card links out', () => {
+  test('only delivered cards link out', () => {
     const links = grid().match(/<a [^>]*href="[^"]*"/g) || [];
-    expect(links).toHaveLength(1);
-    expect(links[0]).toContain('href="democratie/"');
+    const delivered = PAGES.filter((p) => p.sub);
+    expect(links).toHaveLength(delivered.length);
+    for (const p of delivered) {
+      expect(links.join(' ')).toContain(`href="${p.file.replace(/index\.html$/, '')}"`);
+    }
   });
 
   test('card statuses', () => {
@@ -580,7 +588,8 @@ test.describe('HubCollection', () => {
 
   test('grid responsive', () => {
     const rules = cssRules('.updates-grid');
-    expect(rules).toMatch(/grid-template-columns:\s*repeat\(4/);
+    const total = PAGES.filter((p) => p.sub).length + PLANNED.length;
+    expect(rules).toMatch(new RegExp(`grid-template-columns:\\s*repeat\\(${total}`));
     const mobile = mediaBlocks().filter(
       (b) => b.condition.includes('768px') && b.body.includes('.updates-grid')
     );
@@ -656,6 +665,43 @@ function structuralSignature(html: string, tag: 'header' | 'footer'): string {
     .trim();
 }
 
+test.describe('structuralSignature', () => {
+  const base = structuralSignature(HUB, 'header');
+
+  test('diverge on element removal', () => {
+    const mutated = HUB.replace(/<nav[\s\S]*?<\/nav>/, '');
+    expect(structuralSignature(mutated, 'header')).not.toBe(base);
+  });
+
+  test('diverge on class change', () => {
+    const mutated = HUB.replace('class="site-nav"', 'class="site-nav-x"');
+    expect(structuralSignature(mutated, 'header')).not.toBe(base);
+  });
+
+  test('diverge on tag rename', () => {
+    const mutated = HUB
+      .replace('<nav class="site-nav"', '<div class="site-nav"')
+      .replace('</nav>', '</div>');
+    expect(structuralSignature(mutated, 'header')).not.toBe(base);
+  });
+
+  test('ignores text and href changes by design', () => {
+    expect(structuralSignature(HUB.replace('v2026.1', 'v9999'), 'header')).toBe(base);
+    expect(structuralSignature(HUB.replace('href="#principe"', 'href="#autre"'), 'header')).toBe(base);
+  });
+
+  test('known blind spot: same-shape sibling reorder is invisible', () => {
+    // Les href et le texte sont dépouillés pour comparer les pages entre
+    // elles : réordonner deux liens de nav de même forme ne change pas la
+    // signature. Limite connue et assumée (mesurée 9/11 en revue).
+    const nav = HUB.match(/<nav[\s\S]*?<\/nav>/)![0];
+    const links = nav.match(/<a [^>]*>[^<]*<\/a>/g) || [];
+    expect(links.length).toBeGreaterThanOrEqual(2);
+    const reordered = nav.replace(/<a [^>]*>[^<]*<\/a>/g, () => links.pop()!);
+    expect(structuralSignature(HUB.replace(nav, reordered), 'header')).toBe(base);
+  });
+});
+
 test.describe('ChromeHeader', () => {
   for (const p of PAGES) {
     const html = read(p.file);
@@ -702,7 +748,9 @@ test.describe('ChromeHeader', () => {
     expect(header, 'header manquant').not.toBeNull();
     expect(header![0]).toContain('la-mise-a-jour <span class="brand-badge">v2026.1</span>');
     expect(header![0]).toContain('href="#main"');
-    expect(header![0]).toContain('Statut : 1 / 4 disponible');
+    const live = PAGES.filter((p) => p.sub).length;
+    const total = live + PLANNED.length;
+    expect(header![0]).toContain(`Statut : ${live} / ${total} disponible`);
     const nav = header![0].match(/<nav[\s\S]*?<\/nav>/);
     expect(nav, 'nav manquant').not.toBeNull();
     expect(nav![0]).toContain('href="#collection"');
