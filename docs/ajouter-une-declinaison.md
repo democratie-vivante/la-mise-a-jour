@@ -70,4 +70,4 @@ Puis :
     sleep 3
     mise exec -- pnpm node scripts/capture-og.mjs
 
-Puis `pnpm test` au vert, commit, push.
+Puis `mise exec -- pnpm test` au vert, commit, push.

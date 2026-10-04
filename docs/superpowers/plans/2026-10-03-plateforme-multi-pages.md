@@ -2,6 +2,8 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
+> **Exécution (2026-10-04) :** 12/12 tâches terminées sur la branche `plateforme-multi-pages`, revues indépendantes par tâche, revue finale + lot de corrections des défauts restants. Dérogation actée par l'utilisateur : `@types/node` ajouté en devDependency (3 → 4) pour rendre `tsc --noEmit` vert — la contrainte « 3 devDependencies » (ligne 24) est levée à cette fin. Le site livré reste sans dépendance (zéro build, servi tel quel).
+
 **Goal:** Transformer le site monopage en plateforme : un hub « console de versions » à la racine et la page Citoyen 2.0 déplacée sur `/democratie/`, avec un chrome partagé, un bandeau collection et une suite de tests multi-pages unique.
 
 **Architecture:** HTML/CSS/JS statiques sans build : chaque page est un fichier autonome qui référence `styles.css` / `main.js` en relatif, le chrome (header, footer) est dupliqué mais verrouillé par des tests de cohérence structurelle. Les URLs de partage sont dérivées du `<link rel="canonical">` de chaque page, pas d'une constante globale. Les tests statiques TypeScript lisent les fichiers ; une seconde suite navigateur vérifie la navigation réelle.
