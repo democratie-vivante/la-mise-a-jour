@@ -41,7 +41,7 @@ Dans `index.html`, section `#collection` :
   `{ name: 'agronomie', file: 'agronomie/index.html', url: 'https://la-mise-a-jour.fr/agronomie/', sub: true }`
   au registre `PAGES`.
 - `tests/structure.spec.ts` : mettre à jour les littéraux du hub —
-  `card statuses`, `card teasers match the spec copy`.
+  `card teasers match the spec copy`.
   Les décomptes (`HubCollection › update cards match the registry`,
   `only delivered cards link out`, `grid responsive`,
   `ChromeHeader › hub header copy`) dérivent de `PAGES`/`PLANNED` :
