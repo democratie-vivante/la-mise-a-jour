@@ -17,6 +17,9 @@ const page = await browser.newPage({ viewport: { width: 1200, height: 630 } });
 for (const shot of SHOTS) {
   await page.goto(shot.url);
   await page.waitForLoadState('networkidle');
+  // Le header est sticky (z-index 50) : sans cela, il chevauche le haut
+  // de la capture d'élément une fois l'élément scrollé dans la vue.
+  await page.addStyleTag({ content: '.site-header { display: none !important; }' });
   await page.locator(shot.selector).screenshot({ path: path.join(ROOT, shot.out) });
   console.log(`Capture ${shot.out} sauvegardée (${shot.selector} sur ${shot.url})`);
 }

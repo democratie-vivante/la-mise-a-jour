@@ -50,7 +50,7 @@ Ces cinq cas sont implicites dans le spec mais ne sont couverts par aucune tâch
 - Consumes: rien (première tâche).
 - Produces: `democratie/index.html` (page produit à `../styles.css`, canonical `https://la-mise-a-jour.fr/democratie/`), `index.html` (hub à `styles.css`, canonical racine, lien `democratie/`). Les tâches suivantes lisent ces deux chemins via les constantes `INDEX` et `HUB`.
 
-- [ ] **Step 1: Déplacer la page en conservant l'historique Git, puis créer le hub minimal**
+- [x] **Step 1: Déplacer la page en conservant l'historique Git, puis créer le hub minimal**
 
 ```bash
 git mv index.html democratie/index.html
@@ -104,7 +104,7 @@ Créer aussitôt `index.html` (le dossier racine ne doit jamais rester sans page
 
 Aucun lien fantôme : le hub n'a pas encore de header, de footer, ni de section `#collection`.
 
-- [ ] **Step 2: Pointer la suite de tests vers les deux fichiers (rouge attendu)**
+- [x] **Step 2: Pointer la suite de tests vers les deux fichiers (rouge attendu)**
 
 Dans `tests/structure.spec.ts`, remplacer la lecture unique par :
 
@@ -148,12 +148,12 @@ test.describe('HubSmoke', () => {
 });
 ```
 
-- [ ] **Step 3: Vérifier l'échec**
+- [x] **Step 3: Vérifier l'échec**
 
 Run: `mise exec -- pnpm exec playwright test tests/structure.spec.ts`
 Expected: FAIL sur `links local assets` (la page déplacée référence encore `styles.css` sans `../`).
 
-- [ ] **Step 4: Corriger la page déplacée**
+- [x] **Step 4: Corriger la page déplacée**
 
 Dans `democratie/index.html`, cinq remplacements :
 
@@ -169,12 +169,12 @@ Dans `democratie/index.html`, cinq remplacements :
 
 `og:image` reste `https://la-mise-a-jour.fr/og.png` pour l'instant : `democratie/og.png` n'est créé qu'en T12.
 
-- [ ] **Step 5: Vérifier le passage au vert**
+- [x] **Step 5: Vérifier le passage au vert**
 
 Run: `mise exec -- pnpm exec playwright test tests/structure.spec.ts`
 Expected: PASS (47 tests historiques + 4 tests `HubSmoke`).
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 git add -A
@@ -194,7 +194,7 @@ git commit -m "refactor: déplace Citoyen 2.0 vers /democratie/ et crée le hub 
 - Consumes: `INDEX` (page démocratie) et `HUB` (hub) créés en T1.
 - Produces: `const PAGES: SitePage[]` — registre `{ name, file, url, sub }` utilisé par **toutes** les tâches suivantes (T5, T6, T7, T8, T9) ; helper `section(html, id)` ; constante `PLANNED` utilisée en T7 ; attribut `data-share-text` consommé par `main.js` en T8.
 
-- [ ] **Step 1: Écrire la tête du fichier de tests (registre + helpers + suites partagées)**
+- [x] **Step 1: Écrire la tête du fichier de tests (registre + helpers + suites partagées)**
 
 Remplacer le bloc d'import et de constantes par :
 
@@ -381,7 +381,7 @@ test.describe('SiteAssets', () => {
 });
 ```
 
-- [ ] **Step 2: Reloger les describes existants et purger les doublons**
+- [x] **Step 2: Reloger les describes existants et purger les doublons**
 
 Dans `tests/structure.spec.ts` :
 - Supprimer les tests désormais couverts par `Shared` : `lang is french`, `share meta are absolute https`, `twitter card present`, `no external assets`, `links local assets` (adapté), `skip link present`, `no calculator mention` (partie INDEX), `single h1`, `deferred script`, `all internal links resolve`, et `design tokens defined` / `focus visible style` / `media queries present` / `contrast AA` / `tooltip` / `faq js` (partie `SiteAssets`).
@@ -389,7 +389,7 @@ Dans `tests/structure.spec.ts` :
 - La describe `Integration` perd ses quatre tests (`all internal links resolve`, `single h1`, `deferred script`, `readme exists`) : tous sont repris par `Shared` ou `SiteAssets`. Supprimer la describe `Integration` devenue vide.
 - Supprimer le test `nav is internal only` : il exige que tous les `<a href="...">` commencent par `#`, ce qui n'est plus vrai une fois le chrome multi-pages posé (T5/T6). Sa couverture est reprise par T9 (liens relatifs) et T6 (résolution du footer).
 
-- [ ] **Step 3: Ajouter l'attribut de partage sur la page démocratie**
+- [x] **Step 3: Ajouter l'attribut de partage sur la page démocratie**
 
 Dans `democratie/index.html`, la balise `<body>` devient :
 
@@ -399,7 +399,7 @@ Dans `democratie/index.html`, la balise `<body>` devient :
 
 (Valeur identique à l'ancienne constante `SHARE_TEXT` de `main.js`.)
 
-- [ ] **Step 4: Ajouter le test sitemap ↔ registre (rouge attendu)**
+- [x] **Step 4: Ajouter le test sitemap ↔ registre (rouge attendu)**
 
 ```ts
 test.describe('Sitemap', () => {
@@ -414,12 +414,12 @@ test.describe('Sitemap', () => {
 });
 ```
 
-- [ ] **Step 5: Vérifier l'échec**
+- [x] **Step 5: Vérifier l'échec**
 
 Run: `mise exec -- pnpm exec playwright test tests/structure.spec.ts`
 Expected: FAIL sur `sitemap lists exactly the registry pages` (le sitemap ne contient que la racine).
 
-- [ ] **Step 6: Mettre à jour le sitemap**
+- [x] **Step 6: Mettre à jour le sitemap**
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -437,12 +437,12 @@ Expected: FAIL sur `sitemap lists exactly the registry pages` (le sitemap ne con
 </urlset>
 ```
 
-- [ ] **Step 7: Vérifier le passage au vert**
+- [x] **Step 7: Vérifier le passage au vert**
 
 Run: `mise exec -- pnpm exec playwright test tests/structure.spec.ts`
 Expected: PASS. Noter le nombre de tests affiché (référence pour les tâches suivantes).
 
-- [ ] **Step 8: Commit**
+- [x] **Step 8: Commit**
 
 ```bash
 git add tests/structure.spec.ts sitemap.xml democratie/index.html
@@ -462,7 +462,7 @@ git commit -m "test: registre multi-pages, suites partagées et sitemap à deux 
 - Consumes: `HUB`, `section()` (T2).
 - Produces: sections `id="collection"` (utilisée par le header en T5, le test de statuts en T7 et le bandeau OG en T12) et hero avec deux CTA (`democratie/` et `#collection`).
 
-- [ ] **Step 1: Écrire les tests du hub (rouge attendu)**
+- [x] **Step 1: Écrire les tests du hub (rouge attendu)**
 
 Ajouter à `tests/structure.spec.ts` :
 
@@ -534,12 +534,12 @@ test.describe('HubCollection', () => {
 });
 ```
 
-- [ ] **Step 2: Vérifier l'échec**
+- [x] **Step 2: Vérifier l'échec**
 
 Run: `mise exec -- pnpm exec playwright test tests/structure.spec.ts -g "HubCollection"`
 Expected: FAIL (section `#collection` introuvable, `section()` lève `section #collection introuvable`).
 
-- [ ] **Step 3: Étendre le hero du hub**
+- [x] **Step 3: Étendre le hero du hub**
 
 Dans `index.html`, ajouter le second CTA dans `.hero-actions` :
 
@@ -550,7 +550,7 @@ Dans `index.html`, ajouter le second CTA dans `.hero-actions` :
         </div>
 ```
 
-- [ ] **Step 4: Ajouter la section `#collection`**
+- [x] **Step 4: Ajouter la section `#collection`**
 
 Toujours dans `index.html`, après `</section>` du hero :
 
@@ -602,7 +602,7 @@ Toujours dans `index.html`, après `</section>` du hero :
 
 Attention : le premier lien du hub est le CTA du hero ; dans la section `#collection`, l'unique `<a>` est celui de `democratie/`.
 
-- [ ] **Step 5: Ajouter le CSS**
+- [x] **Step 5: Ajouter le CSS**
 
 À la fin de `styles.css`, avant les blocs `@media` :
 
@@ -693,12 +693,12 @@ et dans `@media (max-width: 768px)` :
 
 Seuls des tokens existants sont utilisés : aucun hexadécimal, aucune `rgba`.
 
-- [ ] **Step 6: Vérifier le passage au vert**
+- [x] **Step 6: Vérifier le passage au vert**
 
 Run: `mise exec -- pnpm exec playwright test tests/structure.spec.ts`
 Expected: PASS (toutes les suites, y compris `HubCollection`).
 
-- [ ] **Step 7: Commit**
+- [x] **Step 7: Commit**
 
 ```bash
 git add index.html styles.css tests/structure.spec.ts
@@ -717,7 +717,7 @@ git commit -m "feat: hub console de versions — hero et grille des mises à jou
 - Consumes: `HUB`, `section()` (T2), composants CSS existants `.feature-card`, `.faq-item`, `.share-*` (aucun CSS nouveau).
 - Produces: sections `id="principe"`, `id="faq"`, `id="partage"` référencées par le header du hub en T5 et testées en navigateur en T10.
 
-- [ ] **Step 1: Écrire les tests (rouge attendu)**
+- [x] **Step 1: Écrire les tests (rouge attendu)**
 
 ```ts
 test.describe('HubSections', () => {
@@ -766,12 +766,12 @@ test.describe('HubSections', () => {
 });
 ```
 
-- [ ] **Step 2: Vérifier l'échec**
+- [x] **Step 2: Vérifier l'échec**
 
 Run: `mise exec -- pnpm exec playwright test tests/structure.spec.ts -g "HubSections"`
 Expected: FAIL (`section #principe introuvable`).
 
-- [ ] **Step 3: Ajouter les trois sections au hub**
+- [x] **Step 3: Ajouter les trois sections au hub**
 
 Après la section `#collection` de `index.html` :
 
@@ -856,12 +856,12 @@ Après la section `#collection` de `index.html` :
 
 Aucun CSS nouveau : `.features`, `.features-grid`, `.faq`, `.share` existent déjà.
 
-- [ ] **Step 4: Vérifier le passage au vert**
+- [x] **Step 4: Vérifier le passage au vert**
 
 Run: `mise exec -- pnpm exec playwright test tests/structure.spec.ts`
 Expected: PASS.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add index.html tests/structure.spec.ts
@@ -882,7 +882,7 @@ git commit -m "feat: hub — principe, FAQ et bandeau de partage"
 - Consumes: `PAGES`, `read()` (T2), sections du hub `#collection`, `#principe`, `#faq`, `#partage` (T3/T4).
 - Produces: bloc `<header class="site-header">` identique en structure sur les deux pages, balise `<span class="brand-badge">…</span>` (testée en T5) ; T6 ajoute le footer.
 
-- [ ] **Step 1: Écrire les tests (rouge attendu)**
+- [x] **Step 1: Écrire les tests (rouge attendu)**
 
 ```ts
 function structuralSignature(html: string, tag: 'header' | 'footer'): string {
@@ -954,12 +954,12 @@ test.describe('ChromeHeader', () => {
 });
 ```
 
-- [ ] **Step 2: Vérifier l'échec**
+- [x] **Step 2: Vérifier l'échec**
 
 Run: `mise exec -- pnpm exec playwright test tests/structure.spec.ts -g "ChromeHeader"`
 Expected: FAIL (le hub n'a pas de header, `header manquant`).
 
-- [ ] **Step 3: Ajouter le header au hub**
+- [x] **Step 3: Ajouter le header au hub**
 
 Insérer juste après `<a class="skip-link" …>` de `index.html` :
 
@@ -978,7 +978,7 @@ Insérer juste après `<a class="skip-link" …>` de `index.html` :
   </header>
 ```
 
-- [ ] **Step 4: Adapter le header de la page démocratie**
+- [x] **Step 4: Adapter le header de la page démocratie**
 
 Dans `democratie/index.html`, remplacer la ligne du `brand` :
 
@@ -988,16 +988,16 @@ Dans `democratie/index.html`, remplacer la ligne du `brand` :
 
 Nav, `status-badge` et bouton `Partager` restent identiques (la nav contient déjà exactement 3 liens).
 
-- [ ] **Step 5: Renommer la classe CSS**
+- [x] **Step 5: Renommer la classe CSS**
 
 Dans `styles.css:81`, remplacer `.brand-version` par `.brand-badge` (le corps de règle est conservé tel quel). Aucun test ne référençait `.brand-version`.
 
-- [ ] **Step 6: Vérifier le passage au vert + la suite entière**
+- [x] **Step 6: Vérifier le passage au vert + la suite entière**
 
 Run: `mise exec -- pnpm exec playwright test`
 Expected: PASS. En particulier `Shared[hub] no dead anchors` reste vert : le header du hub ne référence que des sections créées en T3/T4.
 
-- [ ] **Step 7: Commit**
+- [x] **Step 7: Commit**
 
 ```bash
 git add index.html democratie/index.html styles.css tests/structure.spec.ts
@@ -1017,7 +1017,7 @@ git commit -m "feat: header plateforme avec badge de version sur toutes les page
 - Consumes: `PAGES`, `structuralSignature()` (T5), `section()` (T2).
 - Produces: bloc `<footer class="site-footer">` dont les `href` résolvent vers les mêmes URL depuis chaque page ; T7 ajoute le bandeau collection juste avant.
 
-- [ ] **Step 1: Écrire les tests (rouge attendu)**
+- [x] **Step 1: Écrire les tests (rouge attendu)**
 
 ```ts
 function footerHrefs(html: string, pageUrl: string): string[] {
@@ -1071,12 +1071,12 @@ test.describe('ChromeFooter', () => {
 });
 ```
 
-- [ ] **Step 2: Vérifier l'échec**
+- [x] **Step 2: Vérifier l'échec**
 
 Run: `mise exec -- pnpm exec playwright test tests/structure.spec.ts -g "ChromeFooter"`
 Expected: FAIL (`footer absent` sur le hub).
 
-- [ ] **Step 3: Écrire le footer du hub**
+- [x] **Step 3: Écrire le footer du hub**
 
 À la fin de `index.html`, avant `</body>` :
 
@@ -1111,7 +1111,7 @@ Expected: FAIL (`footer absent` sur le hub).
   </footer>
 ```
 
-- [ ] **Step 4: Remplacer le footer de la page démocratie**
+- [x] **Step 4: Remplacer le footer de la page démocratie**
 
 Même bloc dans `democratie/index.html`, avec `./` remplacé par `../` et `./#` par `../#` :
 
@@ -1146,7 +1146,7 @@ Même bloc dans `democratie/index.html`, avec `./` remplacé par `../` et `./#` 
   </footer>
 ```
 
-- [ ] **Step 5: Mettre à jour le test historique de footer**
+- [x] **Step 5: Mettre à jour le test historique de footer**
 
 Dans `tests/structure.spec.ts`, la describe `Democratie` → `FooterA11y` → `footer structure` asserte encore l'ancien copyright. Remplacer la ligne :
 
@@ -1162,12 +1162,12 @@ par :
 
 Les autres assertions de ce test (`Tous les systèmes sont dégradés`, `49.3 : opérationnel`, `Aucune donnée collectée, contrairement à vous`) sont conservées : ces chaînes sont toujours présentes. Le test `footer links resolve` reste valable car `#fonctionnalites`, `#tarifs` et `#faq` sont toujours dans la nav ; sa couverture réelle sur le footer est désormais portée par `ChromeFooter`.
 
-- [ ] **Step 6: Vérifier le passage au vert**
+- [x] **Step 6: Vérifier le passage au vert**
 
 Run: `mise exec -- pnpm exec playwright test`
 Expected: PASS. `footer structure is identical across pages` prouve que les deux blocs ont bien la même signature.
 
-- [ ] **Step 7: Commit**
+- [x] **Step 7: Commit**
 
 ```bash
 git add index.html democratie/index.html tests/structure.spec.ts
@@ -1187,7 +1187,7 @@ git commit -m "feat: footer plateforme identique sur toutes les pages"
 - Consumes: `PAGES`, `PLANNED`, `section()` (T2), statuts des cartes du hub (T3).
 - Produces: bloc `<nav class="collection">` reproductible pour toute nouvelle sous-page (recette T11) et testé ici.
 
-- [ ] **Step 1: Écrire les tests (rouge attendu)**
+- [x] **Step 1: Écrire les tests (rouge attendu)**
 
 ```ts
 test.describe('CollectionStrip', () => {
@@ -1241,12 +1241,12 @@ test.describe('CollectionStrip', () => {
 
 Note : le statut affiché dans le hub commence une majuscule (`En bêta fermée`, `Planifié`) alors que `PLANNED.status` est en bas de casse — d'où la capitalisation dans la comparaison. Pour `Économie` et `Énergie`, `grid.split(name)[0].split('<article').pop()` isole bien l'article concerné.
 
-- [ ] **Step 2: Vérifier l'échec**
+- [x] **Step 2: Vérifier l'échec**
 
 Run: `mise exec -- pnpm exec playwright test tests/structure.spec.ts -g "CollectionStrip"`
 Expected: FAIL (`bandeau collection manquant`).
 
-- [ ] **Step 3: Insérer le bandeau dans la page démocratie**
+- [x] **Step 3: Insérer le bandeau dans la page démocratie**
 
 Dans `democratie/index.html`, juste avant `<footer class="site-footer">` :
 
@@ -1265,7 +1265,7 @@ Dans `democratie/index.html`, juste avant `<footer class="site-footer">` :
 
 Aucun `<a>` : la seule page livrée est la page courante, elle ne s'autolien pas (spec §4.3).
 
-- [ ] **Step 4: Ajouter le CSS**
+- [x] **Step 4: Ajouter le CSS**
 
 Avant les blocs `@media` dans `styles.css` :
 
@@ -1321,12 +1321,12 @@ a.collection-item:hover {
 }
 ```
 
-- [ ] **Step 5: Vérifier le passage au vert**
+- [x] **Step 5: Vérifier le passage au vert**
 
 Run: `mise exec -- pnpm exec playwright test`
 Expected: PASS.
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 git add democratie/index.html styles.css tests/structure.spec.ts
@@ -1346,7 +1346,7 @@ git commit -m "feat: bandeau collection sur les sous-pages"
 - Consumes: `PAGES`, attribut `data-share-text` (T2), `<link rel="canonical">` de chaque page (T1).
 - Produces: `pageUrl()` et `shareText()` dans `main.js`, testées en T10 (navigation) et consommées par toute future page sans configuration JS.
 
-- [ ] **Step 1: Écrire les tests (rouge attendu)**
+- [x] **Step 1: Écrire les tests (rouge attendu)**
 
 ```ts
 test.describe('ShareByPage', () => {
@@ -1382,12 +1382,12 @@ test.describe('ShareByPage', () => {
 });
 ```
 
-- [ ] **Step 2: Vérifier l'échec**
+- [x] **Step 2: Vérifier l'échec**
 
 Run: `mise exec -- pnpm exec playwright test tests/structure.spec.ts -g "ShareByPage"`
 Expected: FAIL sur `js derives the url from the canonical tag` (`main.js` contient encore `la-mise-a-jour.fr`).
 
-- [ ] **Step 3: Paramétrer `main.js`**
+- [x] **Step 3: Paramétrer `main.js`**
 
 Remplacer :
 
@@ -1437,7 +1437,7 @@ Puis remplacer chaque usage :
 
 Le `window.buildShareUrl = buildShareUrl;` est conservé.
 
-- [ ] **Step 4: Mettre à jour les href codés en dur de la page démocratie**
+- [x] **Step 4: Mettre à jour les href codés en dur de la page démocratie**
 
 Dans `democratie/index.html`, section `#partage`, remplacer `https%3A%2F%2Fla-mise-a-jour.fr%2F` par `https%3A%2F%2Fla-mise-a-jour.fr%2Fdemocratie%2F` dans les trois boutons (WhatsApp, X, Facebook) :
 
@@ -1449,7 +1449,7 @@ Dans `democratie/index.html`, section `#partage`, remplacer `https%3A%2F%2Fla-mi
 
 Le hub (T4) encode déjà `https%3A%2F%2Fla-mise-a-jour.fr%2F`, qui est son canonical : il passe le test sans modification.
 
-- [ ] **Step 5: Vérifier le passage au vert + purger l'ancien test**
+- [x] **Step 5: Vérifier le passage au vert + purger l'ancien test**
 
 Dans la describe `Democratie` → `Share`, supprimer `js has native share endpoints` (il exigeait `https://la-mise-a-jour.fr/` dans le JS, ce qui est désormais interdit) et remplacer par le contrôle déjà écrit dans `ShareByPage`. Vérifier que `share links work without js` utilise désormais l'URL `/democratie/` :
 
@@ -1467,7 +1467,7 @@ Dans la describe `Democratie` → `Share`, supprimer `js has native share endpoi
 Run: `mise exec -- pnpm exec playwright test`
 Expected: PASS.
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 git add main.js democratie/index.html tests/structure.spec.ts
@@ -1485,7 +1485,7 @@ git commit -m "feat: partage derivé du canonical et du data-share-text de chaqu
 - Consumes: `PAGES`, `section()` (T2), le site complet (T1-T8).
 - Produces: le contrat vérifié pour toute page future ajoutée à `PAGES`.
 
-- [ ] **Step 1: Écrire les garde-fous**
+- [x] **Step 1: Écrire les garde-fous**
 
 ```ts
 test.describe('MultiPage', () => {
@@ -1528,12 +1528,12 @@ Notes de mise en œuvre :
 - Le test « aucun chemin racine absolu », lui, coure sur **tous** les `href`/`src`,
   assets compris : c'est lui qui interdit `href="/styles.css"`.
 
-- [ ] **Step 2: Vérifier que les garde-fous sont verts sur l'existant**
+- [x] **Step 2: Vérifier que les garde-fous sont verts sur l'existant**
 
 Run: `mise exec -- pnpm exec playwright test tests/structure.spec.ts -g "MultiPage"`
 Expected: PASS. Si un test échoue, une page contient un chemin racine absolus ou un lien hors registre : corriger la page, pas le test.
 
-- [ ] **Step 3: Prouver que le garde-fou tombe (rouge artificiel)**
+- [x] **Step 3: Prouver que le garde-fou tombe (rouge artificiel)**
 
 Dans `democratie/index.html`, remplacer temporairement :
 
@@ -1550,14 +1550,14 @@ par :
 Run: `mise exec -- pnpm exec playwright test tests/structure.spec.ts -g "no root-absolute"`
 Expected: FAIL (`chemins racine absolus interdits` avec `["/styles.css"]`).
 
-- [ ] **Step 4: Rétablir et revérifier**
+- [x] **Step 4: Rétablir et revérifier**
 
 Restaurer `href="../styles.css"`, relancer :
 
 Run: `mise exec -- pnpm exec playwright test`
 Expected: PASS (suite complète).
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add tests/structure.spec.ts
@@ -1575,7 +1575,7 @@ git commit -m "test: garde-fous liens relatifs et zéro lien mort"
 - Consumes: serveur Vite déclaré dans `playwright.config.ts` (`baseURL: http://localhost:8765`, démarrage automatique), hub et `/democratie/` (T1-T8).
 - Produces: la preuve des deux risques du Review Focus n° 1 et n° 2 (file:// et slash final), plus la navigation réelle.
 
-- [ ] **Step 1: Écrire la suite navigateur**
+- [x] **Step 1: Écrire la suite navigateur**
 
 ```ts
 import { test, expect } from '@playwright/test';
@@ -1634,7 +1634,7 @@ test('hub works from file:// with relative assets', async ({ page }) => {
 });
 ```
 
-- [ ] **Step 2: Lancer la suite navigateur**
+- [x] **Step 2: Lancer la suite navigateur**
 
 Run: `mise exec -- pnpm exec playwright test tests/navigation.spec.ts`
 Expected: PASS.
@@ -1643,12 +1643,12 @@ Expected: PASS.
 - `both url forms serve the démocratie page` échoue en 404 sur `/democratie` (Vite ne sert pas le slash final) : GitHub Pages redirige, c'est un écart de l'environnement de test. Remplacer le test par la seule forme servie `await page.goto('/democratie/')` et ajouter un commentaire dans le test indiquant que la redirection slash est assurée par GitHub Pages, pas par Vite. Ne pas toucher au canonical.
 - Le test `file://` échoue sur `rgb(248, 250, 252)` : un chemin est devenu absolu. Corriger `index.html`, pas le test.
 
-- [ ] **Step 3: Vérifier que la suite complète passe ensemble**
+- [x] **Step 3: Vérifier que la suite complète passe ensemble**
 
 Run: `mise exec -- pnpm exec playwright test`
 Expected: PASS (statique + navigateur).
 
-- [ ] **Step 4: Commit**
+- [x] **Step 4: Commit**
 
 ```bash
 git add tests/navigation.spec.ts
@@ -1669,7 +1669,7 @@ git commit -m "test: navigation réelle, FAQ, tooltips et ouverture file://"
 - Consumes: `PAGES`, `PLANNED`, le site complet (T1-T10).
 - Produces: la documentation de référence pour toute future déclinaison (lien depuis le README).
 
-- [ ] **Step 1: Écrire les tests de documentation (rouge attendu)**
+- [x] **Step 1: Écrire les tests de documentation (rouge attendu)**
 
 ```ts
 test.describe('Docs', () => {
@@ -1694,18 +1694,18 @@ test.describe('Docs', () => {
 });
 ```
 
-- [ ] **Step 2: Vérifier l'échec**
+- [x] **Step 2: Vérifier l'échec**
 
 Run: `mise exec -- pnpm exec playwright test tests/structure.spec.ts -g "Docs"`
 Expected: FAIL (README sans `pnpm test`, recette absente, Python encore présent).
 
-- [ ] **Step 3: Supprimer le doublon Python**
+- [x] **Step 3: Supprimer le doublon Python**
 
 ```bash
 git rm tests/test_structure.py tests/__init__.py
 ```
 
-- [ ] **Step 4: Réécrire le README**
+- [x] **Step 4: Réécrire le README**
 
 ````markdown
 # La Mise à Jour — la-mise-a-jour.fr
@@ -1746,7 +1746,7 @@ Voir `docs/ajouter-une-declinaison.md` : la recette complète, test par test.
 Aucun build : pousser le dossier tel quel sur GitHub Pages.
 ````
 
-- [ ] **Step 5: Écrire la recette**
+- [x] **Step 5: Écrire la recette**
 
 `docs/ajouter-une-declinaison.md` :
 
@@ -1809,12 +1809,12 @@ suffit à le faire échouer.
 Puis `pnpm test` au vert, commit, push.
 ```
 
-- [ ] **Step 6: Vérifier le passage au vert**
+- [x] **Step 6: Vérifier le passage au vert**
 
 Run: `mise exec -- pnpm exec playwright test`
 Expected: PASS.
 
-- [ ] **Step 7: Commit**
+- [x] **Step 7: Commit**
 
 ```bash
 git add -A
@@ -1835,7 +1835,7 @@ git commit -m "chore: suppression du doublon Python, README multi-pages et recet
 - Consumes: hub `#collection` (T3), `/democratie/#tarifs` (page historique), serveur Vite.
 - Produces: `og.png` (hub) et `democratie/og.png` (page produit), URLs OG respectives.
 
-- [ ] **Step 1: Vérifier l'état actuel (rouge attendu)**
+- [x] **Step 1: Vérifier l'état actuel (rouge attendu)**
 
 Le test partagé `og:image points to an existing file` est vert : les deux pages pointent encore vers `og.png` à la racine. Le changement d'URL de la page démocratie est le point qui doit passer par un cycle rouge-vert.
 
@@ -1849,12 +1849,12 @@ Ajouter au describe `Shared`, après `og:image points to an existing file` :
     });
 ```
 
-- [ ] **Step 2: Vérifier l'échec**
+- [x] **Step 2: Vérifier l'échec**
 
 Run: `mise exec -- pnpm exec playwright test tests/structure.spec.ts -g "og:image lives next to"`
 Expected: FAIL pour `democratie` (attendu `democratie/og.png`, obtenu `og.png`).
 
-- [ ] **Step 3: Réécrire le script de capture**
+- [x] **Step 3: Réécrire le script de capture**
 
 `scripts/capture-og.mjs` :
 
@@ -1880,7 +1880,7 @@ for (const shot of SHOTS) {
 await browser.close();
 ```
 
-- [ ] **Step 4: Générer les deux captures**
+- [x] **Step 4: Générer les deux captures**
 
 ```bash
 mise exec -- pnpm exec vite --port 8765 --strictPort &
@@ -1891,7 +1891,7 @@ ls -l og.png democratie/og.png
 
 Expected: deux fichiers présents, `democratie/og.png` nouvellement créé (la pricing table), `og.png` remplacé (grille du hub).
 
-- [ ] **Step 5: Pointer l'OG de la page démocratie vers son fichier**
+- [x] **Step 5: Pointer l'OG de la page démocratie vers son fichier**
 
 Dans `democratie/index.html` :
 
@@ -1901,12 +1901,12 @@ Dans `democratie/index.html` :
   <meta name="twitter:image" content="https://la-mise-a-jour.fr/democratie/og.png">
 ```
 
-- [ ] **Step 6: Vérifier le passage au vert**
+- [x] **Step 6: Vérifier le passage au vert**
 
 Run: `mise exec -- pnpm exec playwright test`
 Expected: PASS — `og:image points to an existing file` (deux pages) et `og:image lives next to the page` (deux pages).
 
-- [ ] **Step 7: Commit**
+- [x] **Step 7: Commit**
 
 ```bash
 git add scripts/capture-og.mjs og.png democratie/og.png democratie/index.html tests/structure.spec.ts
@@ -1917,9 +1917,9 @@ git commit -m "feat: captures Open Graph dédiées au hub et à /democratie/"
 
 ## Final Verification
 
-- [ ] `mise exec -- pnpm exec playwright test` → suite complète verte (statique + navigateur).
-- [ ] `git status --short` → working tree propre.
-- [ ] `grep -rn "python3 -m unittest" README.md tests/` → aucun résultat.
-- [ ] `grep -rn 'href="/\|src="/' index.html democratie/index.html` → aucun résultat.
-- [ ] `cat sitemap.xml` → exactement les deux URLs du registre `PAGES`.
-- [ ] Ouverture manuelle : `index.html` en double-clic (CSS chargé, CTA cliquable) puis `pnpm exec vite --port 8765` et parcours hub ↔ démocratie.
+- [x] `mise exec -- pnpm exec playwright test` → suite complète verte (statique + navigateur).
+- [x] `git status --short` → working tree propre.
+- [x] `grep -rn "python3 -m unittest" README.md tests/` → aucun résultat.
+- [x] `grep -rn 'href="/\|src="/' index.html democratie/index.html` → aucun résultat.
+- [x] `cat sitemap.xml` → exactement les deux URLs du registre `PAGES`.
+- [x] Ouverture manuelle : `index.html` en double-clic (CSS chargé, CTA cliquable) puis `pnpm exec vite --port 8765` et parcours hub ↔ démocratie.

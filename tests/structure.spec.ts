@@ -289,7 +289,7 @@ test.describe('ShareByPage', () => {
         const href = tag.match(/href="([^"]+)"/)![1];
         const decoded = decodeURIComponent(href);
         const escaped = p.url.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-        expect(decoded, `URL incomplète ou prolongée dans ${href}`).toMatch(new RegExp(`${escaped}(?:$|[^a-zA-Z0-9/._~%-])`));
+        expect(decoded, `URL incomplète ou prolongée dans ${href}`).toMatch(new RegExp(`${escaped}(?:$|(?![\\p{L}\\p{N}/._~%-]))`, 'u'));
         // Facebook ne transporte que l'URL (`?u=`) ; WhatsApp et X portent aussi le texte.
         if (platform !== 'facebook') {
           expect(decoded, `texte manquant dans ${href}`).toContain(shareText);
@@ -807,7 +807,9 @@ test.describe('ChromeFooter', () => {
     test(`[${p.name}] footer links reach an existing target`, () => {
       const footer = html.match(/<footer class="site-footer">[\s\S]*?<\/footer>/);
       expect(footer, 'footer manquant').not.toBeNull();
-      for (const raw of (footer![0].match(/href="([^"]+)"/g) || []).map((h) => h.replace(/href="([^"]+)"/, '$1'))) {
+      const hrefs = footer![0].match(/href="([^"]+)"/g) || [];
+      expect(hrefs.length, 'footer sans lien').toBeGreaterThan(0);
+      for (const raw of hrefs.map((h) => h.replace(/href="([^"]+)"/, '$1'))) {
         const resolved = new URL(raw, p.url);
         const target = PAGES.find((x) => x.url === resolved.origin + resolved.pathname);
         expect(target, `cible inconnue : ${raw}`).toBeTruthy();
@@ -971,9 +973,9 @@ test.describe('Docs', () => {
     expect(fs.existsSync(path.join(ROOT, 'tests', '__init__.py'))).toBe(false);
   });
 
-  test('capture og script is cwd independent', () => {
+  test('capture og script writes to the repo root', () => {
     const script = read('scripts/capture-og.mjs');
-    expect(script).not.toContain('addStyleTag');
     expect(script).toContain('import.meta.url');
+    expect(script).toContain('path.join(ROOT');
   });
 });
