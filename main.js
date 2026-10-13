@@ -169,8 +169,29 @@
     });
   }
 
+  function initActionCopy() {
+    document.querySelectorAll("[data-copy-target]").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        var template = document.getElementById(btn.getAttribute("data-copy-target"));
+        if (!template) return;
+        var card = btn.closest(".action-card");
+        var feedback = card && card.querySelector(".action-feedback");
+        copyText(template.textContent.trim()).then(function (ok) {
+          if (!feedback) return;
+          feedback.textContent = ok ? "✓ Message copié" : "Copie impossible — sélectionnez le texte";
+          feedback.hidden = false;
+          window.clearTimeout(feedback._timer);
+          feedback._timer = window.setTimeout(function () {
+            feedback.hidden = true;
+          }, 2500);
+        });
+      });
+    });
+  }
+
   initTooltips();
   initFaq();
   initShare();
   initCopy();
+  initActionCopy();
 })();

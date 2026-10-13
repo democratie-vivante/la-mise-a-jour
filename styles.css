@@ -216,6 +216,12 @@ a {
   filter: grayscale(1);
 }
 
+.logos-note {
+  margin: 1rem 0 0;
+  color: var(--color-text-muted);
+  font-size: 0.8rem;
+}
+
 .proof {
   background: var(--color-surface);
   border-block: 1px solid var(--color-border);
@@ -361,12 +367,24 @@ a {
   font-weight: 800;
 }
 
-.mark--yes {
+.mark--bon,
+.legend-mark--bon {
   color: var(--color-success);
 }
 
-.mark--no {
+.mark--risque,
+.legend-mark--risque {
   color: var(--color-danger);
+}
+
+.legend-mark {
+  font-weight: 800;
+}
+
+.plans-legend {
+  margin: 0.75rem 0 0;
+  color: var(--color-text-muted);
+  font-size: 0.85rem;
 }
 
 .row-note {
@@ -713,12 +731,91 @@ a.collection-item:hover {
   color: var(--color-primary);
 }
 
+.sources {
+  background: var(--color-surface);
+}
+
+.sources-list {
+  margin: 1.25rem 0 0;
+  padding-left: 1.1rem;
+  display: grid;
+  gap: 0.6rem;
+  font-size: 0.95rem;
+}
+
+.action-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.25rem;
+  margin-top: 2rem;
+}
+
+.action-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+}
+
+.action-step {
+  margin: 0;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-primary);
+}
+
+.action-text {
+  margin: 0;
+  color: var(--color-text-muted);
+  font-size: 0.95rem;
+}
+
+.action-links {
+  margin: 0;
+  padding-left: 1.1rem;
+  display: grid;
+  gap: 0.35rem;
+  font-size: 0.95rem;
+}
+
+.action-template {
+  margin: 0;
+  padding: 0.75rem 1rem;
+  background: var(--color-surface);
+  border-left: 3px solid var(--color-border);
+  color: var(--color-text);
+  font-size: 0.9rem;
+}
+
+.action-cta {
+  margin: auto 0 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.action-feedback {
+  margin: 0;
+  color: var(--color-success);
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
 @media (max-width: 1024px) {
   .features-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .updates-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .action-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
@@ -741,6 +838,10 @@ a.collection-item:hover {
   }
 
   .updates-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .action-grid {
     grid-template-columns: 1fr;
   }
 

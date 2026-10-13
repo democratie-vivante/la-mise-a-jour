@@ -47,6 +47,7 @@
         <div class="hero-actions">
           <a class="btn btn-primary" href="democratie/">Ouvrir la mise à jour Démocratie →</a>
           <a class="btn btn-ghost" href="#collection">Voir toutes les mises à jour</a>
+          <a class="btn btn-ghost" href="#agir">Passer à l'action</a>
         </div>
       </div>
     </section>
@@ -157,9 +158,49 @@
       </div>
     </section>
 
+    <section id="agir" class="section agir" aria-labelledby="agir-title">
+      <div class="container">
+        <h2 id="agir-title">Passer de la mise à jour à la mise en œuvre</h2>
+        <p class="section-sub">Un bouton d'annulation ne sert que si quelqu'un appuie dessus.</p>
+
+        <div class="action-grid">
+          <article class="action-card">
+            <p class="action-step">1 · Se renseigner</p>
+            <p class="action-text">Lire les textes, pas les résumés. Tout est public, donc vérifiable.</p>
+            <ul class="action-links">
+              <li><a href="https://www.legifrance.gouv.fr/loda/id/JORFTEXT000000571356/">La Constitution sur Légifrance</a></li>
+              <li><a href="https://www.vie-publique.fr/">Vie publique — institutions et débats</a></li>
+              <li><a href="https://www.assemblee-nationale.fr/">Assemblée nationale — textes en cours</a></li>
+            </ul>
+          </article>
+
+          <article class="action-card">
+            <p class="action-step">2 · Interpeller vos élus</p>
+            <p class="action-text">Trouvez votre député, puis demandez-lui sa position sur le RIC, la révocation et le non-renouvellement.</p>
+            <blockquote class="action-template" id="tpl-depute">Bonjour, je vous écris en tant que citoyen·ne. Je soutiens la mise à jour Démocratie (Plan 6ᵉ République) : référendum d'initiative citoyenne, révocation des élus à tout moment, mandats non renouvelables, et bouton d'annulation sur le 49.3. Quelle sera votre position sur ces quatre points ? — [votre nom], [votre circonscription]</blockquote>
+            <p class="action-cta">
+              <button class="btn btn-ghost action-copy" type="button" data-copy-target="tpl-depute">Copier le message</button>
+              <a class="btn btn-ghost" href="https://www.assemblee-nationale.fr/dyn/vos-deputes">Trouver mon député</a>
+            </p>
+            <p class="action-feedback" role="status" aria-live="polite" hidden></p>
+          </article>
+
+          <article class="action-card">
+            <p class="action-step">3 · Interpeller les candidats à la présidentielle 2027</p>
+            <p class="action-text">Aucun nom, aucun parti : la question vaut pour toutes les candidatures. Demandez-leur où elles placent ces correctifs.</p>
+            <blockquote class="action-template" id="tpl-2027">Bonjour, dans la perspective de l'élection présidentielle de 2027 : quelle est votre position sur le référendum d'initiative citoyenne, la révocation des élus à tout moment, le non-renouvellement des mandats et l'encadrement du 49.3 ? Je voterai pour un programme qui inclut ces correctifs. — [votre nom]</blockquote>
+            <p class="action-cta">
+              <button class="btn btn-ghost action-copy" type="button" data-copy-target="tpl-2027">Copier le message</button>
+            </p>
+            <p class="action-feedback" role="status" aria-live="polite" hidden></p>
+          </article>
+        </div>
+      </div>
+    </section>
+
     <section id="partage" class="section share" aria-labelledby="share-title">
       <div class="container container--narrow share-inner">
-        <h2 id="share-title">Cette plateforme se partage mieux que vos diagnoses</h2>
+        <h2 id="share-title">Cette plateforme se partage mieux que vos diagnostics</h2>
         <div class="share-buttons">
           <a class="btn btn-share" data-platform="whatsapp" href="https://wa.me/?text=Votre%20soci%C3%A9t%C3%A9%20n%27a%20pas%20%C3%A9t%C3%A9%20mise%20%C3%A0%20jour%20depuis%201958.%20https%3A%2F%2Fla-mise-a-jour.fr%2F" target="_blank" rel="noopener">WhatsApp</a>
           <button class="btn btn-share" data-platform="signal" type="button">Signal</button>

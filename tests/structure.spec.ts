@@ -657,6 +657,116 @@ test.describe('HubSections', () => {
   });
 });
 
+// ─── Améliorations : lisibilité, sources, coquilles, agir ────────────────────
+
+test.describe('Corrections', () => {
+  test('hub share title uses diagnostics, not diagnoses', () => {
+    const t = bodyText(section(HUB, 'partage'));
+    expect(t).toContain('Cette plateforme se partage mieux que vos diagnostics');
+    expect(t).not.toContain('diagnoses');
+  });
+
+  test('popular plan does not claim renewable and non-renewable mandats', () => {
+    const popular = INDEX.split('plan plan--popular')[1];
+    expect(popular).toContain('Mandats non renouvelables');
+    expect(popular).not.toMatch(/Mandats renouvelables[\s\S]{0,80}non renouvelables/);
+  });
+
+  test('logo band flags the pastiche', () => {
+    const s = section(INDEX, 'logos');
+    expect(s).toContain('class="logos-note"');
+    const t = bodyText(s);
+    expect(t).toContain('Pastiche');
+    expect(t).toContain("n'approuve ce site");
+  });
+});
+
+test.describe('Lisibilite', () => {
+  test('a legend explains how to read the marks', () => {
+    const s = section(INDEX, 'tarifs');
+    expect(s).toContain('class="plans-legend"');
+    const t = bodyText(s);
+    expect(t).toContain('✔');
+    expect(t).toContain('✗');
+    expect(t).toContain('à votre avantage');
+    expect(t).toContain('à votre détriment');
+  });
+
+  test('marks carry the verdict, not only presence', () => {
+    const legacy = INDEX.split('plan plan--legacy')[1].split('plan plan--popular')[0];
+    const popular = INDEX.split('plan plan--popular')[1];
+    expect(legacy.match(/mark--risque/g) ?? []).toHaveLength(7);
+    expect(popular.match(/mark--bon/g) ?? []).toHaveLength(8);
+    expect(legacy).not.toContain('mark--yes');
+    expect(popular).not.toContain('mark--no');
+  });
+
+  test('mark classes are styled with design tokens', () => {
+    expect(cssRules('.mark--bon')).toContain('--color-success');
+    expect(cssRules('.mark--risque')).toContain('--color-danger');
+  });
+});
+
+test.describe('Sources', () => {
+  test('democratie exposes institutional sources', () => {
+    const s = section(INDEX, 'sources');
+    const hrefs = (s.match(/href="([^"]+)"/g) || []).map((h) => h.replace(/href="([^"]+)"/, '$1'));
+    for (const url of [
+      'https://www.legifrance.gouv.fr/loda/id/JORFTEXT000000571356/',
+      'https://www.vie-publique.fr/fiches/19539-la-constitution-du-4-octobre-1958',
+      'https://www.assemblee-nationale.fr/',
+    ]) {
+      expect(hrefs, url).toContain(url);
+    }
+    const t = bodyText(s);
+    expect(t).toContain('Article 11');
+    expect(t).toContain('Article 49');
+  });
+
+  test('the two factual tooltips link to their source', () => {
+    expect(INDEX).toMatch(/id="tip-493-l"[\s\S]*?href="https:\/\/www\.legifrance\.gouv\.fr/);
+    expect(INDEX).toMatch(/id="tip-ric-l"[\s\S]*?href="https:\/\/www\.vie-publique\.fr/);
+  });
+});
+
+test.describe('Agir', () => {
+  for (const p of PAGES) {
+    const html = read(p.file);
+
+    test(`[${p.name}] hero offers an action cta`, () => {
+      expect(html).toContain('href="#agir"');
+    });
+
+    test(`[${p.name}] agir section covers learn, interpeller and 2027`, () => {
+      const s = section(html, 'agir');
+      const t = bodyText(s);
+      expect(t).toContain('Se renseigner');
+      expect(t).toContain('Interpeller');
+      expect(t).toContain('2027');
+      const hrefs = (s.match(/href="([^"]+)"/g) || []).map((h) => h.replace(/href="([^"]+)"/, '$1'));
+      for (const url of ['https://www.vie-publique.fr/', 'https://www.assemblee-nationale.fr/']) {
+        expect(hrefs, url).toContain(url);
+      }
+    });
+
+    test(`[${p.name}] agir copy buttons target visible templates`, () => {
+      const s = section(html, 'agir');
+      const targets = [...s.matchAll(/data-copy-target="([^"]+)"/g)].map((m) => m[1]);
+      expect(targets).toHaveLength(2);
+      for (const id of targets) {
+        expect(s, `modèle ${id} introuvable`).toContain(`id="${id}"`);
+      }
+      expect(s.match(/class="action-feedback"/g) ?? []).toHaveLength(2);
+    });
+  }
+
+  test('js wires the copy buttons without hardcoding urls', () => {
+    expect(JS).toContain('data-copy-target');
+    expect(JS).toContain('.action-card');
+    expect(JS).not.toContain('la-mise-a-jour.fr');
+  });
+});
+
 // ─── Chrome (header) Tests ───────────────────────────────────────────────────
 
 function structuralSignature(html: string, tag: 'header' | 'footer'): string {

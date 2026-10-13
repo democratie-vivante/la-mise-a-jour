@@ -46,11 +46,12 @@
         <div class="hero-actions">
           <a class="btn btn-primary" href="#tarifs">Voir les plans</a>
           <a class="btn btn-ghost" href="#fonctionnalites">Comparer les plans</a>
+          <a class="btn btn-ghost" href="#agir">Passer à l'action</a>
         </div>
       </div>
     </section>
 
-    <section class="logos" aria-label="Ils nous font confiance">
+    <section id="logos" class="logos" aria-label="Ils nous font confiance">
       <div class="container">
         <p class="logos-title">Ils nous font confiance</p>
         <ul class="logos-list">
@@ -59,6 +60,7 @@
           <li class="logo-item">Conseil constitutionnel</li>
           <li class="logo-item">Partenaires indéterminés</li>
         </ul>
+        <p class="logos-note">Pastiche — aucune de ces institutions n'approuve ce site.</p>
       </div>
     </section>
     <section class="proof">
@@ -72,6 +74,7 @@
       <div class="container">
         <h2 id="tarifs-title">Choisissez votre plan</h2>
         <p class="section-sub">Deux générations. Une seule facture.</p>
+        <p class="plans-legend">Lecture : <span class="legend-mark legend-mark--bon" aria-hidden="true">✔</span> la règle s'applique · <span class="legend-mark legend-mark--risque" aria-hidden="true">✗</span> elle ne s'applique pas. Vert = à votre avantage, rouge = à votre détriment.</p>
 
         <div class="pricing-grid">
           <article class="plan plan--legacy">
@@ -82,30 +85,30 @@
               <p class="plan-sub">Sans engagement — résiliable par révolution</p>
             </header>
             <ul class="plan-features">
-              <li class="plan-row"><span class="mark mark--yes" aria-hidden="true">✓</span> Gouvernement nommé sans vote de l'Assemblée</li>
-              <li class="plan-row"><span class="mark mark--yes" aria-hidden="true">✓</span> Décret-loi 49.3
+              <li class="plan-row"><span class="mark mark--risque" aria-hidden="true">✓</span> Gouvernement nommé sans vote de l'Assemblée</li>
+              <li class="plan-row"><span class="mark mark--risque" aria-hidden="true">✓</span> Décret-loi 49.3
                 <span class="row-note">sans bouton d'annulation</span>
                 <span class="tip-wrap">
                   <button type="button" class="info-btn" aria-expanded="false" aria-controls="tip-493-l" aria-label="En savoir plus sur le 49.3">ⓘ</button>
-                  <span class="tooltip" id="tip-493-l" role="tooltip" hidden>L'impose sans vote de l'Assemblée. Article 49 alinéa 3 de la Constitution de 1958.</span>
+                  <span class="tooltip" id="tip-493-l" role="tooltip" hidden>L'impose sans vote de l'Assemblée. <a href="https://www.legifrance.gouv.fr/loda/id/JORFTEXT000000571356/">Article 49 alinéa 3 de la Constitution de 1958</a>.</span>
                 </span>
               </li>
-              <li class="plan-row"><span class="mark mark--no" aria-hidden="true">✗</span> Référendum d'initiative citoyenne
+              <li class="plan-row"><span class="mark mark--risque" aria-hidden="true">✗</span> Référendum d'initiative citoyenne
                 <span class="row-note">bêta fermée</span>
                 <span class="tip-wrap">
                   <button type="button" class="info-btn" aria-expanded="false" aria-controls="tip-ric-l" aria-label="En savoir plus sur le référendum d'initiative citoyenne">ⓘ</button>
-                  <span class="tooltip" id="tip-ric-l" role="tooltip" hidden>10 % des inscrits pourraient proposer une loi. La bêta n'a jamais ouvert.</span>
+                  <span class="tooltip" id="tip-ric-l" role="tooltip" hidden>10 % des inscrits pourraient proposer une loi. La bêta n'a jamais ouvert. <a href="https://www.vie-publique.fr/fiches/19539-la-constitution-du-4-octobre-1958">Voir le référendum (article 11)</a>.</span>
                 </span>
               </li>
-              <li class="plan-row"><span class="mark mark--no" aria-hidden="true">✗</span> Révocation de votre élu</li>
-              <li class="plan-row"><span class="mark mark--yes" aria-hidden="true">✓</span> Dissolution de l'Assemblée
+              <li class="plan-row"><span class="mark mark--risque" aria-hidden="true">✗</span> Révocation de votre élu</li>
+              <li class="plan-row"><span class="mark mark--bon" aria-hidden="true">✓</span> Dissolution de l'Assemblée
                 <span class="row-note">1×/an, discrétion exclusive</span>
               </li>
-              <li class="plan-row"><span class="mark mark--yes" aria-hidden="true">✓</span> Mandats renouvelables
+              <li class="plan-row"><span class="mark mark--risque" aria-hidden="true">✓</span> Mandats renouvelables
                 <span class="row-note">illimités</span>
               </li>
-              <li class="plan-row"><span class="mark mark--no" aria-hidden="true">✗</span> Amendement citoyen en ligne</li>
-              <li class="plan-row"><span class="mark mark--no" aria-hidden="true">✗</span> Support
+              <li class="plan-row"><span class="mark mark--risque" aria-hidden="true">✗</span> Amendement citoyen en ligne</li>
+              <li class="plan-row"><span class="mark mark--risque" aria-hidden="true">✗</span> Support
                 <span class="row-note">formulaire sans réponse</span>
               </li>
             </ul>
@@ -120,32 +123,32 @@
               <p class="plan-sub">Engagé — révocable à tout moment</p>
             </header>
             <ul class="plan-features">
-              <li class="plan-row"><span class="mark mark--no" aria-hidden="true">✗</span> Gouvernement nommé sans vote de l'Assemblée</li>
-              <li class="plan-row"><span class="mark mark--yes" aria-hidden="true">✓</span> Décret-loi 49.3
+              <li class="plan-row"><span class="mark mark--bon" aria-hidden="true">✗</span> Gouvernement nommé sans vote de l'Assemblée</li>
+              <li class="plan-row"><span class="mark mark--bon" aria-hidden="true">✓</span> Décret-loi 49.3
                 <span class="row-note">avec bouton d'annulation</span>
                 <span class="tip-wrap">
                   <button type="button" class="info-btn" aria-expanded="false" aria-controls="tip-493-p" aria-label="En savoir plus sur le 49.3">ⓘ</button>
                   <span class="tooltip" id="tip-493-p" role="tooltip" hidden>Toujours disponible, mais l'Assemblée peut maintenant appuyer sur « annuler ».</span>
                 </span>
               </li>
-              <li class="plan-row"><span class="mark mark--yes" aria-hidden="true">✓</span> Référendum d'initiative citoyenne
+              <li class="plan-row"><span class="mark mark--bon" aria-hidden="true">✓</span> Référendum d'initiative citoyenne
                 <span class="row-note">inclus</span>
                 <span class="tip-wrap">
                   <button type="button" class="info-btn" aria-expanded="false" aria-controls="tip-ric-p" aria-label="En savoir plus sur le référendum d'initiative citoyenne">ⓘ</button>
                   <span class="tooltip" id="tip-ric-p" role="tooltip" hidden>10 % des inscrits suffisent. Le champ « soumettre » n'est plus grisé.</span>
                 </span>
               </li>
-              <li class="plan-row"><span class="mark mark--yes" aria-hidden="true">✓</span> Révocation de votre élu
+              <li class="plan-row"><span class="mark mark--bon" aria-hidden="true">✓</span> Révocation de votre élu
                 <span class="row-note">à tout moment</span>
               </li>
-              <li class="plan-row"><span class="mark mark--yes" aria-hidden="true">✓</span> Dissolution de l'Assemblée
+              <li class="plan-row"><span class="mark mark--bon" aria-hidden="true">✓</span> Dissolution de l'Assemblée
                 <span class="row-note">à la demande de 10 % des citoyens</span>
               </li>
-              <li class="plan-row"><span class="mark mark--no" aria-hidden="true">✗</span> Mandats renouvelables
-                <span class="row-note">non renouvelables</span>
+              <li class="plan-row"><span class="mark mark--bon" aria-hidden="true">✓</span> Mandats non renouvelables
+                <span class="row-note">une seule fois</span>
               </li>
-              <li class="plan-row"><span class="mark mark--yes" aria-hidden="true">✓</span> Amendement citoyen en ligne</li>
-              <li class="plan-row"><span class="mark mark--yes" aria-hidden="true">✓</span> Support
+              <li class="plan-row"><span class="mark mark--bon" aria-hidden="true">✓</span> Amendement citoyen en ligne</li>
+              <li class="plan-row"><span class="mark mark--bon" aria-hidden="true">✓</span> Support
                 <span class="row-note">débat public sous 30 jours</span>
               </li>
             </ul>
@@ -220,6 +223,17 @@
         </div>
       </div>
     </section>
+    <section id="sources" class="section sources" aria-labelledby="sources-title">
+      <div class="container container--narrow">
+        <h2 id="sources-title">Sources</h2>
+        <p class="section-sub">Les faits, pas l'emballage. Références officielles, en accès libre.</p>
+        <ul class="sources-list">
+          <li><a href="https://www.legifrance.gouv.fr/loda/id/JORFTEXT000000571356/">Constitution du 4 octobre 1958</a> — Article 11 (référendum), Article 12 (dissolution), Article 49 alinéa 3 (adoption sans vote).</li>
+          <li><a href="https://www.vie-publique.fr/fiches/19539-la-constitution-du-4-octobre-1958">La Constitution sur vie-publique.fr</a> — portail public des institutions et du débat démocratique.</li>
+          <li><a href="https://www.assemblee-nationale.fr/">Assemblée nationale</a> — textes en discussion, rôle et travaux du Parlement.</li>
+        </ul>
+      </div>
+    </section>
     <section id="faq" class="section faq" aria-labelledby="faq-title">
       <div class="container container--narrow">
         <h2 id="faq-title">Questions fréquemment posées par nos utilisateurs</h2>
@@ -260,6 +274,45 @@
             <p class="faq-answer">Oui, et vous l'avez déjà.</p>
             <p class="fine-print">Vous êtes né dedans. C'est l'essai.</p>
           </details>
+        </div>
+      </div>
+    </section>
+    <section id="agir" class="section agir" aria-labelledby="agir-title">
+      <div class="container">
+        <h2 id="agir-title">Passer de la mise à jour à la mise en œuvre</h2>
+        <p class="section-sub">Un bouton d'annulation ne sert que si quelqu'un appuie dessus.</p>
+
+        <div class="action-grid">
+          <article class="action-card">
+            <p class="action-step">1 · Se renseigner</p>
+            <p class="action-text">Lire les textes, pas les résumés. Tout est public, donc vérifiable.</p>
+            <ul class="action-links">
+              <li><a href="https://www.legifrance.gouv.fr/loda/id/JORFTEXT000000571356/">La Constitution sur Légifrance</a></li>
+              <li><a href="https://www.vie-publique.fr/">Vie publique — institutions et débats</a></li>
+              <li><a href="https://www.assemblee-nationale.fr/">Assemblée nationale — textes en cours</a></li>
+            </ul>
+          </article>
+
+          <article class="action-card">
+            <p class="action-step">2 · Interpeller vos élus</p>
+            <p class="action-text">Trouvez votre député, puis demandez-lui sa position sur le RIC, la révocation et le non-renouvellement.</p>
+            <blockquote class="action-template" id="tpl-depute">Bonjour, je vous écris en tant que citoyen·ne. Je soutiens la mise à jour Démocratie (Plan 6ᵉ République) : référendum d'initiative citoyenne, révocation des élus à tout moment, mandats non renouvelables, et bouton d'annulation sur le 49.3. Quelle sera votre position sur ces quatre points ? — [votre nom], [votre circonscription]</blockquote>
+            <p class="action-cta">
+              <button class="btn btn-ghost action-copy" type="button" data-copy-target="tpl-depute">Copier le message</button>
+              <a class="btn btn-ghost" href="https://www.assemblee-nationale.fr/dyn/vos-deputes">Trouver mon député</a>
+            </p>
+            <p class="action-feedback" role="status" aria-live="polite" hidden></p>
+          </article>
+
+          <article class="action-card">
+            <p class="action-step">3 · Interpeller les candidats à la présidentielle 2027</p>
+            <p class="action-text">Aucun nom, aucun parti : la question vaut pour toutes les candidatures. Demandez-leur où elles placent ces correctifs.</p>
+            <blockquote class="action-template" id="tpl-2027">Bonjour, dans la perspective de l'élection présidentielle de 2027 : quelle est votre position sur le référendum d'initiative citoyenne, la révocation des élus à tout moment, le non-renouvellement des mandats et l'encadrement du 49.3 ? Je voterai pour un programme qui inclut ces correctifs. — [votre nom]</blockquote>
+            <p class="action-cta">
+              <button class="btn btn-ghost action-copy" type="button" data-copy-target="tpl-2027">Copier le message</button>
+            </p>
+            <p class="action-feedback" role="status" aria-live="polite" hidden></p>
+          </article>
         </div>
       </div>
     </section>
