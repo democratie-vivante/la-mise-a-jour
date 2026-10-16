@@ -460,6 +460,11 @@ a {
   font-size: 0.95rem;
 }
 
+.feature-source {
+  margin: 0;
+  font-size: 0.85rem;
+}
+
 .tip-wrap {
   position: relative;
   display: inline-block;

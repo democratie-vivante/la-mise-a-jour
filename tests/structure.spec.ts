@@ -477,7 +477,7 @@ test.describe('Democratie', () => {
   test.describe('FeatureGrid', () => {
     test('section and six cards', () => {
       expect(INDEX).toContain('<section id="fonctionnalites"');
-      expect(INDEX.match(/class="feature-card"/g)).toHaveLength(6);
+      expect(section(INDEX, 'fonctionnalites').match(/class="feature-card"/g)).toHaveLength(6);
     });
 
     test('every card has accessible info button', () => {
@@ -508,6 +508,36 @@ test.describe('Democratie', () => {
     test('grid three columns on desktop', () => {
       const rules = cssRules('.features-grid');
       expect(rules).toMatch(/grid-template-columns:\s*repeat\(3/);
+    });
+  });
+
+  test.describe('ProductionReelle', () => {
+    test('section and five cases', () => {
+      expect(INDEX).toContain('<section id="production"');
+      expect(section(INDEX, 'production').match(/class="feature-card"/g)).toHaveLength(5);
+    });
+
+    test('each case names a country and a year', () => {
+      const t = bodyText(section(INDEX, 'production'));
+      for (const name of ['Suisse', 'Irlande', 'Ostbelgien', 'Pays de Galles', 'Paris']) {
+        expect(t, name).toContain(name);
+      }
+      for (const year of ['1848', '2019', '2015', '2021']) {
+        expect(t, year).toContain(year);
+      }
+    });
+
+    test('each case links an official source', () => {
+      const s = section(INDEX, 'production');
+      for (const host of [
+        'https://www.admin.ch/',
+        'https://citizensassembly.ie/',
+        'https://www.buergerdialog.be/',
+        'https://www.gov.wales/',
+        'https://www.paris.fr/',
+      ]) {
+        expect(s, host).toContain(`href="${host}`);
+      }
     });
   });
 
@@ -814,6 +844,19 @@ test.describe('Sources', () => {
     expect(INDEX).toMatch(/id="tip-tirage-b"[\s\S]*?href="https:\/\/www\.vie-publique\.fr/);
     expect(INDEX).toMatch(/id="tip-collegial-b"[\s\S]*?href="https:\/\/www\.admin\.ch/);
     expect(INDEX).toMatch(/id="tip-futures-b"[\s\S]*?href="https:\/\/www\.gov\.wales/);
+  });
+
+  test('case study sources are listed', () => {
+    const s = section(INDEX, 'sources');
+    for (const host of [
+      'https://www.admin.ch/',
+      'https://citizensassembly.ie/',
+      'https://www.buergerdialog.be/',
+      'https://www.gov.wales/',
+      'https://www.paris.fr/',
+    ]) {
+      expect(s, host).toContain(`href="${host}`);
+    }
   });
 });
 
