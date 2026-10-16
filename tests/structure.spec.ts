@@ -541,6 +541,43 @@ test.describe('Democratie', () => {
     });
   });
 
+  test.describe('Changelog', () => {
+    test('section and nine releases', () => {
+      expect(INDEX).toContain('<section id="changelog"');
+      expect(section(INDEX, 'changelog').match(/class="release"/g)).toHaveLength(9);
+    });
+
+    test('versions and years', () => {
+      const t = bodyText(section(INDEX, 'changelog'));
+      for (const v of ['v1.0', 'v2.0', 'v3.0', 'v4.0', 'v5.0', 'v5.0.1', 'v5.0.2', 'v6.0', 'v7.0']) {
+        expect(t, v).toContain(v);
+      }
+      for (const y of ['1791', '1848', '1875', '1946', '1958', '1962', '2000']) {
+        expect(t, y).toContain(y);
+      }
+    });
+
+    test('release tags', () => {
+      const s = section(INDEX, 'changelog');
+      for (const tag of ['MAJOR', 'HOTFIX', 'PATCH', 'BREAKING']) {
+        expect(s, tag).toContain(tag);
+      }
+    });
+
+    test('each release links a founding text', () => {
+      const s = section(INDEX, 'changelog');
+      const hrefs = s.match(/href="https:\/\/[^"]+"/g) || [];
+      expect(hrefs.length).toBeGreaterThanOrEqual(5);
+      expect(s).toMatch(/href="https:\/\/www\.(legifrance\.gouv\.fr|conseil-constitutionnel\.fr)/);
+    });
+
+    test('v6.0 is in development and points to the beta', () => {
+      const t = bodyText(section(INDEX, 'changelog'));
+      expect(t).toContain('en développement');
+      expect(t).toContain('Démocratie Continue');
+    });
+  });
+
   // ─── FAQ Tests ───────────────────────────────────────────────────────────
 
   test.describe('FAQ', () => {

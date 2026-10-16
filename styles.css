@@ -546,6 +546,69 @@ a {
   padding-top: 0.5rem;
 }
 
+.changelog-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.75rem;
+}
+
+.release {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 1rem 1.25rem;
+}
+
+.release-head {
+  margin: 0 0 0.35rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.release-tag {
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  color: #ffffff;
+  background: var(--color-text-muted);
+  border-radius: 999px;
+  padding: 0.15rem 0.6rem;
+}
+
+.release-tag--major {
+  background: var(--color-primary);
+}
+
+.release-tag--hotfix {
+  background: var(--color-danger);
+}
+
+.release-tag--patch {
+  background: var(--color-success);
+}
+
+.release-tag--breaking {
+  background: var(--color-text);
+}
+
+.release-version {
+  font-weight: 800;
+}
+
+.release-year {
+  color: var(--color-text-muted);
+  font-size: 0.85rem;
+}
+
+.release-note {
+  margin: 0;
+  color: var(--color-text-muted);
+}
+
 .share {
   background: var(--color-primary);
   color: #ffffff;
