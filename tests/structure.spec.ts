@@ -357,15 +357,19 @@ test.describe('Democratie', () => {
       expect(INDEX).toMatch(/<section id="tarifs" class="section pricing"[^>]*>/);
       expect(INDEX.match(/class="plan plan--legacy"/g)).toHaveLength(1);
       expect(INDEX.match(/class="plan plan--popular"/g)).toHaveLength(1);
+      expect(INDEX.match(/class="plan plan--beta"/g)).toHaveLength(1);
       expect(bodyText(INDEX)).toContain('POPULAIRE');
+      expect(bodyText(INDEX)).toContain('BÊTA');
     });
 
-    test('eight rows per card sixteen total', () => {
-      expect(INDEX.match(/class="plan-row"/g)).toHaveLength(16);
+    test('eleven rows per card thirty-three total', () => {
+      expect(INDEX.match(/class="plan-row"/g)).toHaveLength(33);
       const legacy = INDEX.split('plan plan--legacy')[1].split('plan plan--popular')[0];
-      const popular = INDEX.split('plan plan--popular')[1];
-      expect(legacy.match(/class="plan-row"/g)).toHaveLength(8);
-      expect(popular.match(/class="plan-row"/g)).toHaveLength(8);
+      const popular = INDEX.split('plan plan--popular')[1].split('plan plan--beta')[0];
+      const beta = INDEX.split('plan plan--beta')[1];
+      expect(legacy.match(/class="plan-row"/g)).toHaveLength(11);
+      expect(popular.match(/class="plan-row"/g)).toHaveLength(11);
+      expect(beta.match(/class="plan-row"/g)).toHaveLength(11);
     });
 
     test('plan copy', () => {
@@ -418,6 +422,49 @@ test.describe('Democratie', () => {
         .filter((b) => b.condition.includes('768px') && b.body.includes('.plan--popular') && b.body.includes('order'));
       expect(matches.length).toBeGreaterThan(0);
       expect(matches[0].body).toContain('order: -1');
+    });
+
+    test('beta plan copy', () => {
+      const t = bodyText(INDEX);
+      for (const expected of [
+        'Plan Démocratie Continue',
+        'Early access',
+        'indemnisé comme un jour de jury',
+        'pas besoin — vous êtes le support',
+      ]) {
+        expect(t).toContain(expected);
+      }
+    });
+
+    test('three new aligned rows on every plan', () => {
+      const segs: Array<[string, string]> = [
+        ['legacy', INDEX.split('plan plan--legacy')[1].split('plan plan--popular')[0]],
+        ['popular', INDEX.split('plan plan--popular')[1].split('plan plan--beta')[0]],
+        ['beta', INDEX.split('plan plan--beta')[1]],
+      ];
+      for (const [name, seg] of segs) {
+        const t = bodyText(seg);
+        expect(t, name).toContain('Assemblée citoyenne tirée au sort');
+        expect(t, name).toContain('Président unique');
+        expect(t, name).toContain('Contrôle des générations futures');
+      }
+    });
+
+    test('plans note points to the beta', () => {
+      const s = section(INDEX, 'tarifs');
+      expect(s).toContain('class="plans-note"');
+      expect(bodyText(s)).toContain('Démocratie Continue');
+    });
+
+    test('pricing grid three columns on desktop', () => {
+      expect(cssRules('.pricing-grid')).toMatch(/grid-template-columns:\s*repeat\(3/);
+    });
+
+    test('pricing stacks on mobile', () => {
+      const matches = mediaBlocks()
+        .filter((b) => b.condition.includes('768px') && b.body.includes('.pricing-grid'));
+      expect(matches.length).toBeGreaterThan(0);
+      expect(matches[0].body).toMatch(/grid-template-columns:\s*1fr/);
     });
   });
 
@@ -667,7 +714,7 @@ test.describe('Corrections', () => {
   });
 
   test('popular plan does not claim renewable and non-renewable mandats', () => {
-    const popular = INDEX.split('plan plan--popular')[1];
+    const popular = INDEX.split('plan plan--popular')[1].split('plan plan--beta')[0];
     expect(popular).toContain('Mandats non renouvelables');
     expect(popular).not.toMatch(/Mandats renouvelables[\s\S]{0,80}non renouvelables/);
   });
@@ -694,11 +741,13 @@ test.describe('Lisibilite', () => {
 
   test('marks carry the verdict, not only presence', () => {
     const legacy = INDEX.split('plan plan--legacy')[1].split('plan plan--popular')[0];
-    const popular = INDEX.split('plan plan--popular')[1];
-    expect(legacy.match(/mark--risque/g) ?? []).toHaveLength(7);
+    const popular = INDEX.split('plan plan--popular')[1].split('plan plan--beta')[0];
+    const beta = INDEX.split('plan plan--beta')[1];
+    expect(legacy.match(/mark--risque/g) ?? []).toHaveLength(10);
     expect(popular.match(/mark--bon/g) ?? []).toHaveLength(8);
-    expect(legacy).not.toContain('mark--yes');
-    expect(popular).not.toContain('mark--no');
+    expect(popular.match(/mark--risque/g) ?? []).toHaveLength(3);
+    expect(beta.match(/mark--bon/g) ?? []).toHaveLength(11);
+    expect(beta).not.toContain('mark--risque');
   });
 
   test('mark classes are styled with design tokens', () => {

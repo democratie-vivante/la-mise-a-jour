@@ -280,7 +280,7 @@ a {
 
 .pricing-grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 1.5rem;
   align-items: start;
 }
@@ -300,6 +300,39 @@ a {
 .plan--popular {
   border: 2px solid var(--color-primary);
   box-shadow: var(--shadow);
+}
+
+.plan--beta {
+  border: 2px dashed var(--color-primary);
+}
+
+.plan-badge--beta {
+  background: var(--color-success);
+}
+
+.plan-disclaimer {
+  margin: 1.5rem 0 0;
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+  border-top: 1px dashed var(--color-border);
+  padding-top: 0.75rem;
+}
+
+.plans-note {
+  margin: 1rem 0 0;
+  text-align: center;
+  color: var(--color-text-muted);
+  font-size: 0.85rem;
+}
+
+@media (min-width: 1025px) {
+  .plan {
+    padding: 1.5rem;
+  }
+
+  .plan-row {
+    font-size: 0.9rem;
+  }
 }
 
 .plan-badge {
@@ -817,6 +850,14 @@ a.collection-item:hover {
 
   .action-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .pricing-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .plan--beta {
+    grid-column: 1 / -1;
   }
 }
 
