@@ -58,12 +58,12 @@
   }
 
   function initFaq() {
-    document.querySelectorAll(".faq-item").forEach(function (item) {
+    document.querySelectorAll(".faq-item, .obj-item").forEach(function (item) {
       var summary = item.querySelector("summary");
       summary.addEventListener("click", function (event) {
         event.preventDefault();
         var willOpen = !item.open;
-        document.querySelectorAll(".faq-item").forEach(function (other) {
+        document.querySelectorAll(".faq-item, .obj-item").forEach(function (other) {
           other.open = false;
         });
         item.open = willOpen;

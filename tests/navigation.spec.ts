@@ -37,6 +37,17 @@ test('hub faq opens one item at a time', async ({ page }) => {
   await expect(items.nth(0)).not.toHaveAttribute('open', '');
 });
 
+test('objections open one at a time on the démocratie page', async ({ page }) => {
+  await page.goto('/democratie/');
+  const items = page.locator('.obj-item');
+  await expect(items).toHaveCount(6);
+  await items.nth(0).locator('summary').click();
+  await expect(items.nth(0)).toHaveAttribute('open', '');
+  await items.nth(1).locator('summary').click();
+  await expect(items.nth(1)).toHaveAttribute('open', '');
+  await expect(items.nth(0)).not.toHaveAttribute('open', '');
+});
+
 test('tooltip opens on click and closes on Escape', async ({ page }) => {
   await page.goto('/');
   const button = page.locator('#principe .info-btn').first();

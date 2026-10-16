@@ -513,14 +513,16 @@ a {
   gap: 0.75rem;
 }
 
-.faq-item {
+.faq-item,
+.obj-item {
   background: var(--color-surface);
   border: 1px solid var(--color-border);
   border-radius: var(--radius);
   padding: 0.25rem 1.25rem;
 }
 
-.faq-item summary {
+.faq-item summary,
+.obj-item summary {
   cursor: pointer;
   font-weight: 700;
   padding: 1rem 0;

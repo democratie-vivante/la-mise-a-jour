@@ -516,13 +516,14 @@ test.describe('Democratie', () => {
   test.describe('FAQ', () => {
     test('section and six items', () => {
       expect(INDEX).toContain('<section id="faq"');
-      expect(INDEX.match(/class="faq-item"/g)).toHaveLength(6);
-      expect(INDEX.match(/<details/g)).toHaveLength(6);
-      expect(INDEX.match(/<summary>/g)).toHaveLength(6);
+      const s = section(INDEX, 'faq');
+      expect(s.match(/class="faq-item"/g)).toHaveLength(6);
+      expect(s.match(/<details/g)).toHaveLength(6);
+      expect(s.match(/<summary>/g)).toHaveLength(6);
     });
 
     test('each answer has fine print', () => {
-      expect(INDEX.match(/class="fine-print"/g)).toHaveLength(6);
+      expect(section(INDEX, 'faq').match(/class="fine-print"/g)).toHaveLength(6);
     });
 
     test('faq questions', () => {
@@ -553,6 +554,34 @@ test.describe('Democratie', () => {
       }
     });
 
+  });
+
+  test.describe('Objections', () => {
+    test('section and six tickets', () => {
+      expect(INDEX).toContain('<section id="objections"');
+      const s = section(INDEX, 'objections');
+      expect(s.match(/class="obj-item"/g)).toHaveLength(6);
+      expect(s.match(/<details/g)).toHaveLength(6);
+    });
+
+    test('each ticket answers with a sourced link', () => {
+      const items = section(INDEX, 'objections').split('class="obj-item"').slice(1);
+      expect(items).toHaveLength(6);
+      for (const item of items) {
+        expect(item, 'réponse manquante').toContain('class="faq-answer"');
+        expect(item, 'fine print manquante').toContain('class="fine-print"');
+        expect(item, 'source manquante').toMatch(/href="https:\/\//);
+      }
+    });
+
+    test('objections js single open', () => {
+      expect(JS).toContain('.obj-item');
+      expect(JS).toContain('.faq-item');
+    });
+
+    test('faq stays separate from objections', () => {
+      expect(section(INDEX, 'faq').match(/class="obj-item"/g)).toBeNull();
+    });
   });
 
   // ─── Share Tests ─────────────────────────────────────────────────────────
