@@ -306,7 +306,7 @@ a {
   border: 2px dashed var(--color-primary);
 }
 
-.plan-badge--beta {
+.plan-badge.plan-badge--beta {
   background: var(--color-success);
 }
 

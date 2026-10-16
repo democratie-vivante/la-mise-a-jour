@@ -466,6 +466,10 @@ test.describe('Democratie', () => {
       expect(matches.length).toBeGreaterThan(0);
       expect(matches[0].body).toMatch(/grid-template-columns:\s*1fr/);
     });
+
+    test('beta badge overrides the base badge colour', () => {
+      expect(CSS).toMatch(/\.plan-badge\.plan-badge--beta\s*\{[^}]*--color-success/);
+    });
   });
 
   // ─── Feature Grid Tests ──────────────────────────────────────────────────
