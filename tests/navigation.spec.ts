@@ -48,6 +48,20 @@ test('tooltip opens on click and closes on Escape', async ({ page }) => {
   await expect(page.locator(`#${tipId}`)).toBeHidden();
 });
 
+test('beta tooltips stay inside the viewport', async ({ page }) => {
+  await page.goto('/democratie/');
+  for (const id of ['tip-tirage-b', 'tip-collegial-b', 'tip-futures-b']) {
+    const button = page.locator(`[aria-controls="${id}"]`);
+    await button.click();
+    const box = await page.locator(`#${id}`).boundingBox();
+    const width = page.viewportSize()!.width;
+    expect(box, `${id} invisible`).not.toBeNull();
+    expect(box!.x, `${id} déborde à gauche`).toBeGreaterThanOrEqual(-1);
+    expect(box!.x + box!.width, `${id} déborde à droite`).toBeLessThanOrEqual(width + 1);
+    await page.keyboard.press('Escape');
+  }
+});
+
 test('hub works from file:// with relative assets', async ({ page }) => {
   await page.goto('file://' + path.join(ROOT, 'index.html'));
   await expect(page.locator('h1')).toHaveText("Votre société n'a pas été mise à jour depuis 1958.");

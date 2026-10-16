@@ -4,7 +4,7 @@ Plateforme satirique « zéro build » : un hub à la racine et une page par mis
 jour système. Zéro dépendance, zéro build, servi tel quel.
 
 - `/` — hub « console de versions » (les mises à jour disponibles et à venir)
-- `/democratie/` — Citoyen 2.0 : Plan 5ᵉ vs Plan 6ᵉ République
+- `/democratie/` — Citoyen 2.0 : Plan 5ᵉ, 6ᵉ et bêta citoyenne
 
 ## Prévisualiser
 

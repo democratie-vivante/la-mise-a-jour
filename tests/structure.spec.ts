@@ -632,7 +632,7 @@ test.describe('HubCollection', () => {
   test('card teasers match the spec copy', () => {
     const t = bodyText(grid());
     for (const teaser of [
-      'Plan 5ᵉ vs Plan 6ᵉ : le 49.3 avec bouton d\'annulation, le RIC sorti de bêta fermée.',
+      'Plan 5ᵉ vs 6ᵉ vs bêta : le 49.3 avec bouton d\'annulation, le RIC sorti de bêta fermée, la démocratie continue en early access.',
       'Du pesticide au sol vivant : migration de l\'agriculture française, sans redémarrage à froid.',
       'Croissance, PIB et richesse réelle : le refactoring que tout le monde repousse depuis 1973.',
       'Production, réseau et sobriété : la seule migration qui ne peut pas être reportée à lundi.',
@@ -779,6 +779,12 @@ test.describe('Sources', () => {
   test('the two factual tooltips link to their source', () => {
     expect(INDEX).toMatch(/id="tip-493-l"[\s\S]*?href="https:\/\/www\.legifrance\.gouv\.fr/);
     expect(INDEX).toMatch(/id="tip-ric-l"[\s\S]*?href="https:\/\/www\.vie-publique\.fr/);
+  });
+
+  test('beta tooltips link to their sources', () => {
+    expect(INDEX).toMatch(/id="tip-tirage-b"[\s\S]*?href="https:\/\/www\.vie-publique\.fr/);
+    expect(INDEX).toMatch(/id="tip-collegial-b"[\s\S]*?href="https:\/\/www\.admin\.ch/);
+    expect(INDEX).toMatch(/id="tip-futures-b"[\s\S]*?href="https:\/\/www\.gov\.wales/);
   });
 });
 
