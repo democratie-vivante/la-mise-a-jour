@@ -13,9 +13,9 @@ const PAGES: SitePage[] = [
 ];
 
 const PLANNED = [
-  { name: 'Agronomie', status: 'en bêta fermée' },
-  { name: 'Économie', status: 'planifié' },
-  { name: 'Énergie', status: 'planifié' },
+  { name: 'Agronomie', status: 'bêta fermée' },
+  { name: 'Économie', status: 'backlog' },
+  { name: 'Énergie', status: 'backlog' },
 ];
 
 const read = (rel: string): string => fs.readFileSync(path.join(ROOT, rel), 'utf-8');
@@ -321,11 +321,11 @@ test.describe('Democratie', () => {
     test('hero has two ctas', () => {
       const ctas = INDEX.match(/class="btn btn-[a-z]+"[^>]*>([^<]+)</g) || [];
       const texts = ctas.map((c) => c.replace(/.*>([^<]+)</, '$1'));
-      expect(texts).toContain('Voir les plans');
-      expect(texts).toContain('Comparer les plans');
+      expect(texts).toContain('Voir la matrice');
+      expect(texts).toContain('Comparer les versions');
     });
 
-    test('logo band has four partners', () => {
+    test('dependency band names four inherited deps', () => {
       expect(INDEX.match(/class="logo-item"/g)).toHaveLength(4);
       const t = bodyText(INDEX);
       for (const name of [
@@ -336,17 +336,22 @@ test.describe('Democratie', () => {
       ]) {
         expect(t).toContain(name);
       }
+      for (const status of ['déprécié', 'fork non documenté', 'dépendance inconnue']) {
+        expect(t, status).toContain(status);
+      }
     });
   });
 
-  // ─── Social Proof Tests ──────────────────────────────────────────────────
+  // ─── Statut du système Tests ─────────────────────────────────────────────
 
   test.describe('SocialProof', () => {
-    test('proof numbers', () => {
+    test('proof numbers, sans mesure inventée', () => {
       const t = bodyText(INDEX);
       expect(t).toContain("+68 M de citoyens n'ont rien demandé");
-      expect(t).toContain('4,3 / 5');
-      expect(t).toContain('avis vérifiés sur les lois que vous n\'avez pas lues');
+      expect(t).toContain('Aucun SLO publié');
+      expect(t).toContain('aucune astreinte');
+      expect(t).toContain('aucun rollback');
+      expect(t, 'mesure inventée').not.toContain('4,3 / 5');
     });
   });
 
@@ -358,8 +363,8 @@ test.describe('Democratie', () => {
       expect(INDEX.match(/class="plan plan--legacy"/g)).toHaveLength(1);
       expect(INDEX.match(/class="plan plan--popular"/g)).toHaveLength(1);
       expect(INDEX.match(/class="plan plan--beta"/g)).toHaveLength(1);
-      expect(bodyText(INDEX)).toContain('POPULAIRE');
-      expect(bodyText(INDEX)).toContain('BÊTA');
+      expect(bodyText(INDEX)).toContain('RECOMMANDÉE');
+      expect(bodyText(INDEX)).toContain('NIGHTLY');
     });
 
     test('eleven rows per card thirty-three total', () => {
@@ -372,15 +377,18 @@ test.describe('Democratie', () => {
       expect(beta.match(/class="plan-row"/g)).toHaveLength(11);
     });
 
-    test('plan copy', () => {
+    test('branch copy', () => {
       const t = bodyText(INDEX);
       for (const expected of [
-        'Hérité · depuis 1958',
-        'déjà payé par vos aînés',
-        'Sans engagement — résiliable par révolution',
-        'Nouveau',
-        'inclus dans votre citoyenneté',
-        'Engagé — révocable à tout moment',
+        'Héritée · build 1958',
+        'buildée le 04/10/1958, jamais auditée',
+        'Aucun rollback prévu — sortie par révolution uniquement',
+        'Release candidate',
+        'prête pour la revue',
+        'Réversible à tout moment',
+        'v5.0 — 5ᵉ République',
+        'v6.0 — 6ᵉ République',
+        'v7.0 — Démocratie Continue',
       ]) {
         expect(t).toContain(expected);
       }
@@ -424,11 +432,12 @@ test.describe('Democratie', () => {
       expect(matches[0].body).toContain('order: -1');
     });
 
-    test('beta plan copy', () => {
+    test('beta branch copy', () => {
       const t = bodyText(INDEX);
       for (const expected of [
-        'Plan Démocratie Continue',
-        'Early access',
+        'v7.0 — Démocratie Continue',
+        'Nightly',
+        'compilée chaque nuit pour personne',
         'indemnisé comme un jour de jury',
         'pas besoin — vous êtes le support',
       ]) {
@@ -450,10 +459,18 @@ test.describe('Democratie', () => {
       }
     });
 
-    test('plans note points to the beta', () => {
+    test('matrix note points to the nightly branch', () => {
       const s = section(INDEX, 'tarifs');
       expect(s).toContain('class="plans-note"');
       expect(bodyText(s)).toContain('Démocratie Continue');
+      expect(bodyText(s)).toContain('nightly');
+    });
+
+    test('matrix header', () => {
+      const s = section(INDEX, 'tarifs');
+      const t = bodyText(s);
+      expect(t).toContain('Matrice de migration');
+      expect(t).toContain('Trois branches. Un seul dépôt.');
     });
 
     test('pricing grid three columns on desktop', () => {
@@ -503,6 +520,7 @@ test.describe('Democratie', () => {
       ]) {
         expect(t).toContain(title);
       }
+      expect(t).toContain('Rollback sans pénalité');
     });
 
     test('grid three columns on desktop', () => {
@@ -596,10 +614,10 @@ test.describe('Democratie', () => {
     test('faq questions', () => {
       const t = bodyText(INDEX);
       for (const q of [
-        'Puis-je résilier mon Plan 5ᵉ République ?',
-        'Le Plan 6ᵉ est-il vraiment gratuit ?',
+        'Puis-je désinstaller la v5.0 ?',
+        'La migration v6.0 est-elle vraiment gratuite ?',
         'Que se passe-t-il si je ne vote pas ?',
-        'Quelles méthodes de paiement acceptez-vous ?',
+        'Comment la maintenance est-elle financée ?',
         'Le 49.3 peut-il être annulé ?',
         'Proposez-vous un essai gratuit ?',
       ]) {
@@ -610,9 +628,9 @@ test.describe('Democratie', () => {
     test('fine print copy', () => {
       const t = bodyText(INDEX);
       for (const line of [
-        'L\'offre est reconduite tacitement depuis 1958, sans préavis.',
-        '0 €/mois, engagement de 5 ans non renouvelable… pour vous.',
-        'Aucun changement : votre Plan est mis à jour automatiquement.',
+        'Le système est reconduit tacitement depuis 1958, sans préavis.',
+        '0 €, engagement de 5 ans non renouvelable… pour vous.',
+        'Aucun changement : le système est mis à jour automatiquement.',
         'Impôts, CSG, TVA. Apple Pay n\'est pas encore disponible.',
         'Oui, désormais. L\'ancien modèle n\'avait pas de bouton.',
         'Vous êtes né dedans. C\'est l\'essai.',
@@ -669,7 +687,7 @@ test.describe('Democratie', () => {
 
     test('share copy', () => {
       const t = bodyText(INDEX);
-      expect(t).toContain('Ce plan se partage mieux que vos opinions');
+      expect(t).toContain('Cette migration se partage mieux que vos opinions');
       expect(t).toContain('Copier le lien');
     });
 
@@ -690,14 +708,16 @@ test.describe('Democratie', () => {
 test.describe('HubCollection', () => {
   const grid = () => section(HUB, 'collection');
 
-  test('hero copy and two ctas', () => {
+  test('hero copy and three ctas', () => {
     const t = bodyText(HUB);
     expect(t).toContain("Votre société n'a pas été mise à jour depuis 1958.");
-    expect(t).toContain('Patch 2026.1 · Installation automatique');
-    expect(t).toContain('Ouvrir la mise à jour Démocratie →');
-    expect(t).toContain('Voir toutes les mises à jour');
+    expect(t).toContain('Système France · v5.0.2 · en production depuis 1958');
+    expect(t).toContain('Ouvrir la migration Démocratie →');
+    expect(t).toContain("Lire l'audit du système");
+    expect(t).toContain('Contribuer');
     expect(HUB).toContain('href="democratie/"');
-    expect(HUB).toContain('href="#collection"');
+    expect(HUB).toContain('href="#systeme"');
+    expect(HUB).toContain('href="#agir"');
   });
 
   test('update cards match the registry', () => {
@@ -719,16 +739,16 @@ test.describe('HubCollection', () => {
 
   test('card statuses', () => {
     const t = bodyText(grid());
-    expect(t).toContain('Disponible');
-    expect(t).toContain('En bêta fermée');
-    expect(t).toContain('Planifié');
-    expect(t).toContain('Rédaction en cours');
+    expect(t).toContain('Release candidate');
+    expect(t).toContain('Bêta fermée');
+    expect(t).toContain('Backlog');
+    expect(t).toContain('Spécifications en cours');
   });
 
   test('card teasers match the spec copy', () => {
     const t = bodyText(grid());
     for (const teaser of [
-      'Plan 5ᵉ vs 6ᵉ vs bêta : le 49.3 avec bouton d\'annulation, le RIC sorti de bêta fermée, la démocratie continue en early access.',
+      'v5.0 → v6.0 : le 49.3 réversible, le RIC sorti de bêta, la v7.0 en nightly.',
       'Du pesticide au sol vivant : migration de l\'agriculture française, sans redémarrage à froid.',
       'Croissance, PIB et richesse réelle : le refactoring que tout le monde repousse depuis 1973.',
       'Production, réseau et sobriété : la seule migration qui ne peut pas être reportée à lundi.',
@@ -772,7 +792,7 @@ test.describe('HubSections', () => {
       expect(s).toContain(`id="${m![1]}"`);
     }
     const t = bodyText(s);
-    for (const title of ['Diagnostic', 'Comparaison', 'Changelog']) {
+    for (const title of ['Diagnostic', 'Migration', 'Changelog']) {
       expect(t).toContain(title);
     }
   });
@@ -790,8 +810,9 @@ test.describe('HubSections', () => {
     ]) {
       expect(t).toContain(q);
     }
-    expect(t).toContain('Les faits sont exacts. Seule l\'emballage est satirique.');
+    expect(t).toContain('Chaque affirmation est sourcée ; l\'emballage n\'engage que l\'équipe.');
     expect(t).toContain('Pull requests bienvenues. 49.3 non requis.');
+    expect(t, 'autodénonciation').not.toContain('Les faits sont exacts. Seule l\'emballage est satirique.');
   });
 
   test('share section present with four platforms', () => {
@@ -801,6 +822,54 @@ test.describe('HubSections', () => {
       .toEqual(['facebook', 'signal', 'whatsapp', 'x']);
     expect(s).toContain('id="copy-link"');
     expect(s).toContain('id="copy-feedback"');
+  });
+});
+
+// ─── Cohérence de la fiction ─────────────────────────────────────────────────
+
+test.describe('Coherence', () => {
+  for (const p of PAGES) {
+    const html = read(p.file);
+
+    test(`[${p.name}] no self-denunciation`, () => {
+      const lower = html.toLowerCase();
+      for (const banned of [
+        'pastiche',
+        'satirique',
+        'absurde',
+        'emballée en produit logiciel',
+        'rédaction en cours',
+      ]) {
+        expect(lower, `autodénonciation : « ${banned} »`).not.toContain(banned);
+      }
+    });
+  }
+
+  test('hub exposes the system audit', () => {
+    const s = section(HUB, 'systeme');
+    const cards = s.match(/class="feature-card"/g) || [];
+    expect(cards).toHaveLength(6);
+    for (const card of s.split('class="feature-card"').slice(1)) {
+      expect(card, 'source manquante').toMatch(/href="https:\/\//);
+    }
+    const t = bodyText(s);
+    expect(t).toContain('Dernier correctif : 1962');
+    expect(t).toContain('Dernier patch : 2000');
+    expect(t).toContain('Version courante : v5.0.2');
+  });
+
+  test('version scheme is harmonised', () => {
+    expect(HUB, 'v2.0 orphelin').not.toContain('v2.0');
+    expect(bodyText(section(HUB, 'collection'))).toContain('v6.0');
+  });
+
+  test('footer legal mentions are internal and straight', () => {
+    for (const p of PAGES) {
+      const footer = read(p.file).match(/<footer class="site-footer">[\s\S]*?<\/footer>/)![0];
+      for (const href of footer.match(/href="([^"]+)"/g) || []) {
+        expect(href, 'lien externe dans le footer').not.toMatch(/href="https?:\/\//);
+      }
+    }
   });
 });
 
@@ -819,12 +888,13 @@ test.describe('Corrections', () => {
     expect(popular).not.toMatch(/Mandats renouvelables[\s\S]{0,80}non renouvelables/);
   });
 
-  test('logo band flags the pastiche', () => {
+  test('dependencies band names the inherited deps', () => {
     const s = section(INDEX, 'logos');
     expect(s).toContain('class="logos-note"');
     const t = bodyText(s);
-    expect(t).toContain('Pastiche');
-    expect(t).toContain("n'approuve ce site");
+    expect(t).toContain('Dépendances héritées');
+    expect(t).toContain('Aucune n\'est maintenue par l\'équipe');
+    expect(t.toLowerCase()).not.toContain('pastiche');
   });
 });
 
@@ -1028,15 +1098,15 @@ test.describe('ChromeHeader', () => {
   test('hub header copy', () => {
     const header = HUB.match(/<header class="site-header">[\s\S]*?<\/header>/);
     expect(header, 'header manquant').not.toBeNull();
-    expect(header![0]).toContain('la-mise-a-jour <span class="brand-badge">v2026.1</span>');
+    expect(header![0]).toContain('la-mise-a-jour <span class="brand-badge">système France</span>');
     expect(header![0]).toContain('href="#main"');
     const live = PAGES.filter((p) => p.sub).length;
     const total = live + PLANNED.length;
-    expect(header![0]).toContain(`Statut : ${live} / ${total} disponible`);
+    expect(header![0]).toContain(`Statut : ${live} / ${total} chantiers livrés`);
     const nav = header![0].match(/<nav[\s\S]*?<\/nav>/);
     expect(nav, 'nav manquant').not.toBeNull();
     expect(nav![0]).toContain('href="#collection"');
-    expect(nav![0]).toContain('href="#principe"');
+    expect(nav![0]).toContain('href="#systeme"');
     expect(nav![0]).toContain('href="#faq"');
   });
 
@@ -1075,8 +1145,10 @@ test.describe('ChromeFooter', () => {
       expect(footer, 'footer manquant').not.toBeNull();
       const t = bodyText(footer![0]);
       expect(t).toContain('Toutes les mises à jour');
-      expect(t).toContain('Comment ça marche');
-      expect(t).toContain('Aucune donnée collectée, contrairement à vous');
+      expect(t).toContain('Méthode');
+      expect(t).toContain('Édité par l\'équipe de maintenance');
+      expect(t).toContain('Hébergé sur GitHub Pages');
+      expect(t).toContain('Aucune donnée collectée — contrairement au système');
       expect(t).toContain('Tous les systèmes sont dégradés');
       expect(t).toContain('49.3 : opérationnel');
       expect(t).toContain('© 2026 La Mise à Jour');

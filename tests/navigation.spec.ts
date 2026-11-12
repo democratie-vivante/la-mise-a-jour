@@ -5,7 +5,7 @@ const ROOT = path.resolve(__dirname, '..');
 
 test('hub CTA reaches the démocratie page', async ({ page }) => {
   await page.goto('/');
-  await page.getByRole('link', { name: 'Ouvrir la mise à jour Démocratie →' }).click();
+  await page.getByRole('link', { name: 'Ouvrir la migration Démocratie →' }).click();
   await expect(page).toHaveURL('/democratie/');
   await expect(page.locator('h1')).toContainText('Découvrez Citoyen 2.0');
 });
