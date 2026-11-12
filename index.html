@@ -3,18 +3,18 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>La Mise à Jour — des correctifs pour une société obsolète</title>
-  <meta name="description" content="La plateforme de mises à jour système de la société : démocratie, agronomie, économie, énergie. Comparez la version héritée à la version corrigée.">
+  <title>La Mise à Jour — maintenance du système France</title>
+  <meta name="description" content="Le suivi public de la modernisation du système France : état du legacy, plan de mise à jour, méthode, support.">
   <link rel="canonical" href="https://la-mise-a-jour.fr/">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="La Mise à Jour">
-  <meta property="og:title" content="La Mise à Jour — des correctifs pour une société obsolète">
-  <meta property="og:description" content="La plateforme de mises à jour système de la société. Chaque page compare la version héritée à la version corrigée.">
+  <meta property="og:title" content="La Mise à Jour — maintenance du système France">
+  <meta property="og:description" content="Le suivi public de la modernisation du système France : état du legacy, plan de mise à jour, méthode, support.">
   <meta property="og:url" content="https://la-mise-a-jour.fr/">
   <meta property="og:image" content="https://la-mise-a-jour.fr/og.png">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="La Mise à Jour — des correctifs pour une société obsolète">
-  <meta name="twitter:description" content="La plateforme de mises à jour système de la société.">
+  <meta name="twitter:title" content="La Mise à Jour — maintenance du système France">
+  <meta name="twitter:description" content="Le suivi public de la modernisation du système France.">
   <meta name="twitter:image" content="https://la-mise-a-jour.fr/og.png">
   <meta name="theme-color" content="#1d4ed8">
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
@@ -25,13 +25,13 @@
   <a class="skip-link" href="#main">Aller au contenu</a>
   <header class="site-header">
     <div class="container header-inner">
-      <a class="brand" href="#main">la-mise-a-jour <span class="brand-badge">v2026.1</span></a>
+      <a class="brand" href="#main">la-mise-a-jour <span class="brand-badge">système France</span></a>
       <nav class="site-nav" aria-label="Navigation principale">
-        <a href="#collection">Mises à jour</a>
-        <a href="#principe">Comment ça marche</a>
-        <a href="#faq">FAQ</a>
+        <a href="#collection">Plan de mise à jour</a>
+        <a href="#systeme">État du système</a>
+        <a href="#faq">Support</a>
       </nav>
-      <span class="status-badge"><span class="status-dot" aria-hidden="true"></span>Statut : 1 / 4 disponible</span>
+      <span class="status-badge"><span class="status-dot" aria-hidden="true"></span>Statut : 1 / 4 chantiers livrés</span>
       <a class="btn btn-primary btn-sm" href="#partage">Partager</a>
     </div>
   </header>
@@ -39,55 +39,113 @@
   <main id="main">
     <section class="hero">
       <div class="container">
-        <p class="hero-eyebrow">Patch 2026.1 · Installation automatique</p>
+        <p class="hero-eyebrow">Système France · v5.0.2 · en production depuis 1958</p>
         <h1>Votre société n'a pas été mise à jour depuis 1958.</h1>
-        <p class="hero-sub">la-mise-a-jour.fr est la plateforme de mises à jour système de la société.
-          Chaque page compare la version héritée à la version corrigée : bugs connus, correctifs
-          listés, et le bouton d'annulation qui manquait.</p>
+        <p class="hero-sub">Le système France est un legacy de soixante-huit ans : sans documentation, sans tests, sans rollback.
+          Une nouvelle équipe de maintenance a repris le code — elle publie ici l'audit, le plan et les tickets.</p>
         <div class="hero-actions">
-          <a class="btn btn-primary" href="democratie/">Ouvrir la mise à jour Démocratie →</a>
-          <a class="btn btn-ghost" href="#collection">Voir toutes les mises à jour</a>
-          <a class="btn btn-ghost" href="#agir">Passer à l'action</a>
+          <a class="btn btn-primary" href="democratie/">Ouvrir la migration Démocratie →</a>
+          <a class="btn btn-ghost" href="#systeme">Lire l'audit du système</a>
+          <a class="btn btn-ghost" href="#agir">Contribuer</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="systeme" class="section features" aria-labelledby="systeme-title">
+      <div class="container">
+        <h2 id="systeme-title">État du système</h2>
+        <p class="section-sub">L'audit d'arrivée de l'équipe. Chaque dette est documentée, liée et vérifiable.</p>
+
+        <div class="features-grid">
+          <article class="feature-card">
+            <p class="feature-icon" aria-hidden="true">🔄</p>
+            <h3>Pas de rollback</h3>
+            <p class="feature-pitch">Le 49.3 déploie sans revue et sans bouton d'annulation.</p>
+            <p class="feature-source"><a href="https://www.legifrance.gouv.fr/loda/id/JORFTEXT000000571356/">Article 49 al. 3 — Légifrance</a></p>
+          </article>
+
+          <article class="feature-card">
+            <p class="feature-icon" aria-hidden="true">🧍</p>
+            <h3>Bus factor : 1</h3>
+            <p class="feature-pitch">Un exécutif à point de défaillance unique, renouvelable sans limite.</p>
+            <p class="feature-source"><a href="https://www.legifrance.gouv.fr/loda/id/JORFTEXT000000571356/">Articles 6 et 8 — Légifrance</a></p>
+          </article>
+
+          <article class="feature-card">
+            <p class="feature-icon" aria-hidden="true">🏛️</p>
+            <h3>Dépendance obsolète</h3>
+            <p class="feature-pitch">Le Sénat est déprécié, mais non retirable sans révision.</p>
+            <p class="feature-source"><a href="https://www.legifrance.gouv.fr/loda/id/JORFTEXT000000571356/">Articles 24 et 89 — Légifrance</a></p>
+          </article>
+
+          <article class="feature-card">
+            <p class="feature-icon" aria-hidden="true">🧪</p>
+            <h3>Pas de tests</h3>
+            <p class="feature-pitch">Aucun contrôle citoyen en amont : le RIC est en bêta fermée depuis 1958.</p>
+            <p class="feature-source"><a href="https://www.vie-publique.fr/fiches/19539-la-constitution-du-4-octobre-1958">Article 11 — vie-publique.fr</a></p>
+          </article>
+
+          <article class="feature-card">
+            <p class="feature-icon" aria-hidden="true">📡</p>
+            <h3>Pas de monitoring</h3>
+            <p class="feature-pitch">Les lois ne sont pas suivies en direct ; les tickets citoyens restent sans réponse.</p>
+            <p class="feature-source"><a href="https://www.assemblee-nationale.fr/">Textes en cours — Assemblée nationale</a></p>
+          </article>
+
+          <article class="feature-card">
+            <p class="feature-icon" aria-hidden="true">⏳</p>
+            <h3>Pas d'horizon long</h3>
+            <p class="feature-pitch">Aucun avis opposable avant adoption ; le rapport 2050 n'existe pas.</p>
+            <p class="feature-source"><a href="https://www.gov.wales/well-being-of-future-generations-wales-act-2015">Well-being of Future Generations — Pays de Galles</a></p>
+          </article>
+        </div>
+
+        <div class="proof">
+          <div class="proof-inner">
+            <p class="proof-count">Dernier correctif : 1962</p>
+            <p class="proof-rating">Dernier patch : 2000</p>
+            <p class="proof-rating">Version courante : v5.0.2</p>
+          </div>
         </div>
       </div>
     </section>
 
     <section id="collection" class="section updates" aria-labelledby="collection-title">
       <div class="container">
-        <h2 id="collection-title">Mises à jour système</h2>
-        <p class="section-sub">Quatre systèmes à patcher. Un seul est sorti de la bêta.</p>
+        <h2 id="collection-title">Plan de mise à jour</h2>
+        <p class="section-sub">Quatre chantiers. Un seul est en release candidate.</p>
 
         <div class="updates-grid">
           <article class="update-card update-card--live">
-            <p class="update-status">Disponible</p>
-            <p class="plan-tag">v2.0</p>
+            <p class="update-status">Release candidate</p>
+            <p class="plan-tag">v6.0</p>
             <h3>Mise à jour Démocratie</h3>
-            <p class="update-teaser">Plan 5ᵉ vs 6ᵉ vs bêta : le 49.3 avec bouton d'annulation, le RIC sorti de bêta fermée, la démocratie continue en early access.</p>
+            <p class="update-teaser">v5.0 → v6.0 : le 49.3 réversible, le RIC sorti de bêta, la v7.0 en nightly.</p>
             <ul class="update-changelog">
               <li>Mandats non renouvelables</li>
               <li>Révocation à tout moment</li>
               <li>Support sous 30 jours</li>
             </ul>
-            <p class="update-cta"><a class="btn btn-primary btn-sm" href="democratie/">Ouvrir la mise à jour →</a></p>
+            <p class="update-cta"><a class="btn btn-primary btn-sm" href="democratie/">Ouvrir la migration →</a></p>
           </article>
 
           <article class="update-card update-card--soon">
-            <p class="update-status">En bêta fermée</p>
+            <p class="update-status">Bêta fermée</p>
             <p class="plan-tag">v0.9</p>
             <h3>Mise à jour Agronomie</h3>
             <p class="update-teaser">Du pesticide au sol vivant : migration de l'agriculture française, sans redémarrage à froid.</p>
-            <p class="update-note">Rédaction en cours</p>
+            <p class="update-note">Spécifications en cours</p>
           </article>
 
           <article class="update-card update-card--soon">
-            <p class="update-status">Planifié</p>
+            <p class="update-status">Backlog</p>
             <p class="plan-tag">v1.0</p>
             <h3>Mise à jour Économie</h3>
             <p class="update-teaser">Croissance, PIB et richesse réelle : le refactoring que tout le monde repousse depuis 1973.</p>
           </article>
 
           <article class="update-card update-card--soon">
-            <p class="update-status">Planifié</p>
+            <p class="update-status">Backlog</p>
             <p class="plan-tag">v1.0</p>
             <h3>Mise à jour Énergie</h3>
             <p class="update-teaser">Production, réseau et sobriété : la seule migration qui ne peut pas être reportée à lundi.</p>
@@ -98,25 +156,26 @@
 
     <section id="principe" class="section features" aria-labelledby="principe-title">
       <div class="container">
-        <h2 id="principe-title">Comment ça marche</h2>
+        <h2 id="principe-title">Méthode</h2>
+        <p class="section-sub">Comment on reprend un système qu'on n'a pas écrit.</p>
         <div class="features-grid">
           <article class="feature-card">
             <p class="feature-icon" aria-hidden="true">🔍</p>
             <h3>Diagnostic</h3>
-            <p class="feature-pitch">La liste des bugs de la version actuelle. Références à l'appui, sans détour.</p>
+            <p class="feature-pitch">L'audit : chaque dette documentée, chaque affirmation sourcée.</p>
             <span class="tip-wrap">
               <button type="button" class="info-btn" aria-expanded="false" aria-controls="tip-h1" aria-label="En savoir plus sur le diagnostic">ⓘ</button>
-              <span class="tooltip" id="tip-h1" role="tooltip" hidden>Chaque mise à jour commence par ce qui ne marche pas : articles, dates, chiffres. Pas d'avis, des références.</span>
+              <span class="tooltip" id="tip-h1" role="tooltip" hidden>On commence par ce qui ne marche pas : articles, dates, chiffres. Pas d'avis, des références.</span>
             </span>
           </article>
 
           <article class="feature-card">
             <p class="feature-icon" aria-hidden="true">📋</p>
-            <h3>Comparaison</h3>
-            <p class="feature-pitch">Trois plans côte à côte : ce que vous avez déjà, ce que la mise à jour ajoute — et la bêta en early access.</p>
+            <h3>Migration</h3>
+            <p class="feature-pitch">Tout changement est listé, réversible, et publié.</p>
             <span class="tip-wrap">
-              <button type="button" class="info-btn" aria-expanded="false" aria-controls="tip-h2" aria-label="En savoir plus sur la comparaison">ⓘ</button>
-              <span class="tooltip" id="tip-h2" role="tooltip" hidden>Même grille que votre offre télécom : la colonne de gauche vous est déjà facturée.</span>
+              <button type="button" class="info-btn" aria-expanded="false" aria-controls="tip-h2" aria-label="En savoir plus sur la migration">ⓘ</button>
+              <span class="tooltip" id="tip-h2" role="tooltip" hidden>La colonne de gauche est le code en production ; la v6.0 est la candidate. Vous choisissez le rythme de migration.</span>
             </span>
           </article>
 
@@ -135,23 +194,25 @@
 
     <section id="faq" class="section faq" aria-labelledby="faq-title">
       <div class="container container--narrow">
-        <h2 id="faq-title">Questions fréquemment posées</h2>
+        <h2 id="faq-title">Support</h2>
+        <p class="section-sub">Les tickets les plus ouverts.</p>
+
         <div class="faq-list">
           <details class="faq-item">
             <summary>C'est quoi, la-mise-a-jour.fr&nbsp;?</summary>
-            <p class="faq-answer">Une plateforme d'éducation populaire emballée en produit logiciel.</p>
-            <p class="fine-print">Les faits sont exacts. Seule l'emballage est satirique.</p>
+            <p class="faq-answer">Le suivi public de la maintenance du système France. Une équipe a repris le code ; voici son travail.</p>
+            <p class="fine-print">Chaque affirmation est sourcée ; l'emballage n'engage que l'équipe.</p>
           </details>
 
           <details class="faq-item">
             <summary>Pourquoi comparer la société à un logiciel&nbsp;?</summary>
-            <p class="faq-answer">Parce qu'un logiciel non patché depuis 1958 aurait été déprécié depuis longtemps.</p>
-            <p class="fine-print">Aucune version prise en charge. Pas de correctif de sécurité depuis 1962.</p>
+            <p class="faq-answer">Parce qu'un logiciel non maintenu depuis 1958 serait déprécié depuis longtemps.</p>
+            <p class="fine-print">Aucune version prise en charge. Dernier correctif de sécurité : 1962.</p>
           </details>
 
           <details class="faq-item">
             <summary>Est-ce que je peux contribuer&nbsp;?</summary>
-            <p class="faq-answer">Oui. Le code source est public, contrairement à celui de vos lois.</p>
+            <p class="faq-answer">Oui. Le code source est public : il s'appelle la Constitution.</p>
             <p class="fine-print">Pull requests bienvenues. 49.3 non requis.</p>
           </details>
         </div>
@@ -219,16 +280,17 @@
         <h2 class="footer-title">Produit</h2>
         <ul class="footer-links">
           <li><a href="./">Toutes les mises à jour</a></li>
-          <li><a href="./#principe">Comment ça marche</a></li>
-          <li><a href="./#faq">FAQ</a></li>
+          <li><a href="./#principe">Méthode</a></li>
+          <li><a href="./#faq">Support</a></li>
         </ul>
       </div>
       <div>
         <h2 class="footer-title">Légal</h2>
         <ul class="footer-links">
-          <li><a href="./#faq">Mentions légales absurdes</a></li>
-          <li><a href="./#faq">CGU</a></li>
-          <li>Aucune donnée collectée, contrairement à vous</li>
+          <li><a href="./#faq">Mentions légales</a></li>
+          <li>Édité par l'équipe de maintenance</li>
+          <li>Hébergé sur GitHub Pages</li>
+          <li>Aucune donnée collectée — contrairement au système</li>
         </ul>
       </div>
       <div>
