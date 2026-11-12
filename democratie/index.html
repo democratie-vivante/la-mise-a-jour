@@ -3,33 +3,33 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Citoyen 2.0 — Quel est votre plan de citoyenneté ?</title>
-  <meta name="description" content="Comparez le Plan 5ᵉ, le Plan 6ᵉ République et le plan Démocratie Continue (bêta). Une seule facture : votre citoyenneté.">
+  <title>Citoyen 2.0 — migration Démocratie v6.0</title>
+  <meta name="description" content="Le module Démocratie est en v5.0 depuis 1958. La migration v6.0 est en release candidate, la v7.0 en nightly. Comparez les branches.">
   <link rel="canonical" href="https://la-mise-a-jour.fr/democratie/">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="La Mise à Jour">
-  <meta property="og:title" content="Citoyen 2.0 — Quel est votre plan de citoyenneté ?">
-  <meta property="og:description" content="Comparez le Plan 5ᵉ, le Plan 6ᵉ République et le plan Démocratie Continue (bêta). Une seule facture : votre citoyenneté.">
+  <meta property="og:title" content="Citoyen 2.0 — migration Démocratie v6.0">
+  <meta property="og:description" content="Le module Démocratie est en v5.0 depuis 1958. La migration v6.0 est en release candidate, la v7.0 en nightly. Comparez les branches.">
   <meta property="og:url" content="https://la-mise-a-jour.fr/democratie/">
   <meta property="og:image" content="https://la-mise-a-jour.fr/democratie/og.png">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Citoyen 2.0 — Quel est votre plan de citoyenneté ?">
-  <meta name="twitter:description" content="Comparez trois plans : 5ᵉ, 6ᵉ République et Démocratie Continue (bêta).">
+  <meta name="twitter:title" content="Citoyen 2.0 — migration Démocratie v6.0">
+  <meta name="twitter:description" content="La migration v6.0 de la Démocratie est en release candidate. Comparez les branches.">
   <meta name="twitter:image" content="https://la-mise-a-jour.fr/democratie/og.png">
   <meta name="theme-color" content="#1d4ed8">
   <link rel="icon" type="image/svg+xml" href="../favicon.svg">
   <link rel="stylesheet" href="../styles.css">
   <script src="../main.js" defer></script>
 </head>
-<body data-share-text="Quel est votre plan de citoyenneté ? Découvrez le Plan 6ᵉ République.">
+<body data-share-text="Citoyen 2.0 — la migration v6.0 de la Démocratie est en release candidate.">
   <a class="skip-link" href="#main">Aller au contenu</a>
   <header class="site-header">
     <div class="container header-inner">
       <a class="brand" href="../">la-mise-a-jour <span class="brand-badge">Citoyen 2.0</span></a>
       <nav class="site-nav" aria-label="Navigation principale">
         <a href="#fonctionnalites">Fonctionnalités</a>
-        <a href="#tarifs">Tarifs</a>
-        <a href="#faq">FAQ</a>
+        <a href="#tarifs">Matrice</a>
+        <a href="#faq">Support</a>
       </nav>
       <span class="status-badge"><span class="status-dot" aria-hidden="true"></span>Statut : 49.3 opérationnel</span>
       <a class="btn btn-primary btn-sm" href="#partage">Partager</a>
@@ -39,50 +39,49 @@
   <main id="main">
     <section class="hero">
       <div class="container">
-        <p class="hero-eyebrow">Nouvelle génération · Disponible sans attendre</p>
+        <p class="hero-eyebrow">Migration v6.0 · release candidate · v7.0 en nightly</p>
         <h1>Découvrez Citoyen 2.0 : La démocratie sans les bugs de 1958</h1>
-        <p class="hero-sub">Et si votre citoyenneté débloquait enfin de nouvelles fonctionnalités ? 
-          Comparez les offres, choisissez votre niveau d'engagement et reprenez la main sur le code source.</p>
+        <p class="hero-sub">Le module Démocratie tourne en v5.0 depuis 1958. La migration v6.0 est en release candidate ;
+          la v7.0 est en nightly. Comparez les branches et reprenez la main sur le code source.</p>
         <div class="hero-actions">
-          <a class="btn btn-primary" href="#tarifs">Voir les plans</a>
-          <a class="btn btn-ghost" href="#fonctionnalites">Comparer les plans</a>
-          <a class="btn btn-ghost" href="#agir">Passer à l'action</a>
+          <a class="btn btn-primary" href="#tarifs">Voir la matrice</a>
+          <a class="btn btn-ghost" href="#fonctionnalites">Comparer les versions</a>
+          <a class="btn btn-ghost" href="#agir">Contribuer</a>
         </div>
       </div>
     </section>
 
-    <section id="logos" class="logos" aria-label="Ils nous font confiance">
+    <section id="logos" class="logos" aria-label="Dépendances héritées">
       <div class="container">
-        <p class="logos-title">Ils nous font confiance</p>
+        <p class="logos-title">Dépendances héritées</p>
         <ul class="logos-list">
-          <li class="logo-item">Assemblée nationale</li>
-          <li class="logo-item">Sénat</li>
-          <li class="logo-item">Conseil constitutionnel</li>
-          <li class="logo-item">Partenaires indéterminés</li>
+          <li class="logo-item">Assemblée nationale · v5.0</li>
+          <li class="logo-item">Sénat · déprécié</li>
+          <li class="logo-item">Conseil constitutionnel · fork non documenté</li>
+          <li class="logo-item">Partenaires indéterminés · dépendance inconnue</li>
         </ul>
-        <p class="logos-note">Pastiche — aucune de ces institutions n'approuve ce site.</p>
+        <p class="logos-note">Toutes héritées de la v5.0. Aucune n'est maintenue par l'équipe.</p>
       </div>
     </section>
     <section class="proof">
       <div class="container proof-inner">
-        <p class="proof-count">+68 M de citoyens n'ont rien demandé</p>
-        <p class="proof-rating"><span class="proof-stars" aria-hidden="true">★★★★☆</span>
-          4,3 / 5 — avis vérifiés sur les lois que vous n'avez pas lues</p>
+        <p class="proof-count">+68 M de citoyens n'ont rien demandé <a href="https://www.insee.fr/fr/accueil">INSEE</a></p>
+        <p class="proof-rating">Aucun SLO publié, aucune astreinte, aucun rollback.</p>
       </div>
     </section>
     <section id="tarifs" class="section pricing" aria-labelledby="tarifs-title">
       <div class="container">
-        <h2 id="tarifs-title">Choisissez votre plan</h2>
-        <p class="section-sub">Trois versions. Une seule facture.</p>
+        <h2 id="tarifs-title">Matrice de migration</h2>
+        <p class="section-sub">Trois branches. Un seul dépôt.</p>
         <p class="plans-legend">Lecture : <span class="legend-mark legend-mark--bon" aria-hidden="true">✔</span> la règle s'applique · <span class="legend-mark legend-mark--risque" aria-hidden="true">✗</span> elle ne s'applique pas. Vert = à votre avantage, rouge = à votre détriment.</p>
 
         <div class="pricing-grid">
           <article class="plan plan--legacy">
             <header class="plan-head">
-              <p class="plan-tag">Hérité · depuis 1958</p>
-              <h3>Plan 5ᵉ République</h3>
-              <p class="plan-price">0 €<span>déjà payé par vos aînés</span></p>
-              <p class="plan-sub">Sans engagement — résiliable par révolution</p>
+              <p class="plan-tag">Héritée · build 1958</p>
+              <h3>v5.0 — 5ᵉ République</h3>
+              <p class="plan-price">prod<span>buildée le 04/10/1958, jamais auditée</span></p>
+              <p class="plan-sub">Aucun rollback prévu — sortie par révolution uniquement</p>
             </header>
             <ul class="plan-features">
               <li class="plan-row"><span class="mark mark--risque" aria-hidden="true">✓</span> Gouvernement nommé sans vote de l'Assemblée</li>
@@ -109,7 +108,7 @@
               </li>
               <li class="plan-row"><span class="mark mark--risque" aria-hidden="true">✗</span> Amendement citoyen en ligne</li>
               <li class="plan-row"><span class="mark mark--risque" aria-hidden="true">✗</span> Support
-                <span class="row-note">formulaire sans réponse</span>
+                <span class="row-note">ticket sans réponse</span>
               </li>
               <li class="plan-row"><span class="mark mark--risque" aria-hidden="true">✗</span> Assemblée citoyenne tirée au sort
                 <span class="row-note">jury d'assises seulement</span>
@@ -125,11 +124,11 @@
 
           <article class="plan plan--popular">
             <header class="plan-head">
-              <p class="plan-badge">POPULAIRE</p>
-              <p class="plan-tag">Nouveau</p>
-              <h3>Plan 6ᵉ République</h3>
-              <p class="plan-price">0 €<span>inclus dans votre citoyenneté</span></p>
-              <p class="plan-sub">Engagé — révocable à tout moment</p>
+              <p class="plan-badge">RECOMMANDÉE</p>
+              <p class="plan-tag">Release candidate</p>
+              <h3>v6.0 — 6ᵉ République</h3>
+              <p class="plan-price">RC<span>prête pour la revue</span></p>
+              <p class="plan-sub">Réversible à tout moment</p>
             </header>
             <ul class="plan-features">
               <li class="plan-row"><span class="mark mark--bon" aria-hidden="true">✗</span> Gouvernement nommé sans vote de l'Assemblée</li>
@@ -174,11 +173,11 @@
 
           <article class="plan plan--beta">
             <header class="plan-head">
-              <p class="plan-badge plan-badge--beta">BÊTA</p>
-              <p class="plan-tag">Early access · contient des traces de souveraineté</p>
-              <h3>Plan Démocratie Continue</h3>
-              <p class="plan-price">0 €<span>indemnisé comme un jour de jury</span></p>
-              <p class="plan-sub">Pour bêta-testeurs·ses de la République — engagement réel, retours d'expérience attendus</p>
+              <p class="plan-badge plan-badge--beta">NIGHTLY</p>
+              <p class="plan-tag">Nightly · contient des traces de souveraineté</p>
+              <h3>v7.0 — Démocratie Continue</h3>
+              <p class="plan-price">nightly<span>compilée chaque nuit pour personne</span></p>
+              <p class="plan-sub">Pour bêta-testeurs·ses de la République — engagement réel, indemnisé comme un jour de jury</p>
             </header>
             <ul class="plan-features">
               <li class="plan-row"><span class="mark mark--bon" aria-hidden="true">✗</span> Gouvernement nommé sans vote de l'Assemblée</li>
@@ -226,7 +225,7 @@
             <p class="plan-disclaimer">Effets secondaires fréquents : engagement, responsabilité, intérêt soudain pour les budgets locaux. En cas de démocratie excessive, consultez votre assemblée.</p>
           </article>
         </div>
-        <p class="plans-note">Trois lignes rouges sur le 6ᵉ ? Elles sont en bêta : voir le plan Démocratie Continue.</p>
+        <p class="plans-note">Trois lignes rouges sur la v6.0 ? Elles sont dans la v7.0, en nightly.</p>
       </div>
     </section>
     <section id="fonctionnalites" class="section features" aria-labelledby="features-title">
@@ -257,7 +256,7 @@
           <article class="feature-card">
             <p class="feature-icon" aria-hidden="true">🔁</p>
             <h3>Révocation à tout moment</h3>
-            <p class="feature-pitch">Résiliation sans pénalité.</p>
+            <p class="feature-pitch">Rollback sans pénalité.</p>
             <span class="tip-wrap">
               <button type="button" class="info-btn" aria-expanded="false" aria-controls="tip-f3" aria-label="En savoir plus sur la révocation">ⓘ</button>
               <span class="tooltip" id="tip-f3" role="tooltip" hidden>Votre élu engage pour 5 ans, résiliable par vous à tout moment. Contrairement à votre offre télécom.</span>
@@ -299,7 +298,7 @@
     <section id="objections" class="section faq" aria-labelledby="objections-title">
       <div class="container container--narrow">
         <h2 id="objections-title">Pas convaincu·e ? — le centre d'aide</h2>
-        <p class="section-sub">Objections reçues, réponses honnêtes. Presque.</p>
+        <p class="section-sub">Objections reçues, réponses sourcées.</p>
         <div class="faq-list">
           <details class="obj-item">
             <summary>« Le tirage au sort ? N'importe qui va légiférer. »</summary>
@@ -438,32 +437,32 @@
 
         <div class="faq-list">
           <details class="faq-item">
-            <summary>Puis-je résilier mon Plan 5ᵉ République&nbsp;?</summary>
-            <p class="faq-answer">La résiliation passe par une révision constitutionnelle, non incluse dans l'offre.</p>
-            <p class="fine-print">L'offre est reconduite tacitement depuis 1958, sans préavis.</p>
+            <summary>Puis-je désinstaller la v5.0&nbsp;?</summary>
+            <p class="faq-answer">La désinstallation passe par une révision constitutionnelle, non incluse dans cette version.</p>
+            <p class="fine-print">Le système est reconduit tacitement depuis 1958, sans préavis.</p>
           </details>
 
           <details class="faq-item">
-            <summary>Le Plan 6ᵉ est-il vraiment gratuit&nbsp;?</summary>
+            <summary>La migration v6.0 est-elle vraiment gratuite&nbsp;?</summary>
             <p class="faq-answer">Oui. Zéro euro, aucun frais caché… presque.</p>
-            <p class="fine-print">0 €/mois, engagement de 5 ans non renouvelable… pour vous.</p>
+            <p class="fine-print">0 €, engagement de 5 ans non renouvelable… pour vous.</p>
           </details>
 
           <details class="faq-item">
             <summary>Que se passe-t-il si je ne vote pas&nbsp;?</summary>
             <p class="faq-answer">Le système continue de tourner, avec ou sans vous.</p>
-            <p class="fine-print">Aucun changement : votre Plan est mis à jour automatiquement.</p>
+            <p class="fine-print">Aucun changement : le système est mis à jour automatiquement.</p>
           </details>
 
           <details class="faq-item">
-            <summary>Quelles méthodes de paiement acceptez-vous&nbsp;?</summary>
+            <summary>Comment la maintenance est-elle financée&nbsp;?</summary>
             <p class="faq-answer">Vos revenus, à hauteur de vos tranches.</p>
             <p class="fine-print">Impôts, CSG, TVA. Apple Pay n'est pas encore disponible.</p>
           </details>
 
           <details class="faq-item">
             <summary>Le 49.3 peut-il être annulé&nbsp;?</summary>
-            <p class="faq-answer">Oui — depuis la version 6ᵉ.</p>
+            <p class="faq-answer">Oui — depuis la v6.0.</p>
             <p class="fine-print">Oui, désormais. L'ancien modèle n'avait pas de bouton.</p>
           </details>
 
@@ -516,12 +515,12 @@
     </section>
     <section id="partage" class="section share" aria-labelledby="share-title">
       <div class="container container--narrow share-inner">
-        <h2 id="share-title">Ce plan se partage mieux que vos opinions</h2>
+        <h2 id="share-title">Cette migration se partage mieux que vos opinions</h2>
 
         <div class="share-buttons">
-          <a class="btn btn-share" data-platform="whatsapp" href="https://wa.me/?text=Quel%20est%20votre%20plan%20de%20citoyennet%C3%A9%20%3F%20D%C3%A9couvrez%20le%20Plan%206%E1%B5%89%20R%C3%A9publique.%20https%3A%2F%2Fla-mise-a-jour.fr%2Fdemocratie%2F" target="_blank" rel="noopener">WhatsApp</a>
+          <a class="btn btn-share" data-platform="whatsapp" href="https://wa.me/?text=Citoyen%202.0%20%E2%80%94%20la%20migration%20v6.0%20de%20la%20D%C3%A9mocratie%20est%20en%20release%20candidate.%20https%3A%2F%2Fla-mise-a-jour.fr%2Fdemocratie%2F" target="_blank" rel="noopener">WhatsApp</a>
           <button class="btn btn-share" data-platform="signal" type="button">Signal</button>
-          <a class="btn btn-share" data-platform="x" href="https://twitter.com/intent/tweet?text=Quel%20est%20votre%20plan%20de%20citoyennet%C3%A9%20%3F%20D%C3%A9couvrez%20le%20Plan%206%E1%B5%89%20R%C3%A9publique.&url=https%3A%2F%2Fla-mise-a-jour.fr%2Fdemocratie%2F" target="_blank" rel="noopener">X</a>
+          <a class="btn btn-share" data-platform="x" href="https://twitter.com/intent/tweet?text=Citoyen%202.0%20%E2%80%94%20la%20migration%20v6.0%20de%20la%20D%C3%A9mocratie%20est%20en%20release%20candidate.&url=https%3A%2F%2Fla-mise-a-jour.fr%2Fdemocratie%2F" target="_blank" rel="noopener">X</a>
           <a class="btn btn-share" data-platform="facebook" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fla-mise-a-jour.fr%2Fdemocratie%2F" target="_blank" rel="noopener">Facebook</a>
           <button class="btn btn-primary" id="copy-link" type="button">Copier le lien</button>
         </div>
@@ -534,9 +533,9 @@
     <div class="container">
       <p class="collection-title">Autres mises à jour disponibles :</p>
       <ul class="collection-list">
-        <li><span class="collection-item collection-item--soon">Agronomie <em>en bêta fermée</em></span></li>
-        <li><span class="collection-item collection-item--soon">Économie <em>planifié</em></span></li>
-        <li><span class="collection-item collection-item--soon">Énergie <em>planifié</em></span></li>
+        <li><span class="collection-item collection-item--soon">Agronomie <em>bêta fermée</em></span></li>
+        <li><span class="collection-item collection-item--soon">Économie <em>backlog</em></span></li>
+        <li><span class="collection-item collection-item--soon">Énergie <em>backlog</em></span></li>
       </ul>
     </div>
   </nav>
@@ -546,16 +545,17 @@
         <h2 class="footer-title">Produit</h2>
         <ul class="footer-links">
           <li><a href="../">Toutes les mises à jour</a></li>
-          <li><a href="../#principe">Comment ça marche</a></li>
-          <li><a href="../#faq">FAQ</a></li>
+          <li><a href="../#principe">Méthode</a></li>
+          <li><a href="../#faq">Support</a></li>
         </ul>
       </div>
       <div>
         <h2 class="footer-title">Légal</h2>
         <ul class="footer-links">
-          <li><a href="../#faq">Mentions légales absurdes</a></li>
-          <li><a href="../#faq">CGU</a></li>
-          <li>Aucune donnée collectée, contrairement à vous</li>
+          <li><a href="../#faq">Mentions légales</a></li>
+          <li>Édité par l'équipe de maintenance</li>
+          <li>Hébergé sur GitHub Pages</li>
+          <li>Aucune donnée collectée — contrairement au système</li>
         </ul>
       </div>
       <div>
