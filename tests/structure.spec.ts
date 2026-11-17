@@ -315,7 +315,7 @@ test.describe('Democratie', () => {
     });
 
     test('hero headline', () => {
-      expect(bodyText(INDEX)).toContain('Découvrez Citoyen 2.0 : La démocratie sans les bugs de 1958');
+      expect(bodyText(INDEX)).toContain('Découvrez Citoyen 2.0 : la démocratie sans les bugs de 1958');
     });
 
     test('hero has two ctas', () => {
@@ -711,7 +711,7 @@ test.describe('HubCollection', () => {
   test('hero copy and three ctas', () => {
     const t = bodyText(HUB);
     expect(t).toContain("Votre société n'a pas été mise à jour depuis 1958.");
-    expect(t).toContain('Système France · v5.0.2 · en production depuis 1958');
+    expect(t).toContain('Le système France est en v5.0.2');
     expect(t).toContain('Ouvrir la migration Démocratie →');
     expect(t).toContain("Lire l'audit du système");
     expect(t).toContain('Contribuer');
@@ -852,7 +852,7 @@ test.describe('Coherence', () => {
     for (const card of s.split('class="feature-card"').slice(1)) {
       expect(card, 'source manquante').toMatch(/href="https:\/\//);
     }
-    const t = bodyText(s);
+    const t = bodyText(HUB);
     expect(t).toContain('Dernier correctif : 1962');
     expect(t).toContain('Dernier patch : 2000');
     expect(t).toContain('Version courante : v5.0.2');

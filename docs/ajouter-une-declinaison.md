@@ -34,7 +34,7 @@ Dans `agronomie/index.html` :
 5. `<body data-share-text="…">` → une phrase de partage.
 6. Les trois liens de partage codés en dur (WhatsApp, X, Facebook) encodent la
    nouvelle URL et le nouveau texte.
-7. `hero-eyebrow`, `plan-tag` et les titres de branches : remplacer les
+7. `hero-sub`, `plan-tag` et les titres de branches : remplacer les
    versions (`v5.0`, `v6.0`, `v7.0`) par celles du chantier.
 8. Remplacer le contenu : hero, matrice des branches, fonctionnalités, FAQ.
    Garder la structure (un `h1`, des `id` uniques, `.plan`, `.feature-card`,
