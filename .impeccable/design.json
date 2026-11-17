@@ -74,7 +74,7 @@
     "typographyMeta": {
       "display": { "displayName": "Display", "purpose": "Le h1 du héros, un seul par page, centré, en 700, clamp(2rem, 5vw, 3.25rem), interligne 1.15." },
       "headline": { "displayName": "Headline", "purpose": "Titres de section, centrés, en 700, clamp(1.6rem, 3.5vw, 2.4rem)." },
-      "title": { "displayName": "Title", "purpose": "Noms de plans à 1.4rem, noms de cartes à 1.15rem, version du changelog à 1rem en ligne." },
+      "title": { "displayName": "Title", "purpose": "Noms de plans à 1.4rem, cartes de chantier à 1.15rem, cartes de fonctionnalité à 1.1rem, version du changelog à 1rem en ligne." },
       "body": { "displayName": "Body", "purpose": "Paragraphes en 1rem ; sous-titre du héros à 1.1rem, notes à 0.95rem, fine print à 0.8rem ; colonne de lecture plafonnée à 760 px." },
       "label": { "displayName": "Label", "purpose": "Badges, tags de release, titres de pied de page, lignes de statut et étapes d'action, en capitales espacées (0.06–0.08em), jamais au-delà de 0.8rem." },
       "metric": { "displayName": "Metric", "purpose": "prod, RC et nightly dans la matrice : 800, 2.5rem, interligne 1.1. Le vocabulaire de version est le plus grand corps de la page." }
@@ -118,7 +118,7 @@
       "refersTo": "feature-card",
       "description": "Carte d'audit ou de méthode : un glyphe système, un titre, une promesse et un lien de source.",
       "html": "<article class=\"ds-card\"><p class=\"ds-card-icon\" aria-hidden=\"true\">🔄</p><h3 class=\"ds-card-title\">Pas de rollback</h3><p class=\"ds-card-pitch\">Le 49.3 déploie sans revue et sans bouton d'annulation.</p><p class=\"ds-card-source\"><a href=\"#\">Article 49 al. 3 — Légifrance</a></p></article>",
-      "css": ".ds-card { background: var(--color-surface, #ffffff); border: 1px solid var(--color-border, #e2e8f0); border-radius: 12px; padding: 24px; box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08); color: var(--color-text, #0f172a); font-family: -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, Helvetica, Arial, sans-serif; line-height: 1.6; } .ds-card-icon { margin: 0 0 0.5rem; font-size: 1.75rem; } .ds-card-title { margin: 0 0 0.5rem; font-size: 1.15rem; font-weight: 700; } .ds-card-pitch { margin: 0 0 0.5rem; color: var(--color-text-muted, #475569); font-size: 0.95rem; } .ds-card-source { margin: 0; font-size: 0.85rem; } .ds-card-source a { color: var(--color-primary, #1d4ed8); } .ds-card-source a:focus-visible { outline: 3px solid var(--color-primary, #1d4ed8); outline-offset: 2px; }"
+      "css": ".ds-card { background: var(--color-surface, #ffffff); border: 1px solid var(--color-border, #e2e8f0); border-radius: 12px; padding: 24px; box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08); color: var(--color-text, #0f172a); font-family: -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, Helvetica, Arial, sans-serif; line-height: 1.6; } .ds-card-icon { margin: 0 0 0.5rem; font-size: 1.75rem; } .ds-card-title { margin: 0 0 0.5rem; font-size: 1.1rem; font-weight: 700; } .ds-card-pitch { margin: 0 0 0.5rem; color: var(--color-text-muted, #475569); font-size: 0.95rem; } .ds-card-source { margin: 0; font-size: 0.85rem; } .ds-card-source a { color: var(--color-primary, #1d4ed8); } .ds-card-source a:focus-visible { outline: 3px solid var(--color-primary, #1d4ed8); outline-offset: 2px; }"
     },
     {
       "name": "Branche recommandée",

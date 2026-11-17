@@ -181,8 +181,8 @@ Une palette d'outil de développement : ardoise froide, un bleu d'action, deux c
 
 - **Display** (700, `clamp(2rem, 5vw, 3.25rem)`, interligne 1.15) : le h1 du héros, un seul par page, centré. C'est une affirmation, pas un slogan.
 - **Headline** (700, `clamp(1.6rem, 3.5vw, 2.4rem)`, interligne 1.6 hérité) : les titres de section, centrés, avec beaucoup d'air sous la ligne.
-- **Title** (700, 1.4rem / 1.15rem, interligne 1.6) : noms de plans à 1.4rem, noms de cartes fonctionnalité et chantier à 1.15rem, version du changelog à 1rem en ligne.
-- **Body** (400, 1rem, interligne 1.6) : paragraphes ; sous-titre du héros à 1.1rem ; notes à 0.95rem ; mentions légales et fine print à 0.8rem. La colonne de lecture plafonne à 760 px, soit environ 70 caractères.
+- **Title** (700, 1.4rem / 1.15rem / 1.1rem, interligne 1.6) : noms de plans à 1.4rem, cartes de chantier à 1.15rem, cartes de fonctionnalité à 1.1rem, version du changelog à 1rem en ligne.
+- **Body** (400, 1rem, interligne 1.6) : paragraphes ; sous-titre du héros à 1.1rem ; notes à 0.95rem ; mentions légales et fine print à 0.8rem. La colonne de lecture plafonne à 760 px.
 - **Label** (700–800, 0.7–0.8rem, interlettrage 0.06–0.08em, capitales) : badges, tags de release, titres de pied de page, lignes de statut, étapes d'action. Jamais au-delà de 0.8rem.
 - **Metric** (800, 2.5rem, interligne 1.1) : `prod`, `RC`, `nightly` dans la matrice. Le vocabulaire de version est le plus grand corps de la page.
 
