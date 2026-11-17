@@ -230,6 +230,8 @@ test.describe('SiteAssets', () => {
       [token('--color-danger'), token('--color-surface')],
       [token('--color-success'), token('--color-surface')],
       [token('--color-success'), token('--color-bg')],
+      ['#bfdbfe', token('--color-text')],
+      [token('--color-dependency'), token('--color-bg')],
     ];
     for (const [fg, bg] of pairs) {
       const ratio = contrastRatio(fg, bg);
@@ -347,7 +349,7 @@ test.describe('Democratie', () => {
   test.describe('SocialProof', () => {
     test('proof numbers, sans mesure inventée', () => {
       const t = bodyText(INDEX);
-      expect(t).toContain("+68 M de citoyens n'ont rien demandé");
+      expect(t).toContain("+69 M d'habitants n'ont rien demandé");
       expect(t).toContain('Aucun SLO publié');
       expect(t).toContain('aucune astreinte');
       expect(t).toContain('aucun rollback');
@@ -924,6 +926,24 @@ test.describe('Lisibilite', () => {
     expect(cssRules('.mark--bon')).toContain('--color-success');
     expect(cssRules('.mark--risque')).toContain('--color-danger');
   });
+
+  test('matrix verdicts are readable by assistive technology', () => {
+    const s = section(INDEX, 'tarifs');
+    const marks = [...s.matchAll(/<span class="mark mark--(bon|risque)"([^>]*)>([✓✗])<\/span>/g)];
+    expect(marks).toHaveLength(33);
+    expect(s).not.toMatch(/class="mark mark--(bon|risque)" aria-hidden/);
+    const labels: Record<string, number> = {};
+    for (const m of marks) {
+      expect(m[2], 'chaque verdict porte role="img"').toContain('role="img"');
+      const label = m[2].match(/aria-label="([^"]+)"/);
+      expect(label, 'chaque verdict porte un aria-label').not.toBeNull();
+      labels[label![1]] = (labels[label![1]] ?? 0) + 1;
+    }
+    expect(labels["s'applique (à votre avantage)"]).toBe(17);
+    expect(labels["ne s'applique pas (à votre avantage)"]).toBe(3);
+    expect(labels["s'applique (à votre détriment)"]).toBe(5);
+    expect(labels["ne s'applique pas (à votre détriment)"]).toBe(8);
+  });
 });
 
 test.describe('Sources', () => {
@@ -963,6 +983,27 @@ test.describe('Sources', () => {
       'https://www.paris.fr/',
     ]) {
       expect(s, host).toContain(`href="${host}`);
+    }
+  });
+
+  test('the proof figure links to the exact INSEE page', () => {
+    expect(INDEX).toContain("+69 M d'habitants n'ont rien demandé");
+    expect(INDEX).toMatch(
+      /\+69 M d'habitants[^<]*<a href="https:\/\/www\.insee\.fr\/fr\/statistiques\/8719824">/
+    );
+  });
+
+  test('changelog links point to the exact text of each version', () => {
+    const s = section(INDEX, 'changelog');
+    for (const slug of [
+      'constitution-de-1791',
+      'constitution-de-1848-iie-republique',
+      'constitution-de-1875-iiie-republique',
+      'constitution-de-1946-ive-republique',
+      'loi-n-62-1292-du-6-novembre-1962',
+      'loi-constitutionnelle-n-2000-964-du-2-octobre-2000',
+    ]) {
+      expect(s, slug).toContain(slug);
     }
   });
 });

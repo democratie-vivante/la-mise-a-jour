@@ -8,6 +8,7 @@
   --color-primary-dark: #1e40af;
   --color-danger: #b91c1c;
   --color-success: #15803d;
+  --color-dependency: #64748b;
   --radius: 12px;
   --shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
   --maxw: 1080px;
@@ -218,7 +219,7 @@ a {
 
 .logo-item {
   font-weight: 700;
-  color: #94a3b8;
+  color: var(--color-dependency);
   filter: grayscale(1);
 }
 
@@ -514,6 +515,11 @@ a {
 .tooltip--below {
   bottom: auto;
   top: calc(100% + 8px);
+}
+
+.tooltip a {
+  color: #bfdbfe;
+  text-decoration: underline;
 }
 
 .container--narrow {

@@ -12,7 +12,7 @@ colors:
   surface: "#ffffff"
   border: "#e2e8f0"
   on-primary: "#ffffff"
-  dependency-ash: "#94a3b8"
+  dependency-ash: "#64748b"
 typography:
   display:
     fontFamily: "-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
@@ -159,13 +159,13 @@ Une palette d'outil de développement : ardoise froide, un bleu d'action, deux c
 - **Voile de Page** (#f8fafc) : fond général, fond des cartes secondaires, pastille de statut.
 - **Blanc Surface** (#ffffff) : fond des cartes, de l'en-tête, du pied de page, du bouton fantôme.
 - **Filet** (#e2e8f0) : bordures de 1 px, séparateurs pointillés des mentions et notes de bas de carte.
-- **Cendre Dépendance** (#94a3b8) : noms des dépendances héritées, désaturés pour ne jamais ressembler à des partenaires.
+- **Cendre Dépendance** (#64748b) : noms des dépendances héritées, désaturés pour ne jamais ressembler à des partenaires ; la valeur tient 4,8:1 sur le voile de page.
 
 ### Named Rules
 
 **La Règle de l'Accent Unique.** Le bleu est le seul accent décoratif. Rouge et vert ne décorent rien : ils portent un état. Une section sans état ne montre ni rouge ni vert.
 
-**La Règle du Verdict Écrit.** Un verdict ne repose jamais sur la seule couleur. Chaque ligne de matrice porte son glyphe ✔ ou ✗ ; la couleur renforce le glyphe, elle ne le remplace pas.
+**La Règle du Verdict Écrit.** Un verdict ne repose jamais sur la seule couleur. Chaque ligne de matrice porte son glyphe ✔ ou ✗ ; la couleur renforce le glyphe, elle ne le remplace pas. Le glyphe est `role="img"` avec un `aria-label` qui énonce les deux dimensions — s'applique ou non, à votre avantage ou à votre détriment — pour que la matrice reste lisible sans la couleur.
 
 **La Règle de la Bande Bleue.** Le bleu plein format n'apparaît qu'une fois par page, dans la bande de partage. C'est le seul endroit où la page passe du constat à la demande.
 
@@ -277,7 +277,7 @@ Le composant qui définit le système. Trois colonnes de largeur égale, aligné
 
 ### Tooltips
 
-Infobulle en encre, texte blanc 0.85rem, largeur maximale 260 px, rayon 8 px, posée 8 px au-dessus de l'ancre. Elle bascule sous l'ancre quand le haut est coupé, et se décale horizontalement pour rester à 8 px du bord de la fenêtre. Le bouton ⓘ est un cercle de 28 px, 1 px de filet, qui prend le bleu au survol ; il expose `aria-expanded` et `aria-controls`, et Échap ferme l'infobulle.
+Infobulle en encre, texte blanc 0.85rem, largeur maximale 260 px, rayon 8 px, posée 8 px au-dessus de l'ancre. Les liens qu'elle contient passent en bleu clair (#bfdbfe) souligné pour rester lisibles sur l'encre. Elle bascule sous l'ancre quand le haut est coupé, et se décale horizontalement pour rester à 8 px du bord de la fenêtre. Le bouton ⓘ est un cercle de 28 px, 1 px de filet, qui prend le bleu au survol ; il expose `aria-expanded` et `aria-controls`, et Échap ferme l'infobulle.
 
 ## Do's and Don'ts
 
