@@ -8,7 +8,7 @@
   --color-primary-dark: #1e40af;
   --color-danger: #b91c1c;
   --color-success: #15803d;
-  --color-dependency: #64748b;
+  --color-dependency-ash: #64748b;
   --radius: 12px;
   --shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
   --maxw: 1080px;
@@ -219,8 +219,7 @@ a {
 
 .logo-item {
   font-weight: 700;
-  color: var(--color-dependency);
-  filter: grayscale(1);
+  color: var(--color-dependency-ash);
 }
 
 .logos-note {
@@ -253,12 +252,6 @@ a {
   margin: 0;
   color: var(--color-text-muted);
   font-size: 0.95rem;
-}
-
-.proof-stars {
-  color: var(--color-primary);
-  letter-spacing: 0.1em;
-  margin-right: 0.4rem;
 }
 
 .section {

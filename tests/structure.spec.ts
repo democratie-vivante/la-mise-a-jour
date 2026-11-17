@@ -231,7 +231,7 @@ test.describe('SiteAssets', () => {
       [token('--color-success'), token('--color-surface')],
       [token('--color-success'), token('--color-bg')],
       ['#bfdbfe', token('--color-text')],
-      [token('--color-dependency'), token('--color-bg')],
+      [token('--color-dependency-ash'), token('--color-bg')],
     ];
     for (const [fg, bg] of pairs) {
       const ratio = contrastRatio(fg, bg);

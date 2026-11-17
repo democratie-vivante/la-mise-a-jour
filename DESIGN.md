@@ -175,7 +175,7 @@ Une palette d'outil de développement : ardoise froide, un bleu d'action, deux c
 **Body Font :** la même pile système
 **Label / Mono Font :** aucune — pas de monospace dans le système
 
-**Character :** une seule famille, celle de la machine qui travaille. L'interface emprunte la typographie de l'OS qui fait la maintenance ; rien n'est téléchargé, rien n'est signé. L'écart entre 800 et 400 fait toute la hiérarchie, et le crénage par défaut suffit.
+**Character :** une seule famille, celle de la machine qui travaille. L'interface emprunte la typographie de l'OS qui fait la maintenance ; rien n'est téléchargé, rien n'est signé. L'écart entre 800 et 400 fait toute la hiérarchie, et le crénage par défaut suffit. Le tiret cadratin est assumé : c'est la respiration du rapport d'incident (« Statut : dégradé — aucune correction prévue »), jamais une coquetterie de phrase ; il sépare le constat de sa conséquence.
 
 ### Hierarchy
 
