@@ -6,5 +6,6 @@ playwright-report/
 test-results/
 /.worktrees/
 /.superpowers/*
-!/.superpowers/sdd/
 .impeccable/config.local.json
+# Outils d'atelier locaux, réinstallables : `npx impeccable install`
+.opencode/skills/impeccable/

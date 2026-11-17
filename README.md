@@ -46,6 +46,17 @@ vous n'avez pas l'outil d'installé : `mise exec -- pnpm test`.
 
 Voir `docs/ajouter-une-declinaison.md` : la recette complète, test par test.
 
+## Atelier design (optionnel)
+
+`DESIGN.md`, `PRODUCT.md` et `.impeccable/` sont versionnés ; le skill qui les
+outille ne l'est pas. Pour le réinstaller sur un poste de travail :
+
+```bash
+npx impeccable install
+```
+
+Sans lui, le site s'ouvre, se teste et se déploie normalement.
+
 ## Déploiement
 
 Aucun build : pousser le dossier tel quel sur GitHub Pages.
