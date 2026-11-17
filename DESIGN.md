@@ -196,15 +196,17 @@ Une palette d'outil de développement : ardoise froide, un bleu d'action, deux c
 
 Le shell est une colonne de 1080 px centrée, avec `width: min(100% - 2rem, 1080px)` : une gouttière de 1rem de chaque côté, plafond à 1080 px. À l'intérieur, les sections qui se lisent passent en colonne étroite de 760 px.
 
-L'en-tête est collant (66 px, fond blanc à 92 %, flou d'arrière-plan de 8 px, filet bas, z-index 50) ; les ancres de section reçoivent `scroll-margin-top: 72px`. Le héros respire 5rem en haut et 3.5rem en bas, centré, sur un lavis radial bleu à 8 % qui tient dans les 60 % supérieurs. Chaque section régulière prend 4rem de padding vertical.
+L'en-tête est collant et tient sur une ligne de 66 px quand la place le permet ; il s'enroule sur deux lignes (~105 px) sous ~690 px, et se resserre à ~99 px sous 350 px. Fond blanc à 92 %, flou d'arrière-plan de 8 px, filet bas, z-index 50. Les ancres de section reçoivent `scroll-margin-top: 72px`, porté à 128 px sous 768 px pour que le titre ne glisse pas sous l'en-tête. Le héros respire 5rem en haut et 3.5rem en bas, centré, sur un lavis radial bleu à 8 % qui tient dans les 60 % supérieurs. Chaque section régulière prend 4rem de padding vertical.
 
 Les grilles : 3 colonnes de largeur égale et 1.5rem de gouttière pour la matrice et les fonctionnalités ; 4 colonnes et 1.25rem pour le plan de mise à jour du hub ; 3 colonnes et 1.25rem pour les actions. Le rythme vertical est un multiple de 4 px.
 
-Points de rupture : au-dessus de 1024 px, trois colonnes ; à 1024 px et moins, deux colonnes, et la nightly (`plan--beta`) s'étend sur toute la largeur ; à 768 px et moins, une seule colonne, la navigation disparaît, le plan recommandé passe en premier, l'en-tête s'enroule et le pied de page tombe en une colonne.
+Points de rupture : au-dessus de 1024 px, trois colonnes ; à 1024 px et moins, deux colonnes, et la nightly (`plan--beta`) s'étend sur toute la largeur ; à 768 px et moins, une seule colonne, la matrice devient une surface horizontale à accroche (`scroll-snap`), l'en-tête s'enroule et le pied de page tombe en une colonne.
 
 ### Named Rules
 
 **La Règle de la Colonne Étroite.** Toute section qui se lit — support, changelog, sources, partage — tient dans 760 px, jamais dans les 1080 px du shell. La largeur est une décision de lecture, pas une contrainte de grille.
+
+**La Règle de la Matrice Défilante.** Sous 768 px, la matrice reste une seule surface : trois cartes côte à côte dans un défilement horizontal à accroche, jamais trois listes empilées. L'ordre des branches reste v5.0, v6.0, v7.0 ; aucune carte ne change de rang visuellement.
 
 ## Elevation & Depth
 
@@ -222,7 +224,7 @@ Le système est plat par défaut. La profondeur vient d'abord du ton — voile d
 
 Deux formes seulement, et une exception de statut.
 
-Les rectangles de contenu sont arrondis à 12 px : cartes de plan, de fonctionnalité, de chantier, d'action, entrées de changelog, items de support. Tout ce qui s'actionne ou s'étiquette est une pilule à 999 px : boutons, badges de statut, badges de plan, tags de release, puces de collection. Les infobulles sont les seules surfaces à 8 px ; le bouton d'information est un cercle parfait de 28 px.
+Les rectangles de contenu sont arrondis à 12 px : cartes de plan, de fonctionnalité, de chantier, d'action, entrées de changelog, items de support. Tout ce qui s'actionne ou s'étiquette est une pilule à 999 px : boutons, badges de statut, badges de plan, tags de release, puces de collection. Les infobulles sont les seules surfaces à 8 px ; le bouton d'information est un cercle de 28 px dont la zone tactile réelle fait 44 px.
 
 La bordure porte le statut, pas le décor : 1 px solide pour l'existant, 2 px solide bleu pour la branche recommandée, 2 px pointillé bleu pour la nightly. Les pointillés servent aussi de séparateur interne, toujours fins et discrets.
 
@@ -264,7 +266,7 @@ Aucun découpage, aucun masque, aucune grande forme géométrique, aucune éping
 
 - **Style :** en-tête collant translucide, filet bas, trois zones — marque à gauche, liens au centre-droit, statut et CTA à droite. La marque est en 1.1rem / 800, avec un suffixe bleu qui nomme le contexte de la page (« système France », « Citoyen 2.0 »).
 - **États :** liens en 0.95rem / 600, ardoise atténuée, bleu au survol. Aucun lien actif n'est marqué.
-- **Mobile :** sous 768 px, la navigation est retirée sans menu de remplacement ; les actions du héros portent la navigation. L'en-tête s'enroule et conserve statut et partage.
+- **Mobile :** sous 768 px, la navigation en ligne est remplacée par un sommaire natif : un `<details>` « Sections » en pilule, posé à droite de la marque quand la place le permet, sinon sur la ligne suivante. Sa liste reprend exactement les trois ancres de la navigation de bureau et s'ancre au bord droit de l'en-tête, jamais hors de la fenêtre. Il se ferme au clic sur un lien, au clic extérieur et par Échap. Sous 768 px, les ancres reçoivent `scroll-margin-top: 128px` pour atterrir sous l'en-tête.
 
 ### Support (FAQ)
 
@@ -275,9 +277,11 @@ Aucun découpage, aucun masque, aucune grande forme géométrique, aucune éping
 
 Le composant qui définit le système. Trois colonnes de largeur égale, alignées en haut, de hauteurs volontairement inégales : la nightly est plus longue parce qu'elle porte plus de promesses. Chaque ligne est un flex à alignement de base : glyphe ✔/✗ coloré, nom de la règle, puis éventuellement une note en 0.85rem atténué qui se glisse à côté du nom et retombe à la ligne suivante, puis éventuellement un bouton ⓘ. La ligne n'a ni fond ni filet : c'est l'espacement qui la tient.
 
+Sous 768 px, la matrice ne s'empile pas : les trois cartes restent côte à côte dans un conteneur `overflow-x: auto` avec `scroll-snap-type: x mandatory` ; chaque carte occupe 85 % de la largeur visible et s'accroche au début, laissant voir un fragment de la suivante. Le défilement est natif, sans animation ajoutée.
+
 ### Tooltips
 
-Infobulle en encre, texte blanc 0.85rem, largeur maximale 260 px, rayon 8 px, posée 8 px au-dessus de l'ancre. Les liens qu'elle contient passent en bleu clair (#bfdbfe) souligné pour rester lisibles sur l'encre. Elle bascule sous l'ancre quand le haut est coupé, et se décale horizontalement pour rester à 8 px du bord de la fenêtre. Le bouton ⓘ est un cercle de 28 px, 1 px de filet, qui prend le bleu au survol ; il expose `aria-expanded` et `aria-controls`, et Échap ferme l'infobulle.
+Infobulle en encre, texte blanc 0.85rem, largeur maximale 260 px, rayon 8 px, posée 8 px au-dessus de l'ancre. Les liens qu'elle contient passent en bleu clair (#bfdbfe) souligné pour rester lisibles sur l'encre. Elle bascule sous l'ancre quand le haut est coupé, et se décale horizontalement pour rester à 8 px du bord de la fenêtre. Le bouton ⓘ est un cercle de 28 px, 1 px de filet, qui prend le bleu au survol ; sa zone tactile est étendue à 44 px par un pseudo-élément invisible, sans changer le dessin. Il expose `aria-expanded` et `aria-controls`, et Échap ferme l'infobulle.
 
 ## Do's and Don'ts
 
@@ -292,6 +296,7 @@ Infobulle en encre, texte blanc 0.85rem, largeur maximale 260 px, rayon 8 px, po
 - **Do** présenter chaque source comme un lien normal en 0.85rem sous l'affirmation, jamais comme un badge ou un logo.
 - **Do** écrire les chaînes de version en sans, en 800, au corps display.
 - **Do** garder le build sans dépendance : aucun webfont, aucune bibliothèque d'icônes, aucun CDN.
+- **Do** garantir une cible tactile de 44 px pour tout contrôle répété, même quand le dessin reste à 28 px.
 - **Do** laisser les états changer instantanément ; le défilement fluide natif est le seul mouvement.
 
 ### Don't:

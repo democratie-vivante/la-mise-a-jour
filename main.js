@@ -189,8 +189,27 @@
     });
   }
 
+  function initMobileNav() {
+    var details = document.querySelector(".nav-mobile");
+    if (!details) return;
+    var summary = details.querySelector("summary");
+    details.addEventListener("click", function (event) {
+      if (event.target.closest("a")) details.open = false;
+    });
+    document.addEventListener("click", function (event) {
+      if (details.open && !details.contains(event.target)) details.open = false;
+    });
+    document.addEventListener("keydown", function (event) {
+      if (event.key === "Escape" && details.open) {
+        details.open = false;
+        summary.focus();
+      }
+    });
+  }
+
   initTooltips();
   initFaq();
+  initMobileNav();
   initShare();
   initCopy();
   initActionCopy();

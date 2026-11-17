@@ -74,7 +74,7 @@ reste vérifiable.
 | Monitoring | aucun — pas de suivi public des lois |
 | Support | tickets ouverts, réponses non garanties |
 | Bus factor | 1 |
-| Utilisateurs | 68 M |
+| Utilisateurs | 69 M |
 | Dépôt | Légifrance (code source public) |
 
 ### 2.2 L'équipe
@@ -263,11 +263,12 @@ Titre : `Support` · Sous-titre : `Les tickets les plus ouverts.` Trois
 - Nav : `Fonctionnalités` → `#fonctionnalites`, `Matrice` → `#tarifs`,
   `Support` → `#faq`.
 - Eyebrow : `Migration v6.0 · release candidate · v7.0 en nightly`.
-- H1 inchangé : `Découvrez Citoyen 2.0 : La démocratie sans les bugs de 1958`.
-- Sous-titre : « Le module Démocratie tourne en v5.0 depuis 1958. La migration
-  v6.0 est en release candidate ; la v7.0 est en nightly. Comparez les branches
-  et reprenez la main sur le code source. »
-- CTAs : `Voir la matrice` (`#tarifs`), `Comparer les versions`
+- H1 : `La démocratie tourne en v5.0 depuis 1958.` — une affirmation, pas un
+  slogan ; le nom `Citoyen 2.0` reste porté par le badge de marque et le titre
+  de la page.
+- Sous-titre : « La migration v6.0 est en release candidate ; la v7.0 est en
+  nightly. Comparez les branches et reprenez la main sur le code source. »
+- CTAs : `Voir la matrice` (`#tarifs`), `Voir ce que ça change`
   (`#fonctionnalites`), `Contribuer` (`#agir`).
 
 ### 6.3 `#logos` → Dépendances héritées
@@ -280,8 +281,9 @@ Note (remplace « Pastiche — aucune de ces institutions n'approuve ce site »)
 
 ### 6.4 Bandeau proof
 
-- `+68 M de citoyens n'ont rien demandé` — conservé (source INSEE à vérifier,
-  cf. §10).
+- `+69 M d'habitants n'ont rien demandé` — source INSEE précise :
+  `https://www.insee.fr/fr/statistiques/8719824` (bilan démographique 2025,
+  69,1 millions d'habitants au 1ᵉʳ janvier 2026).
 - Remplace `4,3 / 5 — avis vérifiés sur les lois que vous n'avez pas lues` par
   un constat sans chiffre inventé : `Aucun SLO publié, aucune astreinte, aucun
   rollback.` (constat rhétorique, pas de mesure inventée).
@@ -322,7 +324,9 @@ Note (remplace « Pastiche — aucune de ces institutions n'approuve ce site »)
 ### 6.7 `#sources`, `#faq`, `#agir`, `#partage`, bandeau collection
 
 - `#sources` : conservé ; sous-titre conservé (`Les faits, pas l'emballage.`).
-- `#faq` : six items conservés, questions traduites en support :
+- `#faq` : titre `Support` et sous-titre `Les tickets les plus ouverts.` (même
+  registre que le hub, à la place de « Questions fréquemment posées par nos
+  utilisateurs »). Six items conservés, questions traduites en support :
   - `Puis-je désinstaller la v5.0 ?` (réponse : révision constitutionnelle non
     incluse — fine print : `Le système est reconduit tacitement depuis 1958,
     sans préavis.`)
@@ -474,7 +478,7 @@ textes autoritatifs de cette spec.
 | Art. 6 et 8 : président, nomination | carte « bus factor » | Légifrance |
 | Art. 24 et 89 : Parlement, révision | carte « dépendance obsolète » | Légifrance |
 | Art. 11 : référendum (pas d'initiative citoyenne) | carte « pas de tests » | Légifrance / vie-publique.fr |
-| 68 M d'habitants | bandeau proof | INSEE (lien à ajouter ou chiffre à retirer) |
+| 69 M d'habitants | bandeau proof | INSEE, bilan démographique 2025 : `insee.fr/fr/statistiques/8719824` |
 | Pays de Galles, loi 2015, générations futures | carte « horizon long » | gov.wales |
 | Quinquennat 2000, élection directe 1962 | bandeau de statut, changelog | Légifrance (déjà sourcé) |
 

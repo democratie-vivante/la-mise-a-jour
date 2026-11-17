@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-11-17T13:24:30Z",
+  "generatedAt": "2026-11-17T13:41:30Z",
   "title": "Design System: La Mise à Jour",
   "extensions": {
     "colorMeta": {
@@ -157,6 +157,13 @@
       "description": "FAQ et objections en details natif : résumé en 700, réponse atténuée, mention sous un trait pointillé.",
       "html": "<details class=\"ds-faq\" open><summary>Puis-je désinstaller la v5.0&nbsp;?</summary><p class=\"ds-faq-answer\">La désinstallation passe par une révision constitutionnelle, non incluse dans cette version.</p><p class=\"ds-faq-fine\">Le système est reconduit tacitement depuis 1958, sans préavis.</p></details>",
       "css": ".ds-faq { padding: 4px 20px; border: 1px solid var(--color-border, #e2e8f0); border-radius: 12px; background: var(--color-surface, #ffffff); color: var(--color-text, #0f172a); font-family: -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, Helvetica, Arial, sans-serif; line-height: 1.6; } .ds-faq summary { padding: 16px 0; cursor: pointer; font-weight: 700; } .ds-faq summary:focus-visible { outline: 3px solid var(--color-primary, #1d4ed8); outline-offset: 2px; } .ds-faq-answer { margin: 0 0 0.5rem; color: var(--color-text-muted, #475569); } .ds-faq-fine { margin: 0 0 1rem; padding-top: 0.5rem; border-top: 1px dashed var(--color-border, #e2e8f0); color: var(--color-text-muted, #475569); font-size: 0.8rem; }"
+    },
+    {
+      "name": "Sommaire mobile",
+      "kind": "custom",
+      "description": "Navigation de section repliable sous 768 px : résumé en pilule à droite de la marque (ou à la ligne suivante), panneau 12 px ancré au bord droit de l'en-tête, mêmes ancres que la navigation de bureau, jamais hors de la fenêtre.",
+      "html": "<details class=\"ds-nav-mobile\"><summary>Sections</summary><ul class=\"ds-nav-mobile-list\"><li><a href=\"#tarifs\">Matrice</a></li><li><a href=\"#faq\">Support</a></li></ul></details>",
+      "css": ".ds-nav-mobile { display: inline-block; } .ds-nav-mobile summary { padding: 5.6px 13.6px; border: 1px solid var(--color-border, #e2e8f0); border-radius: 999px; background: var(--color-surface, #ffffff); color: var(--color-text-muted, #475569); font-family: -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, Helvetica, Arial, sans-serif; font-size: 0.8rem; font-weight: 600; line-height: 1.4; list-style: none; cursor: pointer; } .ds-nav-mobile summary::-webkit-details-marker { display: none; } .ds-nav-mobile summary::after { content: \" ▾\"; } .ds-nav-mobile[open] summary::after { content: \" ▴\"; } .ds-nav-mobile-list { position: absolute; top: calc(100% + 8px); right: 0; z-index: 60; min-width: min(224px, calc(100vw - 32px)); max-width: calc(100vw - 32px); margin: 0; padding: 6.4px; list-style: none; background: var(--color-surface, #ffffff); border: 1px solid var(--color-border, #e2e8f0); border-radius: 12px; box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08); } .ds-nav-mobile-list a { display: block; padding: 9.6px 12px; border-radius: 8px; color: var(--color-text, #0f172a); text-decoration: none; font-family: -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, Helvetica, Arial, sans-serif; font-weight: 600; font-size: 0.95rem; }"
     }
   ],
   "narrative": {
@@ -177,6 +184,7 @@
       { "name": "La Règle du Zéro Téléchargement", "body": "Aucun webfont, aucun fichier de police, aucune icône importée. La pile système est la police de marque. Le site reste lisible en file://, hors ligne, derrière un réseau filtré.", "section": "typography" },
       { "name": "La Règle du Chiffre en Display", "body": "La donnée de la fiction — version, build, statut — prend le plus grand corps de la page. On ne l'écrit pas en monospace pour « faire développeur » : elle est en sans, en 800.", "section": "typography" },
       { "name": "La Règle de la Colonne Étroite", "body": "Toute section qui se lit — support, changelog, sources, partage — tient dans 760 px, jamais dans les 1080 px du shell. La largeur est une décision de lecture, pas une contrainte de grille.", "section": "layout" },
+      { "name": "La Règle de la Matrice Défilante", "body": "Sous 768 px, la matrice reste une seule surface : trois cartes côte à côte dans un défilement horizontal à accroche, jamais trois listes empilées. L'ordre des branches reste v5.0, v6.0, v7.0 ; aucune carte ne change de rang visuellement.", "section": "layout" },
       { "name": "La Règle de l'Ombre Unique", "body": "Une seule valeur d'ombre dans tout le système. Une profondeur nouvelle se fabrique avec un filet, un fond ou une bordure — jamais avec une deuxième ombre.", "section": "elevation" },
       { "name": "La Règle du Pointillé Non Livré", "body": "Le pointillé signifie « pas encore en production » : la nightly, l'option bêta, la mention ajoutée sous une carte. Une surface livrée et stable est toujours en trait plein.", "section": "shapes" },
       { "name": "La Règle des Pilules pour les Verbes", "body": "Tout ce qui se clique, s'active ou s'étiquette est une pilule. Tout ce qui se lit est un rectangle de 12 px. Aucun bouton carré, aucune carte en pilule.", "section": "shapes" }
@@ -191,6 +199,7 @@
       "Do présenter chaque source comme un lien normal en 0.85rem sous l'affirmation, jamais comme un badge ou un logo.",
       "Do écrire les chaînes de version en sans, en 800, au corps display.",
       "Do garder le build sans dépendance : aucun webfont, aucune bibliothèque d'icônes, aucun CDN.",
+      "Do remplacer la navigation en ligne par un sommaire repliable sous 768 px, avec exactement les mêmes ancres.",
       "Do laisser les états changer instantanément ; le défilement fluide natif est le seul mouvement."
     ],
     "donts": [

@@ -173,6 +173,10 @@ test.describe('Shared', () => {
       expect(html).toContain('<a class="skip-link" href="#main">');
     });
 
+    test(`[${p.name}] skip link target receives focus`, () => {
+      expect(html).toContain('<main id="main" tabindex="-1">');
+    });
+
     test(`[${p.name}] single h1`, () => {
       expect(html.match(/<h1>/g)).toHaveLength(1);
     });
@@ -317,14 +321,20 @@ test.describe('Democratie', () => {
     });
 
     test('hero headline', () => {
-      expect(bodyText(INDEX)).toContain('Découvrez Citoyen 2.0 : la démocratie sans les bugs de 1958');
+      expect(bodyText(INDEX)).toContain('La démocratie tourne en v5.0 depuis 1958.');
     });
 
     test('hero has two ctas', () => {
       const ctas = INDEX.match(/class="btn btn-[a-z]+"[^>]*>([^<]+)</g) || [];
       const texts = ctas.map((c) => c.replace(/.*>([^<]+)</, '$1'));
       expect(texts).toContain('Voir la matrice');
-      expect(texts).toContain('Comparer les versions');
+      expect(texts).toContain('Voir ce que ça change');
+    });
+
+    test('support heading keeps the hub voice', () => {
+      const s = section(INDEX, 'faq');
+      expect(s).toContain('<h2 id="faq-title">Support</h2>');
+      expect(s).toContain('Les tickets les plus ouverts.');
     });
 
     test('dependency band names four inherited deps', () => {
@@ -427,11 +437,26 @@ test.describe('Democratie', () => {
       expect(rules).toMatch(/max-width:\s*1080px/);
     });
 
-    test('mobile orders popular first', () => {
+    test('mobile matrix stays one horizontal surface', () => {
       const matches = mediaBlocks()
-        .filter((b) => b.condition.includes('768px') && b.body.includes('.plan--popular') && b.body.includes('order'));
+        .filter((b) => b.condition.includes('768px') && b.body.includes('.pricing-grid'));
       expect(matches.length).toBeGreaterThan(0);
-      expect(matches[0].body).toContain('order: -1');
+      const body = matches[0].body;
+      expect(body).toContain('overflow-x: auto');
+      expect(body).toContain('scroll-snap-type');
+      expect(body).toContain('scroll-snap-align');
+      expect(body).not.toContain('order: -1');
+    });
+
+    test('info buttons have a 44px touch target', () => {
+      expect(cssRules('.info-btn::after')).toContain('inset: -8px');
+    });
+
+    test('mobile anchors clear the wrapped header', () => {
+      const blocks = mediaBlocks().filter((b) => b.body.includes('scroll-margin-top: 128px'));
+      expect(blocks.length).toBeGreaterThan(0);
+      const width = Number(blocks[0].condition.match(/max-width:\s*(\d+)px/)![1]);
+      expect(width).toBeLessThanOrEqual(768);
     });
 
     test('beta branch copy', () => {
@@ -1128,6 +1153,18 @@ test.describe('ChromeHeader', () => {
         const id = a.replace(/href="#([^"]+)"/, '$1');
         expect(html, `ancre de nav morte : #${id}`).toContain(`id="${id}"`);
       }
+    });
+
+    test(`[${p.name}] mobile nav exposes the same anchors`, () => {
+      const header = html.match(/<header class="site-header">[\s\S]*?<\/header>/);
+      expect(header, 'header manquant').not.toBeNull();
+      const details = header![0].match(/<details class="nav-mobile">[\s\S]*?<\/details>/);
+      expect(details, 'menu de section mobile manquant').not.toBeNull();
+      expect(details![0]).toContain('<summary>');
+      const desktop = header![0].match(/<nav class="site-nav"[\s\S]*?<\/nav>/)![0];
+      const hrefs = (fragment: string) =>
+        (fragment.match(/href="#([^"]+)"/g) || []).map((h) => h.slice(7, -1));
+      expect(hrefs(details![0])).toEqual(hrefs(desktop));
     });
   }
 
