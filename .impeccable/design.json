@@ -1,0 +1,208 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-17T14:15:00Z",
+  "title": "Design System: La Mise à Jour",
+  "extensions": {
+    "colorMeta": {
+      "primary": {
+        "role": "primary",
+        "displayName": "Bleu Maintenance",
+        "canonical": "#1d4ed8",
+        "tonalRamp": ["#172554", "#1e3a8a", "#1e40af", "#1d4ed8", "#2563eb", "#3b82f6", "#93c5fd", "#dbeafe"]
+      },
+      "primary-dark": {
+        "role": "primary",
+        "displayName": "Bleu Maintenance Profond",
+        "canonical": "#1e40af",
+        "tonalRamp": ["#172554", "#1e3a8a", "#1e40af", "#1d4ed8", "#2563eb", "#3b82f6", "#93c5fd", "#dbeafe"]
+      },
+      "danger": {
+        "role": "secondary",
+        "displayName": "Rouge Incident",
+        "canonical": "#b91c1c",
+        "tonalRamp": ["#450a0a", "#7f1d1d", "#991b1b", "#b91c1c", "#dc2626", "#ef4444", "#fca5a5", "#fee2e2"]
+      },
+      "success": {
+        "role": "secondary",
+        "displayName": "Vert Déployé",
+        "canonical": "#15803d",
+        "tonalRamp": ["#052e16", "#14532d", "#166534", "#15803d", "#16a34a", "#22c55e", "#86efac", "#dcfce7"]
+      },
+      "text": {
+        "role": "neutral",
+        "displayName": "Ardoise Encre",
+        "canonical": "#0f172a",
+        "tonalRamp": ["#020617", "#0f172a", "#1e293b", "#334155", "#475569", "#64748b", "#94a3b8", "#cbd5e1"]
+      },
+      "text-muted": {
+        "role": "neutral",
+        "displayName": "Ardoise Atténuée",
+        "canonical": "#475569",
+        "tonalRamp": ["#0f172a", "#1e293b", "#334155", "#475569", "#64748b", "#94a3b8", "#cbd5e1", "#e2e8f0"]
+      },
+      "bg": {
+        "role": "neutral",
+        "displayName": "Voile de Page",
+        "canonical": "#f8fafc",
+        "tonalRamp": ["#0f172a", "#1e293b", "#334155", "#475569", "#64748b", "#94a3b8", "#cbd5e1", "#f1f5f9"]
+      },
+      "surface": {
+        "role": "neutral",
+        "displayName": "Blanc Surface",
+        "canonical": "#ffffff",
+        "tonalRamp": ["#0f172a", "#334155", "#64748b", "#94a3b8", "#cbd5e1", "#e2e8f0", "#f1f5f9", "#ffffff"]
+      },
+      "border": {
+        "role": "neutral",
+        "displayName": "Filet",
+        "canonical": "#e2e8f0",
+        "tonalRamp": ["#334155", "#475569", "#64748b", "#94a3b8", "#cbd5e1", "#e2e8f0", "#f1f5f9", "#ffffff"]
+      },
+      "on-primary": {
+        "role": "neutral",
+        "displayName": "Blanc sur Accent",
+        "canonical": "#ffffff",
+        "tonalRamp": ["#0f172a", "#334155", "#64748b", "#94a3b8", "#cbd5e1", "#e2e8f0", "#f1f5f9", "#ffffff"]
+      },
+      "dependency-ash": {
+        "role": "neutral",
+        "displayName": "Cendre Dépendance",
+        "canonical": "#94a3b8",
+        "tonalRamp": ["#0f172a", "#1e293b", "#334155", "#475569", "#64748b", "#94a3b8", "#cbd5e1", "#f1f5f9"]
+      }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "Le h1 du héros, un seul par page, centré, en 700, clamp(2rem, 5vw, 3.25rem), interligne 1.15." },
+      "headline": { "displayName": "Headline", "purpose": "Titres de section, centrés, en 700, clamp(1.6rem, 3.5vw, 2.4rem)." },
+      "title": { "displayName": "Title", "purpose": "Noms de plans à 1.4rem, noms de cartes à 1.15rem, version du changelog à 1rem en ligne." },
+      "body": { "displayName": "Body", "purpose": "Paragraphes en 1rem ; sous-titre du héros à 1.1rem, notes à 0.95rem, fine print à 0.8rem ; colonne de lecture plafonnée à 760 px." },
+      "label": { "displayName": "Label", "purpose": "Badges, tags de release, titres de pied de page, lignes de statut et étapes d'action, en capitales espacées (0.06–0.08em), jamais au-delà de 0.8rem." },
+      "metric": { "displayName": "Metric", "purpose": "prod, RC et nightly dans la matrice : 800, 2.5rem, interligne 1.1. Le vocabulaire de version est le plus grand corps de la page." }
+    },
+    "shadows": [
+      { "name": "Soft Lift", "value": "0 10px 30px rgba(15, 23, 42, 0.08)", "purpose": "Cartes de contenu au premier plan, plan recommandé et infobulles. Jamais le défaut d'une liste." }
+    ],
+    "breakpoints": [
+      { "name": "lg", "value": "1024px" },
+      { "name": "md", "value": "768px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Bouton primaire",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Action principale : ouverture d'une migration, lien de section, partage.",
+      "html": "<a class=\"ds-btn-primary\" href=\"#\">Ouvrir la migration →</a>",
+      "css": ".ds-btn-primary { display: inline-block; padding: 12px 24px; border: 1px solid transparent; border-radius: 999px; background: var(--color-primary, #1d4ed8); color: var(--color-on-primary, #ffffff); font-family: -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, Helvetica, Arial, sans-serif; font-size: 1rem; font-weight: 700; line-height: 1.6; text-decoration: none; cursor: pointer; } .ds-btn-primary:hover { background: var(--color-primary-dark, #1e40af); } .ds-btn-primary:focus-visible { outline: 3px solid var(--color-primary, #1d4ed8); outline-offset: 2px; }"
+    },
+    {
+      "name": "Bouton ghost",
+      "kind": "button",
+      "refersTo": "button-ghost",
+      "description": "Action secondaire bordée ; son contour est l'affordance au repos, il n'a pas de survol propre.",
+      "html": "<button class=\"ds-btn-ghost\" type=\"button\">Copier le message</button>",
+      "css": ".ds-btn-ghost { display: inline-block; padding: 12px 24px; border: 1px solid var(--color-border, #e2e8f0); border-radius: 999px; background: var(--color-surface, #ffffff); color: var(--color-text, #0f172a); font-family: -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, Helvetica, Arial, sans-serif; font-size: 1rem; font-weight: 700; line-height: 1.6; text-decoration: none; cursor: pointer; } .ds-btn-ghost:focus-visible { outline: 3px solid var(--color-primary, #1d4ed8); outline-offset: 2px; }"
+    },
+    {
+      "name": "Badge de statut",
+      "kind": "custom",
+      "refersTo": "status-badge",
+      "description": "Statut persistant de l'en-tête collant, avec pastille rouge d'incident.",
+      "html": "<span class=\"ds-status-badge\"><span class=\"ds-status-dot\" aria-hidden=\"true\"></span>Statut : 1 / 4 chantiers livrés</span>",
+      "css": ".ds-status-badge { display: inline-flex; align-items: center; gap: 0.4rem; padding: 4px 12px; border: 1px solid var(--color-border, #e2e8f0); border-radius: 999px; background: var(--color-bg, #f8fafc); color: var(--color-text-muted, #475569); font-family: -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, Helvetica, Arial, sans-serif; font-size: 0.8rem; font-weight: 600; line-height: 1.6; } .ds-status-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--color-danger, #b91c1c); }"
+    },
+    {
+      "name": "Carte de fonctionnalité",
+      "kind": "card",
+      "refersTo": "feature-card",
+      "description": "Carte d'audit ou de méthode : un glyphe système, un titre, une promesse et un lien de source.",
+      "html": "<article class=\"ds-card\"><p class=\"ds-card-icon\" aria-hidden=\"true\">🔄</p><h3 class=\"ds-card-title\">Pas de rollback</h3><p class=\"ds-card-pitch\">Le 49.3 déploie sans revue et sans bouton d'annulation.</p><p class=\"ds-card-source\"><a href=\"#\">Article 49 al. 3 — Légifrance</a></p></article>",
+      "css": ".ds-card { background: var(--color-surface, #ffffff); border: 1px solid var(--color-border, #e2e8f0); border-radius: 12px; padding: 24px; box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08); color: var(--color-text, #0f172a); font-family: -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, Helvetica, Arial, sans-serif; line-height: 1.6; } .ds-card-icon { margin: 0 0 0.5rem; font-size: 1.75rem; } .ds-card-title { margin: 0 0 0.5rem; font-size: 1.15rem; font-weight: 700; } .ds-card-pitch { margin: 0 0 0.5rem; color: var(--color-text-muted, #475569); font-size: 0.95rem; } .ds-card-source { margin: 0; font-size: 0.85rem; } .ds-card-source a { color: var(--color-primary, #1d4ed8); } .ds-card-source a:focus-visible { outline: 3px solid var(--color-primary, #1d4ed8); outline-offset: 2px; }"
+    },
+    {
+      "name": "Branche recommandée",
+      "kind": "card",
+      "refersTo": "plan-card-recommended",
+      "description": "Carte de la matrice en release candidate : bordure bleue de 2px et ombre Soft Lift.",
+      "html": "<article class=\"ds-plan\"><p class=\"ds-plan-badge\">RECOMMANDÉE</p><p class=\"ds-plan-tag\">Release candidate</p><h3 class=\"ds-plan-title\">v6.0 — 6ᵉ République</h3><p class=\"ds-plan-price\">RC<span>prête pour la revue</span></p><p class=\"ds-plan-sub\">Réversible à tout moment</p><ul class=\"ds-plan-features\"><li class=\"ds-plan-row\"><span class=\"ds-mark\" aria-hidden=\"true\">✓</span> Décret-loi 49.3 <span class=\"ds-row-note\">avec bouton d'annulation</span></li><li class=\"ds-plan-row\"><span class=\"ds-mark\" aria-hidden=\"true\">✓</span> Révocation de votre élu <span class=\"ds-row-note\">à tout moment</span></li><li class=\"ds-plan-row\"><span class=\"ds-mark ds-mark--no\" aria-hidden=\"true\">✗</span> Assemblée citoyenne tirée au sort <span class=\"ds-row-note\">pas dans cette version</span></li></ul></article>",
+      "css": ".ds-plan { background: var(--color-surface, #ffffff); border: 2px solid var(--color-primary, #1d4ed8); border-radius: 12px; padding: 24px; box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08); color: var(--color-text, #0f172a); font-family: -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, Helvetica, Arial, sans-serif; line-height: 1.6; } .ds-plan-badge { display: inline-block; margin: 0 0 0.5rem; padding: 0.2rem 0.7rem; border-radius: 999px; background: var(--color-primary, #1d4ed8); color: var(--color-on-primary, #ffffff); font-size: 0.7rem; font-weight: 800; letter-spacing: 0.08em; } .ds-plan-tag { margin: 0 0 0.25rem; color: var(--color-text-muted, #475569); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.06em; } .ds-plan-title { margin: 0 0 0.75rem; font-size: 1.4rem; font-weight: 700; } .ds-plan-price { margin: 0; font-size: 2.5rem; font-weight: 800; line-height: 1.1; } .ds-plan-price span { display: block; color: var(--color-text-muted, #475569); font-size: 0.9rem; font-weight: 500; } .ds-plan-sub { margin: 0.75rem 0 1.5rem; color: var(--color-text-muted, #475569); font-size: 0.95rem; } .ds-plan-features { display: grid; gap: 0.75rem; margin: 0; padding: 0; list-style: none; } .ds-plan-row { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.5rem; font-size: 0.95rem; } .ds-mark { color: var(--color-success, #15803d); font-weight: 800; } .ds-mark--no { color: var(--color-danger, #b91c1c); } .ds-row-note { color: var(--color-text-muted, #475569); font-size: 0.85rem; }"
+    },
+    {
+      "name": "Tooltip d'information",
+      "kind": "custom",
+      "description": "Bouton circulaire de 28px et infobulle sombre, pilotée au clavier, qui bascule sous l'ancre quand le haut est coupé.",
+      "html": "<span class=\"ds-tip-wrap\"><button class=\"ds-info-btn\" type=\"button\" aria-expanded=\"false\" aria-controls=\"ds-tip\" aria-label=\"En savoir plus sur le 49.3\">ⓘ</button><span class=\"ds-tooltip\" id=\"ds-tip\" role=\"tooltip\">L'impose sans vote de l'Assemblée. Article 49 alinéa 3 de la Constitution de 1958.</span></span>",
+      "css": ".ds-tip-wrap { position: relative; display: inline-block; } .ds-info-btn { width: 28px; height: 28px; border: 1px solid var(--color-border, #e2e8f0); border-radius: 50%; background: var(--color-bg, #f8fafc); color: var(--color-text-muted, #475569); font-size: 0.95rem; line-height: 1; cursor: pointer; } .ds-info-btn:hover { border-color: var(--color-primary, #1d4ed8); color: var(--color-primary, #1d4ed8); } .ds-info-btn:focus-visible { outline: 3px solid var(--color-primary, #1d4ed8); outline-offset: 2px; } .ds-tooltip { position: absolute; bottom: calc(100% + 8px); left: 50%; transform: translateX(-50%); z-index: 60; width: max-content; max-width: 260px; padding: 0.6rem 0.75rem; border-radius: 8px; background: var(--color-text, #0f172a); color: var(--color-on-primary, #ffffff); box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08); font-family: -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, Helvetica, Arial, sans-serif; font-size: 0.85rem; line-height: 1.45; }"
+    },
+    {
+      "name": "Tag de release",
+      "kind": "chip",
+      "refersTo": "release-tag",
+      "description": "Étiquette de type de version dans le changelog : MAJOR, HOTFIX, PATCH, BREAKING, ROADMAP.",
+      "html": "<p class=\"ds-release-head\"><span class=\"ds-release-tag\">MAJOR</span> <span class=\"ds-release-version\">v6.0</span> <span class=\"ds-release-year\">en développement</span></p>",
+      "css": ".ds-release-head { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem; margin: 0 0 0.35rem; font-family: -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, Helvetica, Arial, sans-serif; line-height: 1.6; color: var(--color-text, #0f172a); } .ds-release-tag { padding: 2.4px 9.6px; border-radius: 999px; background: var(--color-primary, #1d4ed8); color: var(--color-on-primary, #ffffff); font-size: 0.7rem; font-weight: 800; letter-spacing: 0.06em; } .ds-release-version { font-weight: 800; } .ds-release-year { color: var(--color-text-muted, #475569); font-size: 0.85rem; }"
+    },
+    {
+      "name": "Puce de chantier",
+      "kind": "chip",
+      "refersTo": "collection-chip",
+      "description": "Puce de navigation vers les autres chantiers, avec mention de statut atténuée.",
+      "html": "<span class=\"ds-chip\">Énergie <em>backlog</em></span>",
+      "css": ".ds-chip { display: inline-flex; align-items: center; gap: 0.4rem; padding: 5.6px 14.4px; border: 1px solid var(--color-border, #e2e8f0); border-radius: 999px; background: var(--color-bg, #f8fafc); color: var(--color-text, #0f172a); font-family: -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, Helvetica, Arial, sans-serif; font-size: 0.95rem; font-weight: 600; line-height: 1.6; text-decoration: none; } .ds-chip em { color: var(--color-text-muted, #475569); font-size: 0.8rem; font-style: normal; font-weight: 700; } .ds-chip:hover { border-color: var(--color-primary, #1d4ed8); color: var(--color-primary, #1d4ed8); }"
+    },
+    {
+      "name": "Dépliant de support",
+      "kind": "custom",
+      "description": "FAQ et objections en details natif : résumé en 700, réponse atténuée, mention sous un trait pointillé.",
+      "html": "<details class=\"ds-faq\" open><summary>Puis-je désinstaller la v5.0&nbsp;?</summary><p class=\"ds-faq-answer\">La désinstallation passe par une révision constitutionnelle, non incluse dans cette version.</p><p class=\"ds-faq-fine\">Le système est reconduit tacitement depuis 1958, sans préavis.</p></details>",
+      "css": ".ds-faq { padding: 4px 20px; border: 1px solid var(--color-border, #e2e8f0); border-radius: 12px; background: var(--color-surface, #ffffff); color: var(--color-text, #0f172a); font-family: -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, Helvetica, Arial, sans-serif; line-height: 1.6; } .ds-faq summary { padding: 16px 0; cursor: pointer; font-weight: 700; } .ds-faq summary:focus-visible { outline: 3px solid var(--color-primary, #1d4ed8); outline-offset: 2px; } .ds-faq-answer { margin: 0 0 0.5rem; color: var(--color-text-muted, #475569); } .ds-faq-fine { margin: 0 0 1rem; padding-top: 0.5rem; border-top: 1px dashed var(--color-border, #e2e8f0); color: var(--color-text-muted, #475569); font-size: 0.8rem; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "Le Poste de Maintenance",
+    "overview": "Le site est la présence publique d'une équipe de maintenance, pas d'une marque. Visuellement, c'est une surface d'exploitation : elle emprunte l'ossature d'une page produit — en-tête collant avec statut, héros centré, grilles de trois colonnes, matrice, changelog, tickets — et la vide de tout vocabulaire marketing. Aucune photographie, aucune illustration, aucun mur de logos partenaires, aucun témoignage. Reste le mobilier de la maintenance : pastilles de statut, chaînes de version, verdicts ✔/✗, badges MAJOR/HOTFIX/BREAKING, pointillés pour ce qui n'est pas livré.\n\nLa palette est délibérément celle d'un outil de développement : ardoise froide sur blanc cassé, un seul bleu saturé, et deux couleurs de statut tenues en réserve. Rien n'est assez personnalisé pour devenir une marque — c'est précisément l'effet recherché : l'équipe s'efface derrière son travail. Le seul moment d'engagement visuel est la bande bleue pleine largeur du partage, en bas de page, là où la page cesse de rapporter et commence à demander.\n\nLa densité est moyennement aérée : colonne de 1080 px, rythme de section à 64 px, cartes à 24 px de padding. Trois colonnes pour comparer, une colonne étroite de 760 px pour lire. Tout est statique ; le seul mouvement du système est le défilement fluide natif du navigateur. La hiérarchie vient du poids (700/800) et du corps, jamais d'un décor.",
+    "keyCharacteristics": [
+      "Une console d'exploitation, pas une page éditoriale : statuts, versions, matrices, tickets.",
+      "Un seul accent bleu ; le rouge et le vert ne servent qu'à porter un état.",
+      "Aucune image, aucun logo, aucune bibliothèque d'icônes : emoji système et glyphes ✔/✗.",
+      "Pilules pour tout ce qui s'actionne, rectangles arrondis 12 px pour tout ce qui se lit.",
+      "Aucune animation, aucune transition, aucun webfont, aucune dépendance.",
+      "Le deadpan est visuel : aucun élément ne signale l'ironie."
+    ],
+    "rules": [
+      { "name": "La Règle de l'Accent Unique", "body": "Le bleu est le seul accent décoratif. Rouge et vert ne décorent rien : ils portent un état. Une section sans état ne montre ni rouge ni vert.", "section": "colors" },
+      { "name": "La Règle du Verdict Écrit", "body": "Un verdict ne repose jamais sur la seule couleur. Chaque ligne de matrice porte son glyphe ✔ ou ✗ ; la couleur renforce le glyphe, elle ne le remplace pas.", "section": "colors" },
+      { "name": "La Règle de la Bande Bleue", "body": "Le bleu plein format n'apparaît qu'une fois par page, dans la bande de partage. C'est le seul endroit où la page passe du constat à la demande.", "section": "colors" },
+      { "name": "La Règle du Zéro Téléchargement", "body": "Aucun webfont, aucun fichier de police, aucune icône importée. La pile système est la police de marque. Le site reste lisible en file://, hors ligne, derrière un réseau filtré.", "section": "typography" },
+      { "name": "La Règle du Chiffre en Display", "body": "La donnée de la fiction — version, build, statut — prend le plus grand corps de la page. On ne l'écrit pas en monospace pour « faire développeur » : elle est en sans, en 800.", "section": "typography" },
+      { "name": "La Règle de la Colonne Étroite", "body": "Toute section qui se lit — support, changelog, sources, partage — tient dans 760 px, jamais dans les 1080 px du shell. La largeur est une décision de lecture, pas une contrainte de grille.", "section": "layout" },
+      { "name": "La Règle de l'Ombre Unique", "body": "Une seule valeur d'ombre dans tout le système. Une profondeur nouvelle se fabrique avec un filet, un fond ou une bordure — jamais avec une deuxième ombre.", "section": "elevation" },
+      { "name": "La Règle du Pointillé Non Livré", "body": "Le pointillé signifie « pas encore en production » : la nightly, l'option bêta, la mention ajoutée sous une carte. Une surface livrée et stable est toujours en trait plein.", "section": "shapes" },
+      { "name": "La Règle des Pilules pour les Verbes", "body": "Tout ce qui se clique, s'active ou s'étiquette est une pilule. Tout ce qui se lit est un rectangle de 12 px. Aucun bouton carré, aucune carte en pilule.", "section": "shapes" }
+    ],
+    "dos": [
+      "Do garder le shell à 1080 px et la colonne de lecture à 760 px.",
+      "Do garder un seul accent bleu ; réserver rouge et vert à l'état, jamais au décor.",
+      "Do accompagner chaque verdict de matrice de son glyphe ✔ ou ✗.",
+      "Do utiliser 12 px pour les surfaces de contenu, 999 px pour tout ce qui se clique ou s'étiquette, 8 px pour les infobulles.",
+      "Do réserver le pointillé au non-livré et aux mentions ajoutées.",
+      "Do garder la bande de partage comme seul aplat saturé pleine largeur.",
+      "Do présenter chaque source comme un lien normal en 0.85rem sous l'affirmation, jamais comme un badge ou un logo.",
+      "Do écrire les chaînes de version en sans, en 800, au corps display.",
+      "Do garder le build sans dépendance : aucun webfont, aucune bibliothèque d'icônes, aucun CDN.",
+      "Do laisser les états changer instantanément ; le défilement fluide natif est le seul mouvement."
+    ],
+    "donts": [
+      "Don't ajouter une seconde famille typographique, en particulier un monospace, pour « faire ingénierie ».",
+      "Don't ajouter de dégradé au-delà du lavis radial du héros.",
+      "Don't ajouter une seconde valeur d'ombre ou un second rayon de carte.",
+      "Don't ajouter d'animation, de transition, de parallaxe ou d'apparition au défilement.",
+      "Don't utiliser le vert ou le rouge de façon décorative : pas de CTA vert, pas de titre rouge.",
+      "Don't ajouter d'illustration, de photographie, d'icône tierce ou de logo institutionnel réel ; la seule imagerie est l'emoji système.",
+      "Don't passer en capitales au-delà des micro-libellés (0.7–0.8rem).",
+      "Don't transformer une affirmation factuelle en argument marketing pour remplir une carte.",
+      "Don't introduire un composant d'entrée ou de formulaire : le système n'en a aucun, et le site ne collecte rien."
+    ]
+  }
+}

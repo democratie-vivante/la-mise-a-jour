@@ -1,0 +1,6 @@
+{
+  "files": ["index.html", "democratie/index.html"],
+  "insertBefore": "</body>",
+  "commentSyntax": "html",
+  "cspChecked": true
+}
